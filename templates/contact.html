@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12 max-w-5xl">
+    <div class="text-center mb-16">
+        <h1 class="text-5xl font-display font-bold text-white mb-6">Get In Touch</h1>
+        <p class="text-xl text-gray-400">We'd love to hear from you. Send us a message!</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+        <!-- Contact Form -->
+        <div class="glass rounded-3xl p-8 md:p-12">
+            <h2 class="text-2xl font-bold text-white mb-8">Send us a message</h2>
+            <form class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Your Name</label>
+                    <input type="text" required
+                        class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition"
+                        placeholder="John Doe">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
+                    <input type="email" required
+                        class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition"
+                        placeholder="you@example.com">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Subject</label>
+                    <select
+                        class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition">
+                        <option>General Inquiry</option>
+                        <option>Technical Support</option>
+                        <option>Billing Question</option>
+                        <option>Feature Request</option>
+                        <option>Bug Report</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">Message</label>
+                    <textarea rows="5" required
+                        class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition resize-none"
+                        placeholder="Tell us how we can help..."></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-brand-500/25">
+                    Send Message
+                </button>
+            </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="space-y-8">
+            <div class="glass rounded-2xl p-8">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-brand-500 to-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="mail" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2">Email Us</h3>
+                        <p class="text-gray-400 text-sm mb-2">Our team typically responds within 24 hours</p>
+                        <a href="mailto:support@phovite.ai"
+                            class="text-brand-400 hover:text-brand-300">support@phovite.ai</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-2xl p-8">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="message-circle" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2">Live Chat</h3>
+                        <p class="text-gray-400 text-sm mb-2">Available Monday-Friday, 9am-6pm EST</p>
+                        <button class="text-brand-400 hover:text-brand-300">Start Chat →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-2xl p-8">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-2">Help Center</h3>
+                        <p class="text-gray-400 text-sm mb-2">Browse our FAQ and guides</p>
+                        <a href="/help" class="text-brand-400 hover:text-brand-300">Visit Help Center →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-2xl p-8">
+                <h3 class="text-lg font-bold text-white mb-4">Follow Us</h3>
+                <div class="flex gap-3">
+                    <a href="https://twitter.com/phovite" target="_blank"
+                        class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#1DA1F2] flex items-center justify-center transition-all">
+                        <i data-lucide="twitter" class="w-5 h-5 text-gray-400 hover:text-white"></i>
+                    </a>
+                    <a href="https://instagram.com/phovite" target="_blank"
+                        class="w-10 h-10 rounded-full bg-slate-800 hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-600 flex items-center justify-center transition-all">
+                        <i data-lucide="instagram" class="w-5 h-5 text-gray-400 hover:text-white"></i>
+                    </a>
+                    <a href="https://linkedin.com/company/phovite" target="_blank"
+                        class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#0A66C2] flex items-center justify-center transition-all">
+                        <i data-lucide="linkedin" class="w-5 h-5 text-gray-400 hover:text-white"></i>
+                    </a>
+                    <a href="https://facebook.com/phovite" target="_blank"
+                        class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#1877F2] flex items-center justify-center transition-all">
+                        <i data-lucide="facebook" class="w-5 h-5 text-gray-400 hover:text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

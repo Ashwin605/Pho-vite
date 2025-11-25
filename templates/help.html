@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Help Center{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12 max-w-5xl">
+    <div class="text-center mb-16">
+        <h1 class="text-5xl font-display font-bold text-white mb-6">Help Center</h1>
+        <p class="text-xl text-gray-400">Find answers to common questions about PhoVite</p>
+    </div>
+
+    <div class="space-y-6">
+        <!-- FAQ Item 1 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="help-circle" class="w-6 h-6 text-brand-400"></i>
+                How does PhoVite work?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                PhoVite uses advanced AI technology to transform your personal photos into professional event
+                invitations. Simply upload a photo, choose your event type and style (vibe), provide event details, and
+                our AI will generate a stunning invitation in seconds. You can then download and share it with your
+                guests.
+            </p>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="image" class="w-6 h-6 text-brand-400"></i>
+                What types of photos work best?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                For best results, use clear, well-lit photos with the main subject (person or scene) prominently
+                featured. Portrait photos work great for personal events like birthdays and weddings. Landscape or group
+                photos can work well for parties and corporate events. Avoid blurry or heavily filtered images.
+            </p>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="palette" class="w-6 h-6 text-brand-400"></i>
+                What are "Vibes" and how do I choose one?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                Vibes are style presets that determine the aesthetic of your invitation. Choose <strong
+                    class="text-brand-400">Neon</strong> for energetic, modern events; <strong
+                    class="text-purple-400">Royal</strong> for elegant, luxurious occasions; <strong
+                    class="text-slate-400">Minimal</strong> for clean, contemporary designs; or <strong
+                    class="text-pink-400">Floral</strong> for romantic, nature-inspired themes.
+            </p>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="download" class="w-6 h-6 text-brand-400"></i>
+                How do I download my invitation?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                After your invitation is generated, click the "Download PhoVite" button. The image will be saved to your
+                device in high-quality PNG format (16:9 aspect ratio), perfect for sharing via email, social media, or
+                messaging apps. If you're logged in, your invitations are also saved to your Dashboard for future
+                access.
+            </p>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="lock" class="w-6 h-6 text-brand-400"></i>
+                Is my data secure?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                Absolutely. We take privacy seriously. Your photos are processed securely and are never shared with
+                third parties for marketing purposes. All passwords are encrypted, and your generated invitations are
+                only accessible through your account. See our <a href="/privacy"
+                    class="text-brand-400 hover:text-brand-300 underline">Privacy Policy</a> for more details.
+            </p>
+        </div>
+
+        <!-- FAQ Item 6 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="refresh-cw" class="w-6 h-6 text-brand-400"></i>
+                Can I regenerate an invitation if I don't like it?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                Yes! Click the "Create Another" button to return to the form and generate a new invitation with
+                different settings. You can try different vibes, photos, or event details until you get the perfect
+                result.
+            </p>
+        </div>
+
+        <!-- FAQ Item 7 -->
+        <div class="glass rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                <i data-lucide="clock" class="w-6 h-6 text-brand-400"></i>
+                How long does generation take?
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+                Most invitations are generated in 30-60 seconds. The AI needs time to analyze your photo, generate
+                creative text, and render the final design. Complex images or high server load may occasionally take a
+                bit longer.
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-16 glass rounded-3xl p-12 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Still need help?</h2>
+        <p class="text-gray-400 mb-8">Our support team is here to assist you.</p>
+        <a href="/contact"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-lg">
+            <i data-lucide="mail" class="w-5 h-5"></i>
+            Contact Support
+        </a>
+    </div>
+</div>
+{% endblock %}

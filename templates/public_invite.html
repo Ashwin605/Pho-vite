@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block title %}{{ invitation.title }} - PhoVite{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-slate-900 to-slate-950">
+
+    <!-- Hero Section with Invitation -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img src="{{ invitation.image_url }}" alt="{{ invitation.title }}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 text-center px-4 max-w-5xl">
+            <h1
+                class="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+                {{ invitation.title }}
+            </h1>
+            <p class="text-lg md:text-2xl lg:text-3xl text-gray-100 max-w-3xl mx-auto leading-relaxed drop-shadow-xl">
+                {{ invitation.body }}
+            </p>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-8 h-8 text-white/70"></i>
+        </div>
+    </section>
+
+    <!-- Voice Message Section -->
+    {% if invitation.voice_message_url %}
+    <section class="py-16 px-4">
+        <div class="container mx-auto max-w-3xl">
+            <div class="glass rounded-2xl p-8 md:p-12 text-center border border-white/10">
+                <div class="text-5xl mb-4">🎤</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Personal Message</h2>
+                <p class="text-gray-300 mb-6">Hear a special invitation from the host</p>
+
+                <audio controls class="w-full max-w-md mx-auto glass-card rounded-lg p-2">
+                    <source src="{{ invitation.voice_message_url }}" type="audio/mpeg">
+                    Your browser does not support audio playback.
+                </audio>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Photo Gallery Section -->
+    {% if gallery_photos and gallery_photos|length > 0 %}
+    <section class="py-16 px-4 bg-slate-900/50">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-12">
+                <div class="text-5xl mb-4">📸</div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Memorable Moments</h2>
+                <p class="text-gray-300">Cherished memories we'd love to share</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for photo in gallery_photos %}
+                <div class="glass-card rounded-xl overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform duration-300 gallery-item"
+                    data-index="{{ loop.index0 }}">
+                    <img src="{{ photo }}" alt="Gallery photo {{ loop.index }}" class="w-full h-full object-cover">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Location Section -->
+    {% if invitation.location_name %}
+    <section class="py-16 px-4">
+        <div class="container mx-auto max-w-3xl">
+            <div class="glass rounded-2xl p-8 md:p-12 text-center border border-white/10">
+                <div class="text-5xl mb-4">📍</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Event Location</h2>
+
+                <div class="mb-6">
+                    <p class="text-xl text-white font-semibold mb-2">{{ invitation.location_name }}</p>
+                    {% if invitation.location_address %}
+                    <p class="text-gray-300">{{ invitation.location_address }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-3 justify-center">
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ invitation.location_address|urlencode if invitation.location_address else invitation.location_name|urlencode }}"
+                        target="_blank"
+                        class="inline-flex items-center gap-2 glass-button bg-brand-500/20 hover:bg-brand-500/30 border-2 border-brand-500/50 hover:border-brand-400 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-lg">
+                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                        View on Google Maps
+                    </a>
+
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ invitation.title|urlencode }}&details={{ invitation.body|urlencode }}&location={{ invitation.location_name|urlencode }}"
+                        target="_blank"
+                        class="inline-flex items-center gap-2 glass-button bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-lg">
+                        <i data-lucide="calendar-plus" class="w-5 h-5"></i>
+                        Add to Calendar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Social Share Section -->
+    <section class="py-16 px-4 bg-slate-900/50">
+        <div class="container mx-auto max-w-3xl">
+            <div class="glass rounded-2xl p-8 md:p-12 text-center border border-white/10">
+                <div class="text-5xl mb-4">📱</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Share This Invitation</h2>
+                <p class="text-gray-300 mb-8">Spread the word with your friends and family</p>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/?text={{ 'You\'re invited! ' + invitation.title + ' - ' + request.url|urlencode }}"
+                        target="_blank"
+                        class="glass-button bg-green-500/20 hover:bg-green-500/30 border-2 border-green-500/50 hover:border-green-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        WhatsApp
+                    </a>
+
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url|urlencode }}" target="_blank"
+                        class="glass-button bg-blue-500/20 hover:bg-blue-500/30 border-2 border-blue-500/50 hover:border-blue-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        Facebook
+                    </a>
+
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/intent/tweet?text={{ 'You\'re invited! ' + invitation.title|urlencode }}&url={{ request.url|urlencode }}"
+                        target="_blank"
+                        class="glass-button bg-sky-500/20 hover:bg-sky-500/30 border-2 border-sky-500/50 hover:border-sky-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                        </svg>
+                        Twitter
+                    </a>
+
+                    <!-- Copy Link -->
+                    <button onclick="copyLink()"
+                        class="glass-button bg-purple-500/20 hover:bg-purple-500/30 border-2 border-purple-500/50 hover:border-purple-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
+                        <i data-lucide="copy" class="w-5 h-5"></i>
+                        <span id="copyText">Copy Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vibe Check RSVP Section -->
+    <section class="py-16 px-4">
+        <div class="container mx-auto max-w-3xl">
+            <div class="glass rounded-2xl p-8 md:p-12 text-center border border-white/10 relative overflow-hidden">
+                <!-- Background Glow -->
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-brand-500/10 blur-3xl -z-10">
+                </div>
+
+                <div class="text-5xl mb-4">✨</div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Vibe Check RSVP</h2>
+                <p class="text-gray-300 mb-8">Confirm your attendance with a selfie to get your Vibe Pass!</p>
+
+                <form id="rsvpForm" class="max-w-md mx-auto space-y-4 text-left">
+                    <input type="hidden" name="invitation_id" value="{{ invitation.id }}">
+                    <div class="space-y-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-2 uppercase tracking-wider">Your
+                                Name</label>
+                            <input type="text" name="guest_name" required placeholder="Enter your name"
+                                class="w-full glass-input rounded-xl px-5 py-4 text-black placeholder-gray-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-300 transform hover:scale-[1.01] outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-2 uppercase tracking-wider">Email
+                                <span class="text-gray-500 font-normal normal-case">(Optional)</span></label>
+                            <input type="email" name="guest_email" placeholder="To receive updates"
+                                class="w-full glass-input rounded-xl px-5 py-4 text-black placeholder-gray-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all duration-300 transform hover:scale-[1.01] outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-2">VIBE SELFIE</label>
+                            <div class="relative group cursor-pointer">
+                                <input type="file" name="selfie" accept="image/*" id="selfieInput"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <div
+                                    class="glass-input rounded-xl p-8 text-center border-2 border-dashed border-white/20 group-hover:border-brand-500/50 transition">
+                                    <i data-lucide="camera" id="selfieIcon"
+                                        class="w-8 h-8 text-gray-400 mx-auto mb-2 group-hover:text-brand-400 transition"></i>
+                                    <p class="text-sm text-gray-300" id="selfieText">Tap to upload selfie</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full glass-button bg-brand-500/20 hover:bg-brand-500/30 border-2 border-brand-500/50 hover:border-brand-400 text-white font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 mt-6">
+                            <i data-lucide="ticket" class="w-5 h-5"></i>
+                            Get My Vibe Pass
+                        </button>
+                </form>
+
+                <!-- Success State (Hidden initially) -->
+                <div id="rsvpSuccess" class="hidden animate-fade-in-up">
+                    <div
+                        class="glass-card bg-brand-500/20 border-brand-500/50 p-8 rounded-2xl mb-8 text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-400 to-purple-500">
+                        </div>
+
+                        <div
+                            class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/30">
+                            <i data-lucide="check" class="w-10 h-10 text-white"></i>
+                        </div>
+
+                        <h3 class="text-3xl font-bold text-white mb-2">You're In! 🎟️</h3>
+                        <p class="text-gray-300 text-lg mb-6">Your spot is confirmed. Here is your Vibe Pass!</p>
+
+                        <div
+                            class="bg-white p-4 rounded-xl inline-block shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                            <img src="" id="vibePassImage" class="w-48 h-48 object-contain" alt="Vibe Pass QR Code">
+                            <p class="text-black font-bold mt-2 text-sm tracking-widest">VIBE PASS</p>
+                        </div>
+
+                        <p class="text-gray-400 text-sm mt-6">A confirmation has been sent to the host.</p>
+                    </div>
+
+                    <button onclick="window.print()"
+                        class="w-full glass-button bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="download" class="w-5 h-5"></i>
+                        Save / Print Pass
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Branding -->
+    <footer class="py-12 px-4 bg-slate-950 border-t border-white/10">
+        <div class="container mx-auto max-w-3xl text-center">
+            <p class="text-gray-400 mb-4">Made with ❤️ using</p>
+            <a href="/"
+                class="inline-flex items-center gap-2 text-brand-400 hover:text-brand-300 font-bold text-xl transition-colors">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                PhoVite
+            </a>
+            <p class="text-gray-500 text-sm mt-4">Create your own stunning invitations</p>
+            <a href="/signup"
+                class="inline-block mt-6 glass-button bg-brand-500/20 hover:bg-brand-500/30 border-2 border-brand-500/50 hover:border-brand-400 text-white font-semibold px-8 py-3 rounded-xl transition-all">
+                Create Your Own Invitation
+            </a>
+        </div>
+    </footer>
+
+</div>
+
+<!-- Gallery Modal (Simple Lightbox) -->
+<div id="galleryModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-4"
+    onclick="closeGallery()">
+    <button class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300"
+        onclick="closeGallery()">&times;</button>
+    <img id="galleryImage" src="" alt="Gallery" class="max-w-full max-h-full object-contain">
+</div>
+
+<script type="application/json" id="gallery-data">
+    {{ gallery_photos | tojson if gallery_photos else '[]' | safe }}
+</script>
+
+<script>
+    // Copy link functionality
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            const copyText = document.getElementById('copyText');
+            copyText.textContent = 'Copied!';
+            setTimeout(() => {
+                copyText.textContent = 'Copy Link';
+            }, 2000);
+        });
+    }
+
+    // Gallery functionality
+    // Safe data injection for IDE compatibility
+    const galleryDataElement = document.getElementById('gallery-data');
+    const galleryPhotos = galleryDataElement ? JSON.parse(galleryDataElement.textContent) : [];
+
+    // Add event listeners to gallery items
+    document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const index = parseInt(item.dataset.index);
+            openGallery(index);
+        });
+    });
+
+    function openGallery(index) {
+        const modal = document.getElementById('galleryModal');
+        const img = document.getElementById('galleryImage');
+        img.src = galleryPhotos[index];
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeGallery() {
+        const modal = document.getElementById('galleryModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // RSVP Form Handling
+    document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processing...';
+        lucide.createIcons();
+
+        try {
+            const formData = new FormData(form);
+
+            const response = await fetch('/api/rsvp', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Hide form and show success message
+                form.classList.add('hidden');
+                const successDiv = document.getElementById('rsvpSuccess');
+                successDiv.classList.remove('hidden');
+
+                // Update Vibe Pass image if available
+                if (data.vibe_pass_url) {
+                    document.getElementById('vibePassImage').src = data.vibe_pass_url;
+                }
+
+                // Trigger confetti or celebration effect if desired
+            } else {
+                alert('Error: ' + (data.error || 'Something went wrong'));
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        } catch (error) {
+            console.error('Error submitting RSVP:', error);
+            alert('Failed to submit RSVP. Please try again.');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    });
+
+    // Selfie Input Handling
+    const selfieInput = document.getElementById('selfieInput');
+    const selfieText = document.getElementById('selfieText');
+    const selfieIcon = document.getElementById('selfieIcon');
+
+    if (selfieInput) {
+        selfieInput.addEventListener('change', function (e) {
+            if (e.target.files && e.target.files[0]) {
+                const fileName = e.target.files[0].name;
+                selfieText.textContent = fileName;
+                selfieText.classList.add('text-brand-400', 'font-semibold');
+
+                // Change icon to check
+                selfieIcon.setAttribute('data-lucide', 'check-circle');
+                selfieIcon.classList.remove('text-gray-400');
+                selfieIcon.classList.add('text-brand-400');
+
+                // Re-render icons
+                lucide.createIcons();
+            }
+        });
+    }
+</script>
+
+<style>
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 1s ease-out;
+    }
+</style>
+
+{% endblock %}

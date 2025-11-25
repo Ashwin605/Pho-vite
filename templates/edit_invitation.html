@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Invitation{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-4xl">
+    <!-- Header -->
+    <div class="mb-8 md:mb-12">
+        <a href="/dashboard" class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-4 transition">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            Back to Dashboard
+        </a>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-2">
+            Edit Phovite
+        </h1>
+        <p class="text-gray-400">Update your invitation details</p>
+    </div>
+
+    <!-- Preview Card -->
+    <div class="glass rounded-3xl overflow-hidden mb-8 group">
+        <div class="relative aspect-video overflow-hidden">
+            <img src="{{ invitation.image_url }}" alt="{{ invitation.title }}"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+            <div class="absolute top-4 left-4">
+                <span class="px-3 py-1.5 bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/50 text-purple-200 text-sm rounded-full font-semibold backdrop-blur-xl" id="previewEventType">
+                    {{ invitation.event_type }}
+                </span>
+            </div>
+            <div class="absolute bottom-4 left-4 right-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2" id="previewTitle">{{ invitation.title }}</h2>
+                <p class="text-gray-200" id="previewBody">{{ invitation.body }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <form id="editForm" class="glass rounded-3xl p-6 md:p-8 space-y-6">
+        <!-- Title -->
+        <div>
+            <label class="block text-white font-semibold mb-2 flex items-center gap-2">
+                <i data-lucide="type" class="w-5 h-5 text-purple-400"></i>
+                Title
+            </label>
+            <input type="text" id="title" name="title" value="{{ invitation.title }}" required
+                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 focus:border-purple-500 rounded-xl text-white placeholder-gray-500 focus:outline-none transition"
+                placeholder="Enter invitation title"
+                oninput="updatePreview()">
+        </div>
+
+        <!-- Body/Message -->
+        <div>
+            <label class="block text-white font-semibold mb-2 flex items-center gap-2">
+                <i data-lucide="message-square" class="w-5 h-5 text-purple-400"></i>
+                Message
+            </label>
+            <textarea id="body" name="body" rows="4" required
+                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 focus:border-purple-500 rounded-xl text-white placeholder-gray-500 focus:outline-none transition resize-none"
+                placeholder="Enter invitation message"
+                oninput="updatePreview()">{{ invitation.body }}</textarea>
+        </div>
+
+        <!-- Event Type -->
+        <div>
+            <label class="block text-white font-semibold mb-2 flex items-center gap-2">
+                <i data-lucide="calendar" class="w-5 h-5 text-purple-400"></i>
+                Event Type
+            </label>
+            <select id="event_type" name="event_type" required
+                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 focus:border-purple-500 rounded-xl text-white focus:outline-none transition"
+                onchange="updatePreview()">
+                <option value="Birthday" {% if invitation.event_type == 'Birthday' %}selected{% endif %}>Birthday</option>
+                <option value="Wedding" {% if invitation.event_type == 'Wedding' %}selected{% endif %}>Wedding</option>
+                <option value="Party" {% if invitation.event_type == 'Party' %}selected{% endif %}>Party</option>
+                <option value="Corporate" {% if invitation.event_type == 'Corporate' %}selected{% endif %}>Corporate</option>
+                <option value="Anniversary" {% if invitation.event_type == 'Anniversary' %}selected{% endif %}>Anniversary</option>
+                <option value="Baby Shower" {% if invitation.event_type == 'Baby Shower' %}selected{% endif %}>Baby Shower</option>
+                <option value="Graduation" {% if invitation.event_type == 'Graduation' %}selected{% endif %}>Graduation</option>
+                <option value="Other" {% if invitation.event_type == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+
+        <!-- Vibe/Theme -->
+        <div>
+            <label class="block text-white font-semibold mb-2 flex items-center gap-2">
+                <i data-lucide="music" class="w-5 h-5 text-purple-400"></i>
+                Vibe/Theme
+            </label>
+            <input type="text" id="vibe" name="vibe" value="{{ invitation.vibe }}"
+                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 focus:border-purple-500 rounded-xl text-white placeholder-gray-500 focus:outline-none transition"
+                placeholder="e.g., Elegant, Fun, Professional">
+        </div>
+
+        <!-- Location (Optional) -->
+        <div>
+            <label class="block text-white font-semibold mb-2 flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-5 h-5 text-purple-400"></i>
+                Location (Optional)
+            </label>
+            <input type="text" id="location_name" name="location_name" value="{{ invitation.location_name or '' }}"
+                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 focus:border-purple-500 rounded-xl text-white placeholder-gray-500 focus:outline-none transition mb-3"
+                placeholder="Venue name">
+            <input type="text" id="location_address" name="location_address" value="{{ invitation.location_address or '' }}"
+                class="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 focus:border-purple-500 rounded-xl text-white placeholder-gray-500 focus:outline-none transition"
+                placeholder="Full address">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4 pt-4">
+            <button type="submit" id="saveBtn"
+                class="flex-1 px-6 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all duration-300 shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 flex items-center justify-center gap-2">
+                <i data-lucide="save" class="w-5 h-5"></i>
+                <span>Save Changes</span>
+            </button>
+            <a href="/dashboard"
+                class="px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 border border-slate-700">
+                <i data-lucide="x" class="w-5 h-5"></i>
+                <span>Cancel</span>
+            </a>
+        </div>
+    </form>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="hidden fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 z-50 animate-fade-in-up">
+        <i data-lucide="check-circle" class="w-6 h-6"></i>
+        <span>Invitation updated successfully!</span>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="hidden fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 z-50 animate-fade-in-up">
+        <i data-lucide="alert-circle" class="w-6 h-6"></i>
+        <span id="errorText">An error occurred</span>
+    </div>
+</div>
+
+<script>
+// Live preview update
+function updatePreview() {
+    const title = document.getElementById('title').value;
+    const body = document.getElementById('body').value;
+    const eventType = document.getElementById('event_type').value;
+    
+    document.getElementById('previewTitle').textContent = title || 'Your Title';
+    document.getElementById('previewBody').textContent = body || 'Your message will appear here';
+    document.getElementById('previewEventType').textContent = eventType;
+}
+
+// Form submission
+document.getElementById('editForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const saveBtn = document.getElementById('saveBtn');
+    const originalHTML = saveBtn.innerHTML;
+    saveBtn.innerHTML = '<div class="spinner-border spinner-border-sm"></div> Saving...';
+    saveBtn.disabled = true;
+    
+    const formData = {
+        title: document.getElementById('title').value,
+        body: document.getElementById('body').value,
+        event_type: document.getElementById('event_type').value,
+        vibe: document.getElementById('vibe').value,
+        location_name: document.getElementById('location_name').value,
+        location_address: document.getElementById('location_address').value
+    };
+    
+    try {
+        const response = await fetch('/api/update-invitation/{{ invitation.id }}', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.remove('hidden');
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+                window.location.href = '/dashboard';
+            }, 2000);
+        } else {
+            throw new Error(data.error || 'Failed to update invitation');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        
+        const errorMsg = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        errorText.textContent = error.message;
+        errorMsg.classList.remove('hidden');
+        
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
+        setTimeout(() => {
+            errorMsg.classList.add('hidden');
+        }, 5000);
+        
+        saveBtn.innerHTML = originalHTML;
+        saveBtn.disabled = false;
+        
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+});
+
+// Initialize Lucide icons
+if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+}
+</script>
+
+<style>
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: text-bottom;
+    border: 0.2em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+.spinner-border-sm {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-width: 0.15em;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
+</style>
+
+{% endblock %}
+

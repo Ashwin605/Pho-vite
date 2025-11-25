@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Your Vibe Pass - PhoVite{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-black flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-display font-bold text-white mb-2">You're In! 🎟️</h1>
+            <p class="text-gray-400">Here is your official Vibe Pass</p>
+        </div>
+
+        <!-- Vibe Pass Ticket -->
+        <div class="glass-card border border-white/20 rounded-3xl overflow-hidden relative group">
+
+            <!-- Holographic Overlay Effect -->
+            <div
+                class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-50 pointer-events-none z-20">
+            </div>
+
+            <!-- Event Info Header -->
+            <div class="bg-brand-500/20 p-6 border-b border-white/10 relative z-10">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">{{ invitation.title }}</h2>
+                        <p class="text-sm text-brand-300 uppercase tracking-wider font-semibold mt-1">VIP ACCESS</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-gray-400 uppercase">Date</div>
+                        <div class="text-white font-mono">DEC 25</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selfie Area -->
+            <div class="relative aspect-square bg-slate-900">
+                <img src="{{ rsvp.selfie_url or 'https://via.placeholder.com/400x400' }}"
+                    class="w-full h-full object-cover filter contrast-110 saturate-110">
+
+                <!-- Vibe Filter Overlay -->
+                <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay"></div>
+
+                <!-- Watermark -->
+                <div class="absolute bottom-4 right-4 opacity-50">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
+                </div>
+            </div>
+
+            <!-- Guest Info Footer -->
+            <div class="bg-black/40 p-6 backdrop-blur-md border-t border-white/10">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="text-xs text-gray-500 uppercase mb-1">Guest</div>
+                        <div class="text-white font-bold text-lg">{{ rsvp.guest_name }}</div>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-white p-1 rounded-lg">
+                            <!-- QR Code Placeholder -->
+                            <div class="w-full h-full bg-black flex items-center justify-center">
+                                <i data-lucide="qr-code" class="w-6 h-6 text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex gap-4">
+            <button
+                class="flex-1 glass-button bg-white text-black hover:bg-gray-200 font-bold py-4 rounded-xl transition flex items-center justify-center gap-2">
+                <i data-lucide="download" class="w-5 h-5"></i> Save Pass
+            </button>
+            <button
+                class="flex-1 glass-button bg-white/10 hover:bg-white/20 text-white font-bold py-4 rounded-xl transition flex items-center justify-center gap-2">
+                <i data-lucide="share-2" class="w-5 h-5"></i> Share
+            </button>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

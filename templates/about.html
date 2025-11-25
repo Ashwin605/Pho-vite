@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}About PhoVite{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-12 max-w-5xl">
+    <div class="text-center mb-16">
+        <h1 class="text-5xl font-display font-bold text-white mb-6">About PhoVite</h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+            We're revolutionizing event invitations by combining personal photography with cutting-edge AI technology.
+        </p>
+    </div>
+
+    <div class="glass rounded-3xl p-12 mb-12">
+        <h2 class="text-3xl font-bold text-white mb-6">Our Story</h2>
+        <div class="space-y-4 text-gray-300 leading-relaxed">
+            <p>
+                PhoVite was born from a simple idea: your special moments deserve invitations that are as unique as the
+                events themselves. Traditional invitation makers force you to choose from generic templates, while
+                custom design services are expensive and time-consuming.
+            </p>
+            <p>
+                We asked ourselves: what if AI could transform your personal photos into stunning, professional-grade
+                invitations in seconds? That's exactly what we built.
+            </p>
+            <p>
+                Using state-of-the-art generative AI models, PhoVite seamlessly blends your photos with artistic
+                backgrounds, intelligent text generation, and customizable vibes to create invitations that truly
+                capture the essence of your celebration.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <div class="glass rounded-2xl p-8 text-center">
+            <div
+                class="w-16 h-16 bg-gradient-to-br from-brand-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="zap" class="w-8 h-8 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">10K+</h3>
+            <p class="text-gray-400">Invitations Created</p>
+        </div>
+
+        <div class="glass rounded-2xl p-8 text-center">
+            <div
+                class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="users" class="w-8 h-8 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">5K+</h3>
+            <p class="text-gray-400">Happy Users</p>
+        </div>
+
+        <div class="glass rounded-2xl p-8 text-center">
+            <div
+                class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="heart" class="w-8 h-8 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-3">98%</h3>
+            <p class="text-gray-400">Satisfaction Rate</p>
+        </div>
+    </div>
+
+    <div class="glass rounded-3xl p-12">
+        <h2 class="text-3xl font-bold text-white mb-6">Our Mission</h2>
+        <p class="text-gray-300 leading-relaxed text-lg">
+            To democratize professional event design by making it accessible, affordable, and instant for everyone. We
+            believe that every celebration—big or small—deserves an invitation that wows guests and sets the perfect
+            tone for your special day.
+        </p>
+    </div>
+</div>
+{% endblock %}
