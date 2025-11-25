@@ -41,11 +41,12 @@ CORS(app)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
 
 # HARDCODED FALLBACKS (Ensures it works on hosted sites even if env vars aren't set)
-HARDCODED_CLIENT_ID = '1045996945878-mod025k39cevdbiucbrfr2b2fdapgfdd.apps.googleusercontent.com'
-HARDCODED_CLIENT_SECRET = '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'
+HARDCODED_CLIENT_ID = '413486107880-65jodj2ll1hmo1bg7lsl7d3eal2nfdmt.apps.googleusercontent.com'
+# NOTE: Client Secret must be set in Environment Variables for security (GitHub blocks secrets in code)
+HARDCODED_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
 
 app.config['GOOGLE_CLIENT_ID'] = os.getenv('GOOGLE_CLIENT_ID', HARDCODED_CLIENT_ID).strip()
-app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_CLIENT_SECRET', HARDCODED_CLIENT_SECRET).strip()
+app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
 
 if not app.config['GOOGLE_CLIENT_ID'] or "your_google_client_id" in app.config['GOOGLE_CLIENT_ID']:
     logging.error("❌ GOOGLE_CLIENT_ID is not set or is still the default placeholder!")
