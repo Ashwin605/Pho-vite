@@ -34,6 +34,10 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
+# Fix for Render/Heroku HTTPS (ensures url_for generates https links)
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 CORS(app)
 
 # Configuration
