@@ -37,25 +37,26 @@ app = Flask(__name__, static_folder='static', static_url_path='/static')
 CORS(app)
 
 # Configuration
+# Configuration
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
-app.config['GOOGLE_CLIENT_ID'] = os.getenv('GOOGLE_CLIENT_ID', '').strip()
-app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
+
+# HARDCODED FALLBACKS (Ensures it works on hosted sites even if env vars aren't set)
+HARDCODED_CLIENT_ID = '1045996945878-mod025k39cevdbiucbrfr2b2fdapgfdd.apps.googleusercontent.com'
+HARDCODED_CLIENT_SECRET = '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'
+
+app.config['GOOGLE_CLIENT_ID'] = os.getenv('GOOGLE_CLIENT_ID', HARDCODED_CLIENT_ID).strip()
+app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_CLIENT_SECRET', HARDCODED_CLIENT_SECRET).strip()
 
 if not app.config['GOOGLE_CLIENT_ID'] or "your_google_client_id" in app.config['GOOGLE_CLIENT_ID']:
     logging.error("❌ GOOGLE_CLIENT_ID is not set or is still the default placeholder!")
     logging.error("👉 Please update your .env file with your actual Google Cloud credentials.")
 
 # OAuth Setup
-# OAuth Setup
-# HARDCODED CREDENTIALS FOR DEBUGGING
-GOOGLE_CLIENT_ID = '1045996945878-mod025k39cevdbiucbrfr2b2fdapgfdd.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = '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'
-
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
-    client_id=GOOGLE_CLIENT_ID,
-    client_secret=GOOGLE_CLIENT_SECRET,
+    client_id=app.config['GOOGLE_CLIENT_ID'],
+    client_secret=app.config['GOOGLE_CLIENT_SECRET'],
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={'scope': 'openid email profile'},
 )
@@ -345,8 +346,8 @@ def google_authorize():
 
         payload = {
             'code': code,
-            'client_id': GOOGLE_CLIENT_ID,
-            'client_secret': GOOGLE_CLIENT_SECRET,
+            'client_id': app.config['GOOGLE_CLIENT_ID'],
+            'client_secret': app.config['GOOGLE_CLIENT_SECRET'],
             'redirect_uri': redirect_uri,
             'grant_type': 'authorization_code'
         }
