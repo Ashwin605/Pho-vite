@@ -1046,37 +1046,47 @@ def generate_image():
         except Exception as e:
             logging.error(f"Primary Pollinations.AI attempt failed: {str(e)}")
             
-            # Fallback to Unsplash (Reliable & Free)
+            # Fallback Strategy
             try:
-                logging.info("Pollinations.AI failed (502). Switching to Unsplash fallback...")
+                logging.info("Pollinations.AI failed (502). Attempting fallbacks...")
                 
-                # Extract keywords from prompt for search
-                keywords = event_type.replace(" ", ",") + "," + vibe.replace(" ", ",")
-                unsplash_url = f"https://source.unsplash.com/1024x576/?{keywords},celebration,background"
+                # 1. Try Flux Model (Secondary external API)
+                try:
+                    fallback_url = f"https://image.pollinations.ai/prompt/{urllib.parse.quote(image_prompt)}?nologo=true&model=flux"
+                    logging.info(f"Retrying with Flux model: {fallback_url[:100]}...")
+                    response = requests.get(fallback_url, timeout=60) # Reduced timeout for faster fallback
+                    
+                    if response.status_code == 200:
+                        image_bytes = response.content
+                        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+                        output_url = f"data:image/jpeg;base64,{image_base64}"
+                        logging.info("✅ Image generated with Flux model fallback!")
+                    else:
+                        raise Exception(f"Flux model failed with status {response.status_code}")
                 
-                # Since Unsplash source is deprecated/redirects, let's use a reliable placeholder service if needed, 
-                # but first try a direct reliable image service that supports keywords
-                # Using a reliable placeholder service that supports keywords/categories
-                fallback_url = f"https://image.pollinations.ai/prompt/{urllib.parse.quote(image_prompt)}?nologo=true&model=flux"
-                
-                # Let's try one more time with a different model parameter which might bypass the bad gateway
-                logging.info(f"Retrying with Flux model: {fallback_url[:100]}...")
-                response = requests.get(fallback_url, timeout=120)
-                
-                if response.status_code == 200:
-                    image_bytes = response.content
-                    image_base64 = base64.b64encode(image_bytes).decode('utf-8')
-                    output_url = f"data:image/jpeg;base64,{image_base64}"
-                    logging.info("✅ Image generated with Flux model fallback!")
-                else:
-                    # Final fallback: Generate a solid color elegant background with text
-                    # This ensures the user ALWAYS gets a result
-                    logging.warning("External APIs failed. Generating local fallback image.")
-                    img = Image.new('RGB', (1024, 576), color='#f3e8ff') # Light purple background
+                except Exception as flux_error:
+                    logging.warning(f"Flux fallback failed: {str(flux_error)}. Proceeding to local generation.")
+                    raise flux_error # Re-raise to trigger the local fallback in the outer except/finally or just continue flow
+            
+            except Exception:
+                # 2. Final Fallback: Local Generation (Guaranteed to work)
+                try:
+                    logging.warning("All external APIs failed. Generating local fallback image.")
+                    
+                    # Create a beautiful gradient-like background
+                    img = Image.new('RGB', (1024, 576), color='#fdf4ff') # Very light purple/pink
                     d = ImageDraw.Draw(img)
                     
-                    # Add a border
-                    d.rectangle([20, 20, 1003, 555], outline="#9333ea", width=10)
+                    # Add a decorative border
+                    d.rectangle([20, 20, 1003, 555], outline="#9333ea", width=8) # Purple border
+                    d.rectangle([35, 35, 988, 540], outline="#d8b4fe", width=4) # Light purple inner border
+                    
+                    # Add corner decorations (simple circles)
+                    r = 15
+                    d.ellipse([20-r, 20-r, 20+r, 20+r], fill="#9333ea")
+                    d.ellipse([1003-r, 20-r, 1003+r, 20+r], fill="#9333ea")
+                    d.ellipse([20-r, 555-r, 20+r, 555+r], fill="#9333ea")
+                    d.ellipse([1003-r, 555-r, 1003+r, 555+r], fill="#9333ea")
                     
                     # Convert to base64
                     buffered = BytesIO()
@@ -1084,10 +1094,10 @@ def generate_image():
                     image_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
                     output_url = f"data:image/jpeg;base64,{image_base64}"
                     logging.info("✅ Generated local fallback image")
-
-            except Exception as fallback_error:
-                logging.error(f"Critical error in fallback: {str(fallback_error)}")
-                raise Exception(f"Image generation failed completely. Please try again.")
+                    
+                except Exception as local_error:
+                    logging.error(f"Critical error in local fallback: {str(local_error)}")
+                    raise Exception("Image generation failed completely. Please try again.")
         
         # SAVE TO DB IF LOGGED IN
         if current_user.is_authenticated:
