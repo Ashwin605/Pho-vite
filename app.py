@@ -42,7 +42,7 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this'
 
 # HARDCODED FALLBACKS (Ensures it works on hosted sites even if env vars aren't set)
 HARDCODED_CLIENT_ID = '1045996945878-mod025k39cevdbiucbrfr2b2fdapgfdd.apps.googleusercontent.com'
-HARDCODED_CLIENT_SECRET = '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'
+HARDCODED_CLIENT_SECRET = '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'
 
 app.config['GOOGLE_CLIENT_ID'] = os.getenv('GOOGLE_CLIENT_ID', HARDCODED_CLIENT_ID).strip()
 app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_CLIENT_SECRET', HARDCODED_CLIENT_SECRET).strip()
@@ -57,7 +57,10 @@ google = oauth.register(
     name='google',
     client_id=app.config['GOOGLE_CLIENT_ID'],
     client_secret=app.config['GOOGLE_CLIENT_SECRET'],
-    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    authorize_url='https://accounts.google.com/o/oauth2/v2/auth',
+    access_token_url='https://oauth2.googleapis.com/token',
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs',
     client_kwargs={'scope': 'openid email profile'},
 )
 
