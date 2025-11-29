@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from authlib.integrations.flask_client import OAuth
 import secrets
 import tempfile
@@ -45,7 +46,7 @@ CORS(app)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
 
 # HARDCODED FALLBACKS (Ensures it works on hosted sites even if env vars aren't set)
-HARDCODED_CLIENT_ID = '413486107880-65jodj2ll1hmo1bg7lsl7d3eal2nfdmt.apps.googleusercontent.com'
+HARDCODED_CLIENT_ID = '413486107880-bko0b4jlkpnblppuiol0l5dgmt5c3efi.apps.googleusercontent.com'
 # NOTE: Client Secret must be set in Environment Variables for security (GitHub blocks secrets in code)
 HARDCODED_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
 
@@ -55,6 +56,11 @@ app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_CLIENT_SECRET', '').strip
 if not app.config['GOOGLE_CLIENT_ID'] or "your_google_client_id" in app.config['GOOGLE_CLIENT_ID']:
     logging.error("❌ GOOGLE_CLIENT_ID is not set or is still the default placeholder!")
     logging.error("👉 Please update your .env file with your actual Google Cloud credentials.")
+
+if not app.config['GOOGLE_CLIENT_SECRET']:
+    logging.error("❌ GOOGLE_CLIENT_SECRET is missing!")
+else:
+    logging.info(f"✅ GOOGLE_CLIENT_SECRET loaded (length: {len(app.config['GOOGLE_CLIENT_SECRET'])})")
 
 # OAuth Setup
 oauth = OAuth(app)
@@ -131,6 +137,8 @@ class Invitation(db.Model):
     voice_message_url = db.Column(db.String(500), nullable=True)
     share_link = db.Column(db.String(100), unique=True, nullable=True)  # Unique shareable link
     view_count = db.Column(db.Integer, default=0)  # Track views
+
+    story = db.Column(db.Text, nullable=True)  # AI-generated story/memory
     rsvps = db.relationship('RSVP', backref='invitation', lazy=True)
 
 class RSVP(db.Model):
@@ -171,6 +179,28 @@ with app.app_context():
                 with db.engine.begin() as conn:
                     conn.execute(db.text('ALTER TABLE user ADD COLUMN is_admin BOOLEAN DEFAULT 0 NOT NULL'))
                 logging.info("✅ is_admin column added successfully")
+        
+        # Check Invitation table for new columns
+        if 'invitation' in inspector.get_table_names():
+            inv_columns = [col['name'] for col in inspector.get_columns('invitation')]
+            
+            new_columns = {
+                'story': 'TEXT',
+                'gallery_photos': 'TEXT',
+                'voice_message_url': 'VARCHAR(500)',
+                'share_link': 'VARCHAR(100)',
+                'view_count': 'INTEGER DEFAULT 0'
+            }
+            
+            with db.engine.begin() as conn:
+                for col_name, col_type in new_columns.items():
+                    if col_name not in inv_columns:
+                        logging.info(f"Adding {col_name} column to invitation table...")
+                        try:
+                            conn.execute(db.text(f'ALTER TABLE invitation ADD COLUMN {col_name} {col_type}'))
+                            logging.info(f"✅ {col_name} column added successfully")
+                        except Exception as col_error:
+                            logging.warning(f"Failed to add {col_name}: {col_error}")
     except Exception as e:
         # If table doesn't exist or column already exists, that's fine
         if 'duplicate column' not in str(e).lower() and 'no such table' not in str(e).lower():
@@ -247,6 +277,10 @@ def help_center():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/tutorial')
+def tutorial():
+    return render_template('tutorial.html')
 
 # Auth Routes
 @app.route('/login', methods=['GET', 'POST'])
@@ -556,26 +590,39 @@ def dashboard():
 def delete_invitation(invite_id):
     """Delete an invitation"""
     try:
-        invitation = Invitation.query.get(invite_id)
+        logging.info(f"DELETE REQUEST: invite_id={invite_id} (type: {type(invite_id)})")
+        
+        # Check all invitations to see what's available
+        all_invites = Invitation.query.all()
+        logging.info(f"Available Invitation IDs in DB: {[i.id for i in all_invites]}")
+        
+        invitation = Invitation.query.filter_by(id=invite_id).first()
         
         if not invitation:
+            logging.error(f"❌ Invitation {invite_id} NOT FOUND in DB.")
             return jsonify({"success": False, "error": "Invitation not found"}), 404
         
+        logging.info(f"✅ Invitation found: {invitation.id}, Title: {invitation.title}, User ID: {invitation.user_id}")
+        
         if invitation.user_id != current_user.id:
+            logging.error(f"⛔ Unauthorized delete attempt. User {current_user.id} tried to delete invite owned by {invitation.user_id}")
             return jsonify({"success": False, "error": "Unauthorized"}), 403
         
         # Delete associated RSVPs first
-        RSVP.query.filter_by(invitation_id=invite_id).delete()
+        rsvp_count = RSVP.query.filter_by(invitation_id=invite_id).delete()
+        logging.info(f"Deleted {rsvp_count} associated RSVPs")
         
         # Delete the invitation
         db.session.delete(invitation)
         db.session.commit()
         
-        logging.info(f"Deleted invitation {invite_id} by user {current_user.id}")
+        logging.info(f"🗑️ Successfully deleted invitation {invite_id}")
         return jsonify({"success": True, "message": "Invitation deleted successfully"})
     
     except Exception as e:
-        logging.error(f"Error deleting invitation: {str(e)}")
+        logging.error(f"🔥 Error deleting invitation: {str(e)}")
+        import traceback
+        logging.error(traceback.format_exc())
         return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route('/edit/<int:invite_id>')
@@ -661,8 +708,9 @@ def refine_prompt():
         1. A HIGHLY DETAILED, artistic image generation prompt for creating an ELEGANT BORDER/FRAME DESIGN (NOT a full scene).
         2. A catchy, short title for the invitation card.
         3. A warm, inviting body text for the card (max 2 sentences).
+        4. A short, heartwarming "Story" or "Memory" (2-3 sentences) that captures the essence of this event type and the people involved. This will be used for the event scrapbook.
 
-        Return ONLY a JSON object with keys: "image_prompt", "card_title", "card_body".
+        Return ONLY a JSON object with keys: "image_prompt", "card_title", "card_body", "story".
         
         CRITICAL INSTRUCTIONS FOR image_prompt:
         - Generate a DECORATIVE BORDER or FRAME design, NOT a full background scene
@@ -763,20 +811,30 @@ def refine_prompt():
                 continue
         
         if not response:
-            error_msg = "Unable to generate invitation content. "
+            # Fallback if API fails or Key is missing
+            logging.warning("⚠️ Gemini API failed or key missing. Using fallback content.")
             
-            # Provide specific guidance based on the error
-            if not GEMINI_API_KEY or GEMINI_API_KEY == "your_gemini_api_key_here":
-                error_msg += "Please configure your GEMINI_API_KEY in the .env file. Get your free API key from https://makersuite.google.com/app/apikey"
-            elif last_error and ("API_KEY_INVALID" in last_error or "invalid" in last_error.lower()):
-                error_msg += "Your API key appears to be invalid. Please check your GEMINI_API_KEY in the .env file."
-            elif last_error and ("quota" in last_error.lower() or "limit" in last_error.lower()):
-                error_msg += "API quota exceeded. Please check your usage at https://aistudio.google.com/app/apikey or try again later."
-            else:
-                error_msg += f"Technical details: {last_error}"
+            # Generate fallback content based on event type
+            fallback_titles = {
+                'Birthday': f"{celebrant_name}'s Birthday Bash!",
+                'Wedding': f"{celebrant_name}'s Wedding Celebration",
+                'Party': "Let's Party!",
+                'Corporate': "Corporate Event",
+                'Anniversary': "Anniversary Celebration",
+                'Baby Shower': "Baby Shower"
+            }
             
-            logging.error(error_msg)
-            raise Exception(error_msg)
+            fallback_title = fallback_titles.get(event_type, f"{event_type} Celebration")
+            
+            return jsonify({
+                "success": True, 
+                "data": {
+                    "image_prompt": f"A beautiful elegant {vibe} style border frame for a {event_type} invitation, high quality, 8k, intricate details, white center",
+                    "card_title": fallback_title,
+                    "card_body": f"Please join us for a wonderful {event_type} celebration. We look forward to seeing you there!",
+                    "story": f"We are so excited to celebrate this special {event_type} with all our friends and family. It means the world to us to have you join us for this memorable occasion."
+                }
+            })
 
         text_response = response.text.strip()
         # Clean up markdown if present
@@ -825,7 +883,36 @@ def generate_image():
         logging.info("Generating image with Pollinations.AI (FREE, no auth required)...")
         
         # Enhance the prompt for better quality
-        enhanced_prompt = f"{image_prompt}, highly detailed, professional quality, vibrant colors, masterpiece, 8k"
+        # Vibe-specific keywords to ensure the style matches exactly
+        vibe_keywords = {
+            'Neon Party': 'neon lights, cyberpunk, glowing, electric colors, futuristic, dark background',
+            'Balloon Fest': 'colorful balloons, confetti, festive, bright, cheerful, party atmosphere',
+            'Confetti Pop': 'gold confetti, sparkles, celebration, glitter, luxury, warm lighting',
+            'Cake Dreams': 'pastel colors, sweet, dessert theme, soft lighting, whimsical, creamy',
+            'Royal Elegance': 'gold and white, baroque, ornate, luxury, regal, expensive, elegant',
+            'Floral Romance': 'soft flowers, roses, pastel pink, romantic, watercolor style, dreamy',
+            'Classic White': 'minimalist, white and gold, clean lines, sophisticated, modern elegance',
+            'Garden Dream': 'nature, leaves, greenery, fairy lights, enchanted garden, organic',
+            'Disco Lights': 'disco ball, retro, 70s style, colorful lights, dance floor, funky',
+            'Beach Vibes': 'tropical, palm leaves, sunset, ocean, sand, warm colors, summer',
+            'Retro Funk': '80s style, geometric shapes, bold colors, memphis design, vintage',
+            'Glow Party': 'uv light, blacklight, neon paint, glowing geometric shapes, dark mode',
+            'Professional': 'corporate, clean, blue and grey, geometric, modern, business',
+            'Modern Tech': 'circuit board, digital, futuristic, blue and cyan, tech, sleek',
+            'Luxury Gold': 'black and gold, marble, premium, expensive, metallic, shiny',
+            'Minimal Clean': 'white space, simple, typography focus, clean, modern, airy',
+            'Romantic Rose': 'red roses, gold accents, love, romantic, intimate, warm',
+            'Golden Years': 'vintage gold, classic, timeless, nostalgia, sepia tones, elegant',
+            'Champagne': 'bubbles, gold, celebration, luxury, crystal, sparkling',
+            'Starry Night': 'night sky, stars, moon, dark blue, magical, celestial',
+            'Baby Blue': 'soft blue, clouds, cute, nursery, pastel, gentle',
+            'Soft Pink': 'soft pink, flowers, cute, nursery, pastel, gentle',
+            'Pastel Rainbow': 'rainbow, clouds, soft colors, whimsical, dreamy, cute',
+            'Teddy Bear': 'brown, cozy, cute, soft textures, warm, adorable'
+        }
+        
+        vibe_style = vibe_keywords.get(data.get('vibe'), '')
+        enhanced_prompt = f"{image_prompt}, {vibe_style}, highly detailed, professional quality, vibrant colors, masterpiece, 8k"
         
         try:
             # Pollinations.AI - Simple URL-based API
@@ -1109,7 +1196,9 @@ def generate_image():
                 body = event_message if event_message else data.get('body', '')
                 event_type = data.get('eventType', 'General')
                 vibe = data.get('vibe', 'General')
+
                 location_name = event_venue if event_venue else data.get('location_name', '')
+                story = data.get('story', '')
                 
                 # Generate unique share link
                 def generate_share_link():
@@ -1134,6 +1223,7 @@ def generate_image():
                     event_venue=event_venue,
                     event_message=event_message,
                     location_name=location_name,
+                    story=story,
                     # Event-specific fields
                     bride_name=bride_name if bride_name else None,
                     groom_name=groom_name if groom_name else None,
@@ -1230,12 +1320,57 @@ def upload_voice():
         
         voice_file = request.files['voice']
         
-        # Here you would upload to cloud storage (Uploadcare, S3, etc.)
-        # For now, we'll return a placeholder
-        # In production, integrate with Uploadcare or similar
+        if voice_file.filename == '':
+            return jsonify({"success": False, "error": "No selected file"}), 400
+            
+        # Validate file extension
+        allowed_extensions = {'mp3', 'wav', 'ogg', 'm4a', 'webm'}
+        if not '.' in voice_file.filename or \
+           voice_file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+            return jsonify({"success": False, "error": "Invalid file type. Allowed: mp3, wav, ogg, m4a, webm"}), 400
+
+        # Create uploads directory if it doesn't exist
+        upload_dir = os.path.join(app.root_path, 'static', 'uploads', 'audio')
+        os.makedirs(upload_dir, exist_ok=True)
         
-        voice_url = "placeholder_voice_url"  # Replace with actual upload
+        # Generate unique filename
+        from werkzeug.utils import secure_filename
+        original_filename = secure_filename(voice_file.filename)
+        timestamp = int(time.time())
+        filename = f"voice_{current_user.id}_{timestamp}.mp3" # Force MP3 extension
+        file_path = os.path.join(upload_dir, filename)
         
+        # Save to temp file first
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(original_filename)[1]) as tmp:
+            voice_file.save(tmp.name)
+            tmp_path = tmp.name
+            
+        try:
+            # Transcode to MP3 using MoviePy
+            audio_clip = AudioFileClip(tmp_path)
+            
+            # Validate duration (max 30s)
+            if audio_clip.duration > 30:
+                audio_clip.close()
+                os.unlink(tmp_path)
+                return jsonify({"success": False, "error": "Audio too long. Max 30 seconds."}), 400
+                
+            audio_clip.write_audiofile(file_path, codec='libmp3lame', bitrate='128k', logger=None)
+            audio_clip.close()
+            
+            # Clean up temp file
+            os.unlink(tmp_path)
+            
+        except Exception as e:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+            logging.error(f"Transcoding error: {str(e)}")
+            return jsonify({"success": False, "error": "Invalid audio file"}), 400
+        
+        # Return URL
+        voice_url = url_for('static', filename=f'uploads/audio/{filename}', _external=True)
+        
+        logging.info(f"✅ Audio uploaded and transcoded: {voice_url}")
         return jsonify({"success": True, "voice_url": voice_url})
     
     except Exception as e:
@@ -1393,6 +1528,42 @@ def generate_video():
         final_clip = CompositeVideoClip(clips_to_composite)
         logging.info("Composite video created")
 
+        # 3. Add Audio (Music)
+        if music_choice:
+            try:
+                music_map = {
+                    'happy_birthday': 'happy_birthday.mp3',
+                    'wedding_bells': 'wedding_bells.mp3',
+                    'party_time': 'party_time.mp3',
+                    'celebration': 'celebration.mp3',
+                    'elegant_classic': 'elegant_classic.mp3',
+                    'upbeat_pop': 'upbeat_pop.mp3'
+                }
+                
+                music_file = music_map.get(music_choice)
+                if music_file:
+                    audio_path = os.path.join(app.root_path, 'static', 'audio', music_file)
+                    
+                    if os.path.exists(audio_path):
+                        logging.info(f"Adding background music: {music_file}")
+                        audio_clip = AudioFileClip(audio_path)
+                        
+                        # Loop audio if it's shorter than video
+                        if audio_clip.duration < duration:
+                            audio_clip = audio_clip.fx(vfx.loop, duration=duration)
+                        else:
+                            audio_clip = audio_clip.subclip(0, duration)
+                            
+                        # Fade out audio at the end
+                        audio_clip = audio_clip.audio_fadeout(2)
+                        
+                        final_clip = final_clip.set_audio(audio_clip)
+                        logging.info("✅ Audio track added to video")
+                    else:
+                        logging.warning(f"Audio file not found: {audio_path}")
+            except Exception as audio_e:
+                logging.error(f"Failed to add audio: {str(audio_e)}")
+
         # 4. Write to file
         # Save to static/videos so it can be served
         logging.info("Step 4: Writing video file...")
@@ -1403,7 +1574,7 @@ def generate_video():
         output_path = os.path.join(video_dir, filename)
         
         logging.info(f"Writing video to: {output_path}")
-        final_clip.write_videofile(output_path, fps=24, codec='libx264', audio=False, logger=None)
+        final_clip.write_videofile(output_path, fps=24, codec='libx264', audio_codec='aac', logger=None)
         logging.info("✅ Video file written successfully!")
         
         # 5. Return URL
@@ -1791,5 +1962,8 @@ def admin_api_delete_invitation(invitation_id):
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+
+
 
 

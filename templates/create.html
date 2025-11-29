@@ -71,29 +71,32 @@
 
             <!-- Dynamic Event-Specific Fields -->
             <div id="dynamicFields" class="mb-6 md:mb-8">
-                
+
                 <!-- Common: Family Name (shown for all events) -->
                 <div class="mb-4" id="familyNameField">
                     <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                         Family Name
                         <span class="text-xs text-gray-500 ml-2 normal-case font-medium">(Optional)</span>
                     </label>
-                    <input type="text" id="familyName" placeholder="e.g., The Madhan Family"
+                    <input type="text" id="familyName" placeholder="Enter your family name"
+                        value="{% if current_user.is_authenticated %}{{ current_user.name }}'s Family{% endif %}"
                         class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                 </div>
 
                 <!-- Birthday Fields -->
                 <div id="birthdayFields" class="space-y-4">
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Birthday Person's Name
                             <span class="text-xs text-red-400 ml-2 normal-case font-medium">* Required</span>
                         </label>
-                        <input type="text" id="celebrantName" placeholder="e.g., Madhan" required
+                        <input type="text" id="celebrantName" placeholder="Enter Birthday person's name" required
                             class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Upload Photo
                             <span class="text-xs text-red-400 ml-2 normal-case font-medium">* Required</span>
                         </label>
@@ -141,7 +144,8 @@
                 <!-- Anniversary Fields -->
                 <div id="anniversaryFields" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Couple's Names
                             <span class="text-xs text-red-400 ml-2 normal-case font-medium">* Required</span>
                         </label>
@@ -149,7 +153,8 @@
                             class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Couple's Photo
                         </label>
                         <input type="file" id="couplePhoto" accept="image/*"
@@ -160,7 +165,8 @@
                 <!-- Baby Shower Fields -->
                 <div id="babyShowerFields" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Baby's Name
                             <span class="text-xs text-gray-500 ml-2 normal-case font-medium">(if known)</span>
                         </label>
@@ -168,7 +174,8 @@
                             class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Baby's Gender
                         </label>
                         <select id="babyGender"
@@ -183,7 +190,8 @@
                 <!-- Corporate Fields -->
                 <div id="corporateFields" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Company Name
                             <span class="text-xs text-red-400 ml-2 normal-case font-medium">* Required</span>
                         </label>
@@ -191,7 +199,8 @@
                             class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Event Name
                             <span class="text-xs text-red-400 ml-2 normal-case font-medium">* Required</span>
                         </label>
@@ -203,7 +212,8 @@
                 <!-- Party Fields (Generic) -->
                 <div id="partyFields" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
+                        <label
+                            class="block text-xs md:text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                             Event Name
                             <span class="text-xs text-red-400 ml-2 normal-case font-medium">* Required</span>
                         </label>
@@ -226,7 +236,8 @@
 
             <!-- Event Details -->
             <div class="mb-6 md:mb-8">
-                <label class="block text-xs md:text-sm font-semibold text-gray-300 mb-3 md:mb-4 uppercase tracking-wide">
+                <label
+                    class="block text-xs md:text-sm font-semibold text-gray-300 mb-3 md:mb-4 uppercase tracking-wide">
                     Event Details
                 </label>
                 <div class="space-y-4">
@@ -235,7 +246,7 @@
                         <label class="block text-xs font-semibold text-gray-400 mb-2">Event Date
                             <span class="text-red-400">*</span>
                         </label>
-                        <input type="text" id="eventDate" placeholder="e.g., November 25, 2025" required
+                        <input type="text" id="eventDate" placeholder="Enter date of event" required
                             class="w-full glass-input rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
 
@@ -244,7 +255,7 @@
                         <label class="block text-xs font-semibold text-gray-400 mb-2">Event Time
                             <span class="text-red-400">*</span>
                         </label>
-                        <input type="text" id="eventTime" placeholder="e.g., 7:00 PM" required
+                        <input type="text" id="eventTime" placeholder="Enter the time of event" required
                             class="w-full glass-input rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
 
@@ -253,7 +264,7 @@
                         <label class="block text-xs font-semibold text-gray-400 mb-2">Venue/Location
                             <span class="text-red-400">*</span>
                         </label>
-                        <input type="text" id="eventVenue" placeholder="e.g., PMR Kalyana Mandapam, Venkatagiri" required
+                        <input type="text" id="eventVenue" placeholder="Enter a invitation message" required
                             class="w-full glass-input rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
 
@@ -262,7 +273,8 @@
                         <label class="block text-xs font-semibold text-gray-400 mb-2">Invitation Message
                             <span class="text-gray-500">(Optional)</span>
                         </label>
-                        <textarea id="eventMessage" rows="3" placeholder="e.g., Join us for a night of celebration, laughter, and memories!"
+                        <textarea id="eventMessage" rows="3"
+                            placeholder="e.g., Join us for a night of celebration, laughter, and memories!"
                             class="w-full glass-input rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition resize-none outline-none bg-slate-800/50"></textarea>
                     </div>
                 </div>
@@ -279,7 +291,7 @@
             <div id="progressIndicator" class="hidden mt-8">
                 <div class="glass rounded-2xl p-6 md:p-8 border border-purple-500/30">
                     <h3 class="text-xl font-bold text-white mb-6 text-center">Creating Your Beautiful Invitation...</h3>
-                    
+
                     <div class="space-y-4">
                         <!-- Step 1: Generating Design -->
                         <div class="flex items-center gap-4 progress-step" data-step="1">
@@ -288,7 +300,8 @@
                             </div>
                             <div class="flex-1">
                                 <p class="text-white font-semibold step-title">Generating Border Design</p>
-                                <p class="text-sm text-gray-400 step-description">Creating elegant decorative elements...</p>
+                                <p class="text-sm text-gray-400 step-description">Creating elegant decorative
+                                    elements...</p>
                             </div>
                             <div class="step-status hidden">
                                 <i data-lucide="check-circle" class="w-6 h-6 text-green-400"></i>
@@ -316,7 +329,8 @@
                             </div>
                             <div class="flex-1">
                                 <p class="text-white font-semibold step-title">Building Your Card</p>
-                                <p class="text-sm text-gray-400 step-description">Arranging all elements beautifully...</p>
+                                <p class="text-sm text-gray-400 step-description">Arranging all elements beautifully...
+                                </p>
                             </div>
                             <div class="step-status hidden">
                                 <i data-lucide="check-circle" class="w-6 h-6 text-green-400"></i>
@@ -340,7 +354,9 @@
 
                     <div class="mt-6">
                         <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
-                            <div id="progressBar" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500" style="width: 0%"></div>
+                            <div id="progressBar"
+                                class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500"
+                                style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
@@ -401,7 +417,8 @@
 
                                 <!-- Family Name at Top -->
                                 <div id="familyNameContainer" class="mb-6">
-                                    <p id="familyNameText" class="text-xl md:text-3xl font-display font-bold text-purple-300 drop-shadow-2xl tracking-wide">
+                                    <p id="familyNameText"
+                                        class="text-xl md:text-3xl font-display font-bold text-purple-300 drop-shadow-2xl tracking-wide">
                                     </p>
                                 </div>
 
@@ -415,17 +432,20 @@
                                     <!-- Date -->
                                     <div class="flex items-center justify-center gap-2">
                                         <i data-lucide="calendar" class="w-5 h-5 text-yellow-400"></i>
-                                        <p id="dateText" class="text-lg md:text-2xl text-white font-semibold drop-shadow-lg"></p>
+                                        <p id="dateText"
+                                            class="text-lg md:text-2xl text-white font-semibold drop-shadow-lg"></p>
                                     </div>
                                     <!-- Time -->
                                     <div class="flex items-center justify-center gap-2">
                                         <i data-lucide="clock" class="w-5 h-5 text-blue-400"></i>
-                                        <p id="timeText" class="text-lg md:text-2xl text-white font-semibold drop-shadow-lg"></p>
+                                        <p id="timeText"
+                                            class="text-lg md:text-2xl text-white font-semibold drop-shadow-lg"></p>
                                     </div>
                                     <!-- Venue -->
                                     <div class="flex items-center justify-center gap-2">
                                         <i data-lucide="map-pin" class="w-5 h-5 text-green-400"></i>
-                                        <p id="venueText" class="text-lg md:text-2xl text-white font-semibold drop-shadow-lg"></p>
+                                        <p id="venueText"
+                                            class="text-lg md:text-2xl text-white font-semibold drop-shadow-lg"></p>
                                     </div>
                                 </div>
 
@@ -462,26 +482,95 @@
                         </button>
 
                         <!-- Video Download Button (Hidden initially) -->
-                        <a id="downloadVideoBtn" href="#" download class="hidden w-full glass-button bg-green-500/20 hover:bg-green-500/30 border-2 border-green-500/50 hover:border-green-400 text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <a id="downloadVideoBtn" href="#" download
+                            class="hidden w-full glass-button bg-green-500/20 hover:bg-green-500/30 border-2 border-green-500/50 hover:border-green-400 text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
                             <i data-lucide="download" class="w-4 h-4"></i>
                             Download Video
                         </a>
                     </div>
 
-                    <!-- Enhancements -->
+                    <!-- Audio Studio -->
                     <div class="glass rounded-2xl p-6 border border-white/10 space-y-4">
                         <h3 class="text-white font-bold mb-2 flex items-center gap-2">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-yellow-400"></i> Enhancements
+                            <i data-lucide="music" class="w-5 h-5 text-pink-400"></i> Audio Studio
                         </h3>
 
-                        <!-- Voice -->
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 mb-2">ADD VOICE MESSAGE</label>
-                            <button
-                                class="w-full glass-input p-3 rounded-lg text-center text-sm text-red-400 hover:bg-red-500/10 transition border border-red-500/30">
-                                <i data-lucide="mic" class="w-4 h-4 inline mr-2"></i> Record Message
+                        <!-- Tabs -->
+                        <div class="flex gap-2 mb-4 bg-black/20 p-1 rounded-xl">
+                            <button id="tabUpload"
+                                class="flex-1 py-2 rounded-lg bg-white/10 text-white text-xs font-semibold hover:bg-white/20 transition active-tab">Upload</button>
+                            <button id="tabRecord"
+                                class="flex-1 py-2 rounded-lg bg-transparent text-gray-400 text-xs font-semibold hover:bg-white/10 transition">Record</button>
+                        </div>
+
+                        <!-- Upload Section -->
+                        <div id="uploadSection">
+                            <input type="file" id="audioUpload" accept="audio/*" class="hidden">
+                            <button onclick="document.getElementById('audioUpload').click()"
+                                class="w-full py-8 border-2 border-dashed border-gray-600 rounded-xl hover:border-purple-500 hover:bg-purple-500/10 transition flex flex-col items-center justify-center gap-2 group">
+                                <i data-lucide="upload-cloud"
+                                    class="w-8 h-8 text-gray-500 group-hover:text-purple-400 transition"></i>
+                                <span class="text-xs text-gray-400 group-hover:text-purple-300">Click to upload
+                                    MP3/WAV</span>
                             </button>
                         </div>
+
+                        <!-- Record Section (Hidden) -->
+                        <div id="recordSection" class="hidden">
+                            <div class="text-center space-y-4">
+                                <div id="micVisualizer" class="h-8 flex items-center justify-center gap-1 opacity-50">
+                                    <div class="w-1 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+                                    <div class="w-1 h-4 bg-pink-500 rounded-full animate-pulse delay-75"></div>
+                                    <div class="w-1 h-2 bg-pink-500 rounded-full animate-pulse delay-150"></div>
+                                </div>
+                                <div id="recordTimer" class="text-2xl font-mono text-white font-bold">00:00</div>
+                                <div class="flex justify-center gap-4">
+                                    <button id="recordBtn"
+                                        class="w-16 h-16 rounded-full bg-red-500 hover:bg-red-600 shadow-lg shadow-red-500/30 flex items-center justify-center transition transform hover:scale-105">
+                                        <i data-lucide="mic" class="w-8 h-8 text-white"></i>
+                                    </button>
+                                </div>
+                                <p id="recordStatus" class="text-xs text-gray-400">Tap to record (max 15s)</p>
+                            </div>
+                        </div>
+
+                        <!-- Preview Player (Hidden) -->
+                        <div id="audioPreview" class="hidden mt-4 p-3 bg-black/30 rounded-xl border border-white/5">
+                            <div class="flex items-center gap-3">
+                                <button id="playPauseBtn"
+                                    class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition">
+                                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                                </button>
+                                <div class="flex-1">
+                                    <div class="h-1 bg-gray-700 rounded-full overflow-hidden relative cursor-pointer"
+                                        id="progressBarContainer">
+                                        <div id="audioProgress" class="h-full bg-purple-500 w-0 absolute top-0 left-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="deleteAudioBtn" class="text-gray-400 hover:text-red-400 transition">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <audio id="audioElement" class="hidden"></audio>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Upload (New) -->
+                    <div class="glass rounded-2xl p-6 border border-white/10 space-y-4">
+                        <h3 class="text-white font-bold mb-2 flex items-center gap-2">
+                            <i data-lucide="images" class="w-5 h-5 text-yellow-400"></i> Photo Gallery
+                        </h3>
+                        <p class="text-xs text-gray-400">Add photos to your invitation gallery</p>
+
+                        <input type="file" id="galleryUpload" accept="image/*" multiple class="hidden">
+                        <button onclick="document.getElementById('galleryUpload').click()"
+                            class="w-full py-4 border-2 border-dashed border-gray-600 rounded-xl hover:border-yellow-500 hover:bg-yellow-500/10 transition flex flex-col items-center justify-center gap-2 group">
+                            <i data-lucide="plus"
+                                class="w-6 h-6 text-gray-500 group-hover:text-yellow-400 transition"></i>
+                            <span class="text-xs text-gray-400 group-hover:text-yellow-300">Add Photos</span>
+                        </button>
+                        <div id="galleryPreview" class="grid grid-cols-3 gap-2 mt-2"></div>
                     </div>
 
                     <button id="regenerateBtn"
@@ -498,8 +587,10 @@
 </section>
 
 <!-- Music Selection Modal -->
-<div id="musicModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="glass-enhanced rounded-3xl max-w-2xl w-full p-6 md:p-8 border border-purple-500/30 shadow-2xl shadow-purple-500/20 animate-scale-in max-h-[90vh] overflow-y-auto">
+<div id="musicModal"
+    class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div
+        class="glass-enhanced rounded-3xl max-w-2xl w-full p-6 md:p-8 border border-purple-500/30 shadow-2xl shadow-purple-500/20 animate-scale-in max-h-[90vh] overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-2xl font-bold text-white flex items-center gap-2">
                 <i data-lucide="music" class="w-6 h-6 text-purple-400"></i>
@@ -509,11 +600,11 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
-        
+
         <p class="text-gray-400 text-sm mb-6">Select a background music for your video or continue without music</p>
-        
+
         <!-- Continue Without Music -->
-        <button onclick="generateVideoWithMusic(null)" 
+        <button onclick="generateVideoWithMusic(null)"
             class="w-full mb-4 px-6 py-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-purple-500 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
             <i data-lucide="volume-x" class="w-5 h-5"></i>
             Continue Without Music
@@ -526,89 +617,133 @@
         <!-- Music Options -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <!-- Birthday Music -->
-            <button onclick="generateVideoWithMusic('happy_birthday')" 
-                class="music-option p-4 bg-gradient-to-br from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 border border-pink-500/30 hover:border-pink-500/50 rounded-xl transition-all duration-300 text-left group">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-pink-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="cake" class="w-6 h-6 text-pink-400"></i>
+            <div class="music-option-container relative group">
+                <button onclick="generateVideoWithMusic('happy_birthday')"
+                    class="music-option w-full p-4 bg-gradient-to-br from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 border border-pink-500/30 hover:border-pink-500/50 rounded-xl transition-all duration-300 text-left">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 bg-pink-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="cake" class="w-6 h-6 text-pink-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold">Happy Birthday</p>
+                            <p class="text-xs text-gray-400">Upbeat & Cheerful</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-white font-semibold">Happy Birthday</p>
-                        <p class="text-xs text-gray-400">Upbeat & Cheerful</p>
-                    </div>
-                </div>
-            </button>
+                </button>
+                <button onclick="previewAudio('happy_birthday', this)"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition z-10">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                </button>
+            </div>
 
             <!-- Wedding Music -->
-            <button onclick="generateVideoWithMusic('wedding_bells')" 
-                class="music-option p-4 bg-gradient-to-br from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 border border-purple-500/30 hover:border-purple-500/50 rounded-xl transition-all duration-300 text-left group">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="heart" class="w-6 h-6 text-purple-400"></i>
+            <div class="music-option-container relative group">
+                <button onclick="generateVideoWithMusic('wedding_bells')"
+                    class="music-option w-full p-4 bg-gradient-to-br from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 border border-purple-500/30 hover:border-purple-500/50 rounded-xl transition-all duration-300 text-left">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="heart" class="w-6 h-6 text-purple-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold">Wedding Bells</p>
+                            <p class="text-xs text-gray-400">Romantic & Elegant</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-white font-semibold">Wedding Bells</p>
-                        <p class="text-xs text-gray-400">Romantic & Elegant</p>
-                    </div>
-                </div>
-            </button>
+                </button>
+                <button onclick="previewAudio('wedding_bells', this)"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition z-10">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                </button>
+            </div>
 
             <!-- Party Music -->
-            <button onclick="generateVideoWithMusic('party_time')" 
-                class="music-option p-4 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 border border-blue-500/30 hover:border-blue-500/50 rounded-xl transition-all duration-300 text-left group">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="music-2" class="w-6 h-6 text-blue-400"></i>
+            <div class="music-option-container relative group">
+                <button onclick="generateVideoWithMusic('party_time')"
+                    class="music-option w-full p-4 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 border border-blue-500/30 hover:border-blue-500/50 rounded-xl transition-all duration-300 text-left">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="music-2" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold">Party Time</p>
+                            <p class="text-xs text-gray-400">Energetic & Fun</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-white font-semibold">Party Time</p>
-                        <p class="text-xs text-gray-400">Energetic & Fun</p>
-                    </div>
-                </div>
-            </button>
+                </button>
+                <button onclick="previewAudio('party_time', this)"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition z-10">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                </button>
+            </div>
 
             <!-- Celebration Music -->
-            <button onclick="generateVideoWithMusic('celebration')" 
-                class="music-option p-4 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 hover:from-yellow-500/20 hover:to-orange-500/20 border border-yellow-500/30 hover:border-yellow-500/50 rounded-xl transition-all duration-300 text-left group">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="sparkles" class="w-6 h-6 text-yellow-400"></i>
+            <div class="music-option-container relative group">
+                <button onclick="generateVideoWithMusic('celebration')"
+                    class="music-option w-full p-4 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 hover:from-yellow-500/20 hover:to-orange-500/20 border border-yellow-500/30 hover:border-yellow-500/50 rounded-xl transition-all duration-300 text-left">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="sparkles" class="w-6 h-6 text-yellow-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold">Celebration</p>
+                            <p class="text-xs text-gray-400">Joyful & Festive</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-white font-semibold">Celebration</p>
-                        <p class="text-xs text-gray-400">Joyful & Festive</p>
-                    </div>
-                </div>
-            </button>
+                </button>
+                <button onclick="previewAudio('celebration', this)"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition z-10">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                </button>
+            </div>
 
             <!-- Elegant Music -->
-            <button onclick="generateVideoWithMusic('elegant_classic')" 
-                class="music-option p-4 bg-gradient-to-br from-indigo-500/10 to-violet-500/10 hover:from-indigo-500/20 hover:to-violet-500/20 border border-indigo-500/30 hover:border-indigo-500/50 rounded-xl transition-all duration-300 text-left group">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="award" class="w-6 h-6 text-indigo-400"></i>
+            <div class="music-option-container relative group">
+                <button onclick="generateVideoWithMusic('elegant_classic')"
+                    class="music-option w-full p-4 bg-gradient-to-br from-indigo-500/10 to-violet-500/10 hover:from-indigo-500/20 hover:to-violet-500/20 border border-indigo-500/30 hover:border-indigo-500/50 rounded-xl transition-all duration-300 text-left">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 bg-indigo-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="award" class="w-6 h-6 text-indigo-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold">Elegant Classic</p>
+                            <p class="text-xs text-gray-400">Sophisticated & Classy</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-white font-semibold">Elegant Classic</p>
-                        <p class="text-xs text-gray-400">Sophisticated & Classy</p>
-                    </div>
-                </div>
-            </button>
+                </button>
+                <button onclick="previewAudio('elegant_classic', this)"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition z-10">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                </button>
+            </div>
 
             <!-- Upbeat Music -->
-            <button onclick="generateVideoWithMusic('upbeat_pop')" 
-                class="music-option p-4 bg-gradient-to-br from-green-500/10 to-teal-500/10 hover:from-green-500/20 hover:to-teal-500/20 border border-green-500/30 hover:border-green-500/50 rounded-xl transition-all duration-300 text-left group">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="trending-up" class="w-6 h-6 text-green-400"></i>
+            <div class="music-option-container relative group">
+                <button onclick="generateVideoWithMusic('upbeat_pop')"
+                    class="music-option w-full p-4 bg-gradient-to-br from-green-500/10 to-teal-500/10 hover:from-green-500/20 hover:to-teal-500/20 border border-green-500/30 hover:border-green-500/50 rounded-xl transition-all duration-300 text-left">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-green-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold">Upbeat Pop</p>
+                            <p class="text-xs text-gray-400">Modern & Catchy</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-white font-semibold">Upbeat Pop</p>
-                        <p class="text-xs text-gray-400">Modern & Catchy</p>
-                    </div>
-                </div>
-            </button>
+                </button>
+                <button onclick="previewAudio('upbeat_pop', this)"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition z-10">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                </button>
+            </div>
         </div>
+
+        <audio id="musicPreviewPlayer" class="hidden"></audio>
 
         <p class="text-xs text-gray-500 mt-6 text-center">Music will be added to your 5-10 second video</p>
     </div>
@@ -617,19 +752,21 @@
 <script src="{{ url_for('static', filename='js/script-enhanced.js') }}"></script>
 
 <style>
-.spinner {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    border: 2px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: spinner-rotate 0.75s linear infinite;
-}
+    .spinner {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spinner-rotate 0.75s linear infinite;
+    }
 
-@keyframes spinner-rotate {
-    to { transform: rotate(360deg); }
-}
+    @keyframes spinner-rotate {
+        to {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 
 {% endblock %}

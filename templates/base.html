@@ -68,21 +68,30 @@
 
                 <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     {% if current_user.is_authenticated %}
-                    <a href="/create" class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                    <a href="/create"
+                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="plus-circle" class="w-4 h-4"></i>
                         Create
                     </a>
-                    <a href="/dashboard" class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                    <a href="/dashboard"
+                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                         Dashboard
                     </a>
+                    <a href="/tutorial"
+                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                        Tutorial
+                    </a>
                     {% if current_user.is_admin %}
-                    <a href="/admin/dashboard" class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                    <a href="/admin/dashboard"
+                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="shield" class="w-4 h-4"></i>
                         Admin
                     </a>
                     {% endif %}
-                    <a href="/logout" class="text-gray-300 hover:text-red-400 transition-colors font-medium flex items-center gap-2">
+                    <a href="/logout"
+                        class="text-gray-300 hover:text-red-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                         Logout
                     </a>
@@ -92,14 +101,16 @@
                             {{ current_user.name[0].upper() }}
                         </div>
                         <div class="absolute right-0 top-12 hidden group-hover/profile:block">
-                            <div class="glass-enhanced rounded-xl p-3 min-w-[200px] shadow-2xl border border-purple-500/30">
+                            <div
+                                class="glass-enhanced rounded-xl p-3 min-w-[200px] shadow-2xl border border-purple-500/30">
                                 <p class="text-sm text-white font-semibold mb-1">{{ current_user.name }}</p>
                                 <p class="text-xs text-gray-400">{{ current_user.email }}</p>
                             </div>
                         </div>
                     </div>
                     {% else %}
-                    <a href="/login" class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                    <a href="/login"
+                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         Login
                     </a>
@@ -120,30 +131,36 @@
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3">
                 {% if current_user.is_authenticated %}
-                <a href="/create" class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                <a href="/create"
+                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                     Create
                 </a>
-                <a href="/dashboard" class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                <a href="/dashboard"
+                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     Dashboard
                 </a>
                 {% if current_user.is_admin %}
-                <a href="/admin/dashboard" class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                <a href="/admin/dashboard"
+                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="shield" class="w-4 h-4"></i>
                     Admin
                 </a>
                 {% endif %}
-                <a href="/logout" class="block text-gray-300 hover:text-red-400 transition-colors font-medium py-2 flex items-center gap-2">
+                <a href="/logout"
+                    class="block text-gray-300 hover:text-red-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                     Logout
                 </a>
                 {% else %}
-                <a href="/login" class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                <a href="/login"
+                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="log-in" class="w-4 h-4"></i>
                     Login
                 </a>
-                <a href="/signup" class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                <a href="/signup"
+                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="user-plus" class="w-4 h-4"></i>
                     Sign Up
                 </a>
@@ -185,6 +202,26 @@
                     <p class="text-gray-400 text-sm leading-relaxed">
                         Transforming personal moments into professional invitations with the power of AI.
                     </p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="https://twitter.com/phovite" target="_blank" class="group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#1DA1F2] flex items-center justify-center transition-all duration-300">
+                                <i data-lucide="twitter"
+                                    class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
+                            </div>
+                        </a>
+                        <a href="https://instagram.com/phovite" target="_blank" class="group">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-800 hover:bg-gradient-to-br hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 flex items-center justify-center transition-all duration-300">
+                                <i data-lucide="instagram"
+                                    class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition border border-white/5 hover:border-purple-500/30">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <div>
@@ -200,6 +237,7 @@
                     <h4 class="text-white font-bold mb-6">Resources</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
                         <li><a href="/about" class="hover:text-brand-400 transition">About PhoVite</a></li>
+                        <li><a href="/tutorial" class="hover:text-brand-400 transition">Tutorial</a></li>
                         <li><a href="/help" class="hover:text-brand-400 transition">Help Center</a></li>
                         <li><a href="/contact" class="hover:text-brand-400 transition">Contact Us</a></li>
                     </ul>
@@ -215,37 +253,15 @@
                 </div>
             </div>
 
-            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-500 text-xs">© 2025 PhoVite Inc. All rights reserved.</p>
-                <div class="flex space-x-4 mt-4 md:mt-0">
-                    <a href="https://twitter.com/phovite" target="_blank" class="group">
-                        <div
-                            class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#1DA1F2] flex items-center justify-center transition-all duration-300">
-                            <i data-lucide="twitter"
-                                class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                    </a>
-                    <a href="https://instagram.com/phovite" target="_blank" class="group">
-                        <div
-                            class="w-10 h-10 rounded-full bg-slate-800 hover:bg-gradient-to-br hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 flex items-center justify-center transition-all duration-300">
-                            <i data-lucide="instagram"
-                                class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                    </a>
-                    <a href="https://linkedin.com/company/phovite" target="_blank" class="group">
-                        <div
-                            class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#0A66C2] flex items-center justify-center transition-all duration-300">
-                            <i data-lucide="linkedin"
-                                class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                    </a>
-                    <a href="https://facebook.com/phovite" target="_blank" class="group">
-                        <div
-                            class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#1877F2] flex items-center justify-center transition-all duration-300">
-                            <i data-lucide="facebook"
-                                class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                    </a>
+
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2024 PhoVite. All rights reserved.</p>
+                <div class="flex items-center gap-2 text-sm text-gray-500">
+                    <span>Made with ❤️ using</span>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-semibold">Generative
+                        AI</span>
                 </div>
             </div>
         </div>
@@ -257,18 +273,18 @@
         // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
-        
+
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
                 const icon = mobileMenuBtn.querySelector('i');
-                
+
                 if (mobileMenu.classList.contains('hidden')) {
                     icon.setAttribute('data-lucide', 'menu');
                 } else {
                     icon.setAttribute('data-lucide', 'x');
                 }
-                
+
                 lucide.createIcons();
             });
         }
