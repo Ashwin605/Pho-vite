@@ -62,6 +62,10 @@ if not app.config['GOOGLE_CLIENT_SECRET']:
 else:
     logging.info(f"✅ GOOGLE_CLIENT_SECRET loaded (length: {len(app.config['GOOGLE_CLIENT_SECRET'])})")
 
+# Jamendo API Configuration
+JAMENDO_CLIENT_ID = os.getenv('JAMENDO_CLIENT_ID', 'cc68060f')
+
+
 # OAuth Setup
 oauth = OAuth(app)
 google = oauth.register(
@@ -1377,6 +1381,64 @@ def upload_voice():
         logging.error(f"Error uploading voice: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
 
+@app.route('/api/music/search', methods=['GET'])
+@login_required
+def search_music():
+    """Search for music using Jamendo API"""
+    try:
+        query = request.args.get('q', '')
+        tag = request.args.get('tag', '')
+        
+        if not JAMENDO_CLIENT_ID:
+            return jsonify({"success": False, "error": "Music API not configured"}), 500
+            
+        # Jamendo API URL
+        url = "https://api.jamendo.com/v3.0/tracks/"
+        
+        params = {
+            'client_id': JAMENDO_CLIENT_ID,
+            'format': 'json',
+            'limit': 20,
+            'include': 'musicinfo',
+            'audioformat': 'mp32' # Good quality preview
+        }
+        
+        if query:
+            params['search'] = query
+        if tag:
+            params['tags'] = tag
+            
+        # Add some default filters to get better results for background music
+        params['vocalinstrumental'] = 'instrumental'
+        
+        logging.info(f"Searching Jamendo: {params}")
+        response = requests.get(url, params=params)
+        
+        if response.status_code != 200:
+            logging.error(f"Jamendo API error: {response.text}")
+            return jsonify({"success": False, "error": "Failed to fetch music"}), 502
+            
+        data = response.json()
+        tracks = []
+        
+        if 'results' in data:
+            for track in data['results']:
+                tracks.append({
+                    'id': track['id'],
+                    'name': track['name'],
+                    'artist': track['artist_name'],
+                    'image': track['image'],
+                    'audio': track['audio'], # Preview URL
+                    'duration': track['duration'],
+                    'download': track['audiodownload'] # Full download URL
+                })
+                
+        return jsonify({"success": True, "tracks": tracks})
+        
+    except Exception as e:
+        logging.error(f"Music search error: {str(e)}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
 @app.route('/api/generate-video', methods=['POST'])
 @login_required
 def generate_video():
@@ -1529,38 +1591,70 @@ def generate_video():
         logging.info("Composite video created")
 
         # 3. Add Audio (Music)
+        # 3. Add Audio (Music)
         if music_choice:
             try:
-                music_map = {
-                    'happy_birthday': 'happy_birthday.mp3',
-                    'wedding_bells': 'wedding_bells.mp3',
-                    'party_time': 'party_time.mp3',
-                    'celebration': 'celebration.mp3',
-                    'elegant_classic': 'elegant_classic.mp3',
-                    'upbeat_pop': 'upbeat_pop.mp3'
-                }
+                audio_path = None
+                is_temp_audio = False
                 
-                music_file = music_map.get(music_choice)
-                if music_file:
-                    audio_path = os.path.join(app.root_path, 'static', 'audio', music_file)
+                # Check if it's a Jamendo URL (starts with http)
+                if music_choice.startswith('http'):
+                    logging.info(f"Downloading external music: {music_choice}")
+                    try:
+                        music_resp = requests.get(music_choice, timeout=30)
+                        if music_resp.status_code == 200:
+                            with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as tmp_audio:
+                                tmp_audio.write(music_resp.content)
+                                audio_path = tmp_audio.name
+                                is_temp_audio = True
+                            logging.info("External music downloaded to temp file")
+                    except Exception as dl_e:
+                        logging.error(f"Failed to download music: {dl_e}")
+                else:
+                    # Local file fallback
+                    music_map = {
+                        'happy_birthday': 'happy_birthday.mp3',
+                        'wedding_bells': 'wedding_bells.mp3',
+                        'party_time': 'party_time.mp3',
+                        'celebration': 'celebration.mp3',
+                        'elegant_classic': 'elegant_classic.mp3',
+                        'upbeat_pop': 'upbeat_pop.mp3'
+                    }
+                    music_file = music_map.get(music_choice)
+                    if music_file:
+                        audio_path = os.path.join(app.root_path, 'static', 'audio', music_file)
+
+                if audio_path and os.path.exists(audio_path):
+                    logging.info(f"Adding background music from: {audio_path}")
+                    audio_clip = AudioFileClip(audio_path)
                     
-                    if os.path.exists(audio_path):
-                        logging.info(f"Adding background music: {music_file}")
-                        audio_clip = AudioFileClip(audio_path)
-                        
-                        # Loop audio if it's shorter than video
-                        if audio_clip.duration < duration:
-                            audio_clip = audio_clip.fx(vfx.loop, duration=duration)
-                        else:
-                            audio_clip = audio_clip.subclip(0, duration)
-                            
-                        # Fade out audio at the end
-                        audio_clip = audio_clip.audio_fadeout(2)
-                        
-                        final_clip = final_clip.set_audio(audio_clip)
-                        logging.info("✅ Audio track added to video")
+                    # Loop audio if it's shorter than video
+                    if audio_clip.duration < duration:
+                        # audio_clip = audio_clip.fx(vfx.loop, duration=duration) # Old MoviePy
+                         # New MoviePy loop method or manual concatenation
+                        loops = int(duration / audio_clip.duration) + 1
+                        from moviepy.editor import concatenate_audioclips
+                        audio_clip = concatenate_audioclips([audio_clip] * loops)
+                        audio_clip = audio_clip.subclip(0, duration)
                     else:
-                        logging.warning(f"Audio file not found: {audio_path}")
+                        audio_clip = audio_clip.subclip(0, duration)
+                        
+                    # Fade out audio at the end
+                    audio_clip = audio_clip.audio_fadeout(2)
+                    
+                    final_clip = final_clip.set_audio(audio_clip)
+                    logging.info("✅ Audio track added to video")
+                    
+                    # Clean up temp audio if needed
+                    if is_temp_audio:
+                        try:
+                            audio_clip.close() # Close file handle
+                            os.remove(audio_path)
+                        except:
+                            pass
+                else:
+                    logging.warning(f"Audio file not found or failed to load")
+
             except Exception as audio_e:
                 logging.error(f"Failed to add audio: {str(audio_e)}")
 
