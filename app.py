@@ -46,7 +46,7 @@ CORS(app)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
 
 # HARDCODED FALLBACKS (Ensures it works on hosted sites even if env vars aren't set)
-HARDCODED_CLIENT_ID = '413486107880-bko0b4jlkpnblppuiol0l5dgmt5c3efi.apps.googleusercontent.com'
+HARDCODED_CLIENT_ID = '413486107880-j063qhbqbpjuhmrsqjve8dceo3i7jrs9.apps.googleusercontent.com'
 # NOTE: Client Secret must be set in Environment Variables for security (GitHub blocks secrets in code)
 HARDCODED_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
 
