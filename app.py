@@ -2054,6 +2054,111 @@ def admin_api_delete_invitation(invitation_id):
         db.session.rollback()
         return jsonify({"success": False, "error": str(e)}), 500
 
+@app.route('/api/assistant-chat', methods=['POST'])
+def assistant_chat():
+    """AI Assistant chat endpoint - provides contextual help"""
+    try:
+        data = request.json
+        user_message = data.get('message', '').strip()
+        context = data.get('context', {})
+        
+        if not user_message:
+            return jsonify({"success": False, "error": "Message is required"}), 400
+        
+        logging.info(f"AI Assistant query: {user_message}")
+        
+        # Build contextual system prompt
+        system_prompt = """
+        You are the PhoVite AI Assistant, a helpful and friendly guide for users of PhoVite - 
+        an AI-powered invitation creation platform. Your role is to:
+        
+        1. Help users create stunning invitations by guiding them through the process
+        2. Suggest appropriate vibes/themes based on their event type
+        3. Provide creative tips for making invitations memorable
+        4. Answer questions about PhoVite features and capabilities
+        5. Be warm, enthusiastic, and encouraging
+        
+        KEY FEATURES TO MENTION WHEN RELEVANT:
+        - Photo-first design: Users can upload photos that AI seamlessly integrates
+        - AI-generated backgrounds with multiple vibe options (Neon, Royal, Minimal, Floral, etc.)
+        - Event types: Birthday, Wedding, Party, Corporate, Anniversary, Baby Shower
+        - Customizable details: Names, dates, venues, messages
+        - RSVP tracking and guest management
+        - Shareable links and downloadable invitations
+        - Voice messages and gallery photos
+        - Video generation with music
+        
+        VIBES/THEMES AVAILABLE:
+        For Birthdays: Neon Party, Balloon Fest, Confetti Pop, Cake Dreams
+        For Weddings: Royal Elegance, Floral Romance, Classic White, Garden Dream
+        For Parties: Disco Lights, Beach Vibes, Retro Funk, Glow Party
+        For Corporate: Professional, Modern Tech, Luxury Gold, Minimal Clean
+        For Anniversaries: Romantic Rose, Golden Years, Champagne, Starry Night
+        For Baby Showers: Baby Blue, Soft Pink, Pastel Rainbow, Teddy Bear
+        
+        Keep responses concise (2-4 sentences), friendly, and action-oriented.
+        Use emojis sparingly but appropriately (🎉, 💝, ✨, 🎂, etc.)
+        """
+        
+        # Add context if available
+        page_context = context.get('context', '')
+        if page_context == 'creating_invitation':
+            system_prompt += "\n\nThe user is currently on the invitation creation page."
+        elif page_context == 'viewing_dashboard':
+            system_prompt += "\n\nThe user is currently viewing their dashboard with their invitations."
+        elif page_context == 'landing_page':
+            system_prompt += "\n\nThe user is on the landing page exploring PhoVite."
+        
+        # Try to use Gemini API
+        try:
+            model = genai.GenerativeModel('gemini-2.5-flash')
+            response = model.generate_content(f"{system_prompt}\n\nUser Question: {user_message}")
+            ai_response = response.text.strip()
+            
+            logging.info(f"AI Assistant response: {ai_response[:100]}...")
+            
+            return jsonify({
+                "success": True,
+                "response": ai_response
+            })
+            
+        except Exception as api_error:
+            logging.warning(f"Gemini API error: {str(api_error)}. Using fallback responses.")
+            
+            # Fallback responses for common questions
+            fallback_responses = {
+                'create': "To create an invitation: 1) Click 'Create' in the menu 2) Choose your event type (Birthday, Wedding, etc.) 3) Select a vibe that matches your style 4) Upload a photo and fill in details 5) Let our AI generate your beautiful invitation! ✨",
+                'vibe': "Choose a vibe that matches your event's mood! For elegant events, try Royal Elegance or Classic White. For fun parties, Neon Party or Disco Lights work great. For romantic occasions, Floral Romance is perfect! 💝",
+                'tips': "Make your invitation memorable by: 1) Using high-quality photos 2) Writing a personal message 3) Choosing a vibe that reflects the event's atmosphere 4) Adding voice messages for extra personality 5) Sharing the unique link with guests! 🎉",
+                'help': "I can help you with creating invitations, choosing vibes, RSVP management, and using all PhoVite features. What would you like to know more about?",
+                'features': "PhoVite offers: ✨ AI-generated backgrounds, 📸 Photo integration, 🎨 Multiple theme options, 📍 Location mapping, 🎵 Voice messages, 📊 RSVP tracking, and 🔗 Easy sharing!",
+            }
+            
+            # Simple keyword matching for fallback
+            message_lower = user_message.lower()
+            if 'create' in message_lower or 'how' in message_lower:
+                response_text = fallback_responses['create']
+            elif 'vibe' in message_lower or 'theme' in message_lower or 'style' in message_lower:
+                response_text = fallback_responses['vibe']
+            elif 'tip' in message_lower or 'advice' in message_lower or 'suggest' in message_lower:
+                response_text = fallback_responses['tips']
+            elif 'feature' in message_lower or 'can' in message_lower:
+                response_text = fallback_responses['features']
+            else:
+                response_text = fallback_responses['help']
+            
+            return jsonify({
+                "success": True,
+                "response": response_text
+            })
+        
+    except Exception as e:
+        logging.error(f"Error in assistant chat: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "Sorry, I encountered an error. Please try again!"
+        }), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
 
