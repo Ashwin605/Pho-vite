@@ -99,6 +99,10 @@
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
 }
 
 /* Improved mobile scrolling */
@@ -160,18 +164,19 @@ html {
 
 /* Animations */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translate3d(0, 20px, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
 .glass-button {
@@ -292,10 +297,13 @@ html {
 
 /* Pulse Animation for Notifications */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.05);
@@ -312,6 +320,7 @@ html {
     opacity: 0;
     transform: translateX(100px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -328,6 +337,7 @@ html {
     opacity: 0;
     transform: scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -362,15 +372,18 @@ html {
 
 /* Neon Border Animation */
 @keyframes neon-border {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px rgba(168, 85, 247, 0.5),
-                0 0 10px rgba(168, 85, 247, 0.5),
-                0 0 15px rgba(168, 85, 247, 0.5);
+      0 0 10px rgba(168, 85, 247, 0.5),
+      0 0 15px rgba(168, 85, 247, 0.5);
   }
+
   50% {
     box-shadow: 0 0 10px rgba(168, 85, 247, 0.8),
-                0 0 20px rgba(168, 85, 247, 0.8),
-                0 0 30px rgba(168, 85, 247, 0.8);
+      0 0 20px rgba(168, 85, 247, 0.8),
+      0 0 30px rgba(168, 85, 247, 0.8);
   }
 }
 
@@ -491,4 +504,100 @@ html {
   background: rgba(239, 68, 68, 0.2);
   border: 1px solid rgba(239, 68, 68, 0.4);
   color: #fca5a5;
+}
+
+/* =========================================
+   📱 GLOBAL RESPONSIVE ENHANCEMENTS
+   ========================================= */
+
+/* Responsive Typography */
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Responsive Images & Media */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Touch Targets for Mobile */
+@media (max-width: 640px) {
+
+  button,
+  a.btn,
+  input[type="submit"],
+  input[type="button"],
+  select {
+    min-height: 44px;
+    /* Apple's recommended minimum touch target */
+  }
+
+  /* Improve form inputs on mobile */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    /* Prevents iOS zoom on focus */
+  }
+
+  /* Adjust glass cards padding on small screens */
+  .glass-card {
+    padding: 1rem !important;
+  }
+
+  /* Full width buttons on mobile */
+  .glass-button,
+  .modern-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Safe Area Support for Navbar */
+nav {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Container Adjustments */
+.container {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
 }
