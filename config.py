@@ -7,8 +7,8 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
     
     # Google OAuth
-    HARDCODED_CLIENT_ID = '413486107880-j063qhbqbpjuhmrsqjve8dceo3i7jrs9.apps.googleusercontent.com'
-    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', HARDCODED_CLIENT_ID).strip()
+    # Google OAuth
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '').strip()
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
     
     # Jamendo
