@@ -58,7 +58,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 glass-enhanced border-b border-purple-500/20">
         <div class="container mx-auto px-4 md:px-6 py-4">
             <div class="flex items-center justify-between">
-                <a href="/" class="flex items-center space-x-3 group">
+                <a href="{{ url_for('main.index') }}" class="flex items-center space-x-3 group">
                     <div
                         class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-600 via-pink-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                         <i data-lucide="sparkles" class="text-white w-5 h-5 md:w-6 md:h-6"></i>
@@ -69,29 +69,29 @@
 
                 <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     {% if current_user.is_authenticated %}
-                    <a href="/create"
+                    <a href="{{ url_for('dashboard.create') }}"
                         class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="plus-circle" class="w-4 h-4"></i>
                         Create
                     </a>
-                    <a href="/dashboard"
+                    <a href="{{ url_for('dashboard.dashboard') }}"
                         class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                         Dashboard
                     </a>
-                    <a href="/tutorial"
+                    <a href="{{ url_for('main.tutorial') }}"
                         class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="book-open" class="w-4 h-4"></i>
                         Tutorial
                     </a>
                     {% if current_user.is_admin %}
-                    <a href="/admin/dashboard"
+                    <a href="{{ url_for('admin.admin_dashboard') }}"
                         class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="shield" class="w-4 h-4"></i>
                         Admin
                     </a>
                     {% endif %}
-                    <a href="/logout"
+                    <a href="{{ url_for('auth.logout') }}"
                         class="text-gray-300 hover:text-red-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                         Logout
@@ -110,12 +110,12 @@
                         </div>
                     </div>
                     {% else %}
-                    <a href="/login"
+                    <a href="{{ url_for('auth.login') }}"
                         class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         Login
                     </a>
-                    <a href="/signup"
+                    <a href="{{ url_for('auth.signup') }}"
                         class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 flex items-center gap-2">
                         <i data-lucide="user-plus" class="w-4 h-4"></i>
                         Sign Up
@@ -132,35 +132,35 @@
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3">
                 {% if current_user.is_authenticated %}
-                <a href="/create"
+                <a href="{{ url_for('dashboard.create') }}"
                     class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                     Create
                 </a>
-                <a href="/dashboard"
+                <a href="{{ url_for('dashboard.dashboard') }}"
                     class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     Dashboard
                 </a>
                 {% if current_user.is_admin %}
-                <a href="/admin/dashboard"
+                <a href="{{ url_for('admin.admin_dashboard') }}"
                     class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="shield" class="w-4 h-4"></i>
                     Admin
                 </a>
                 {% endif %}
-                <a href="/logout"
+                <a href="{{ url_for('auth.logout') }}"
                     class="block text-gray-300 hover:text-red-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                     Logout
                 </a>
                 {% else %}
-                <a href="/login"
+                <a href="{{ url_for('auth.login') }}"
                     class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="log-in" class="w-4 h-4"></i>
                     Login
                 </a>
-                <a href="/signup"
+                <a href="{{ url_for('auth.signup') }}"
                     class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="user-plus" class="w-4 h-4"></i>
                     Sign Up
@@ -228,28 +228,38 @@
                 <div>
                     <h4 class="text-white font-bold mb-6">Product</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
-                        <li><a href="/#features" class="hover:text-brand-400 transition">Features</a></li>
-                        <li><a href="/dashboard" class="hover:text-brand-400 transition">Dashboard</a></li>
-                        <li><a href="/#generator" class="hover:text-brand-400 transition">Try Now</a></li>
+                        <li><a href="{{ url_for('main.index') }}#features"
+                                class="hover:text-brand-400 transition">Features</a></li>
+                        <li><a href="{{ url_for('dashboard.dashboard') }}"
+                                class="hover:text-brand-400 transition">Dashboard</a></li>
+                        <li><a href="{{ url_for('main.index') }}#generator" class="hover:text-brand-400 transition">Try
+                                Now</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Resources</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
-                        <li><a href="/about" class="hover:text-brand-400 transition">About PhoVite</a></li>
-                        <li><a href="/tutorial" class="hover:text-brand-400 transition">Tutorial</a></li>
-                        <li><a href="/help" class="hover:text-brand-400 transition">Help Center</a></li>
-                        <li><a href="/contact" class="hover:text-brand-400 transition">Contact Us</a></li>
+                        <li><a href="{{ url_for('main.about') }}" class="hover:text-brand-400 transition">About
+                                PhoVite</a></li>
+                        <li><a href="{{ url_for('main.tutorial') }}"
+                                class="hover:text-brand-400 transition">Tutorial</a></li>
+                        <li><a href="{{ url_for('main.help_center') }}" class="hover:text-brand-400 transition">Help
+                                Center</a></li>
+                        <li><a href="{{ url_for('main.contact') }}" class="hover:text-brand-400 transition">Contact
+                                Us</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Legal</h4>
                     <ul class="space-y-4 text-sm text-gray-400">
-                        <li><a href="/terms" class="hover:text-brand-400 transition">Terms of Service</a></li>
-                        <li><a href="/privacy" class="hover:text-brand-400 transition">Privacy Policy</a></li>
-                        <li><a href="/contact" class="hover:text-brand-400 transition">Support</a></li>
+                        <li><a href="{{ url_for('main.terms') }}" class="hover:text-brand-400 transition">Terms of
+                                Service</a></li>
+                        <li><a href="{{ url_for('main.privacy') }}" class="hover:text-brand-400 transition">Privacy
+                                Policy</a></li>
+                        <li><a href="{{ url_for('main.contact') }}" class="hover:text-brand-400 transition">Support</a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -16,7 +16,7 @@
         </div>
 
         <!-- Google Login Button -->
-        <a href="{{ url_for('google_login') }}"
+        <a href="{{ url_for('auth.google_login') }}"
             class="w-full bg-white text-slate-900 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-100 transition mb-6 shadow-lg">
             <svg class="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -41,7 +41,7 @@
             <div class="flex-grow border-t border-gray-700"></div>
         </div>
 
-        <form method="POST" action="/login">
+        <form method="POST" action="{{ url_for('auth.login') }}">
             <div class="mb-5">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
                 <input type="email" name="email" required
@@ -63,7 +63,8 @@
         </form>
 
         <p class="mt-6 text-center text-gray-400 text-sm">
-            Don't have an account? <a href="/signup" class="text-brand-400 hover:text-brand-300 font-medium">Sign up</a>
+            Don't have an account? <a href="{{ url_for('auth.signup') }}"
+                class="text-brand-400 hover:text-brand-300 font-medium">Sign up</a>
         </p>
     </div>
 </div>
