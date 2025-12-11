@@ -26,6 +26,9 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
     oauth.init_app(app)
+    from extensions import compress, mail
+    compress.init_app(app)
+    mail.init_app(app)
     
     # Configure Google OAuth
     oauth.register(
@@ -59,10 +62,19 @@ def create_app():
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(api_bp)
     
-    # User Loader
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+    # Custom Unauthorized Handler (JSON for API, Redirect for Web)
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        from flask import request, redirect, flash, url_for, jsonify
+        if request.path.startswith('/api/'):
+            return jsonify({"success": False, "error": "Unauthorized"}), 401
+        
+        flash('Please log in to access this page.', 'error')
+        return redirect(url_for('auth.login', next=request.url))
     
     # Database Creation & Migration
     with app.app_context():
@@ -70,7 +82,7 @@ def create_app():
         run_migrations(app)
         
     return app
-
+    
 def run_migrations(app):
     """Run simple database migrations"""
     try:
@@ -80,7 +92,7 @@ def run_migrations(app):
         # Check if user table exists and if is_admin column exists
         if 'user' in inspector.get_table_names():
             columns = [col['name'] for col in inspector.get_columns('user')]
-            
+
             if 'is_admin' not in columns:
                 logging.info("Adding is_admin column to user table...")
                 with db.engine.begin() as conn:

@@ -264,7 +264,7 @@
                         <label class="block text-xs font-semibold text-gray-400 mb-2">Venue/Location
                             <span class="text-red-400">*</span>
                         </label>
-                        <input type="text" id="eventVenue" placeholder="Enter a invitation message" required
+                        <input type="text" id="eventVenue" placeholder="Enter location of venue" required
                             class="w-full glass-input rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition outline-none bg-slate-800/50">
                     </div>
 
@@ -273,8 +273,7 @@
                         <label class="block text-xs font-semibold text-gray-400 mb-2">Invitation Message
                             <span class="text-gray-500">(Optional)</span>
                         </label>
-                        <textarea id="eventMessage" rows="3"
-                            placeholder="type here...."
+                        <textarea id="eventMessage" rows="3" placeholder="type here...."
                             class="w-full glass-input rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition resize-none outline-none bg-slate-800/50"></textarea>
                     </div>
                 </div>
@@ -376,31 +375,83 @@
                         <!-- Live Editor Controls (Visible on Hover/Edit) -->
                         <div id="liveEditorControls"
                             class="absolute top-4 right-4 z-30 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity items-end">
-                            <button onclick="toggleEditMode()"
-                                class="glass-button bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg text-xs flex items-center gap-1">
+                            <button id="editTextBtn" onclick="toggleEditMode()"
+                                class="glass-button bg-black/50 hover:bg-black/70 text-white px-3 py-2 rounded-lg text-xs flex items-center gap-2 shadow-lg">
                                 <i data-lucide="edit-3" class="w-4 h-4"></i> Edit Text
                             </button>
 
                             <!-- Font & Color Controls (Hidden by default, shown in edit mode) -->
-                            <div id="styleControls" class="hidden flex-col gap-2">
-                                <div class="glass p-2 rounded-lg flex gap-1">
-                                    <button onclick="changeFont('font-display')" class="p-1 hover:bg-white/10 rounded"
-                                        title="Modern"><span class="font-display">Aa</span></button>
-                                    <button onclick="changeFont('font-serif')"
-                                        class="p-1 hover:bg-white/10 rounded font-serif" title="Classic">Aa</button>
-                                    <button onclick="changeFont('font-mono')"
-                                        class="p-1 hover:bg-white/10 rounded font-mono" title="Minimal">Aa</button>
+                            <div id="styleControls"
+                                class="hidden flex-col gap-3 glass rounded-xl p-4 border border-white/20 shadow-xl min-w-[200px]">
+
+                                <!-- Font Style Section -->
+                                <div>
+                                    <p class="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wide">Font
+                                        Style</p>
+                                    <div class="flex gap-1 flex-wrap">
+                                        <button onclick="changeFont('font-sans')"
+                                            class="px-2 py-1 text-sm hover:bg-white/20 rounded bg-white/10 text-white"
+                                            title="Sans Serif">Sans</button>
+                                        <button onclick="changeFont('font-serif')"
+                                            class="px-2 py-1 text-sm hover:bg-white/20 rounded text-white font-serif"
+                                            title="Serif">Serif</button>
+                                        <button onclick="changeFont('font-mono')"
+                                            class="px-2 py-1 text-sm hover:bg-white/20 rounded text-white font-mono"
+                                            title="Mono">Mono</button>
+                                        <button onclick="changeFont('font-display')"
+                                            class="px-2 py-1 text-sm hover:bg-white/20 rounded text-white"
+                                            title="Display"
+                                            style="font-family: 'Playfair Display', serif;">Fancy</button>
+                                    </div>
                                 </div>
-                                <div class="glass p-2 rounded-lg flex gap-1">
-                                    <button onclick="changeColor('text-white')"
-                                        class="w-6 h-6 rounded-full bg-white border border-gray-400"
-                                        title="White"></button>
-                                    <button onclick="changeColor('text-black')"
-                                        class="w-6 h-6 rounded-full bg-black border border-white"
-                                        title="Black"></button>
-                                    <button onclick="changeColor('text-yellow-400')"
-                                        class="w-6 h-6 rounded-full bg-yellow-400 border border-white"
-                                        title="Gold"></button>
+
+                                <!-- Font Color Section -->
+                                <div>
+                                    <p class="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wide">Text
+                                        Color</p>
+                                    <div class="flex gap-2 flex-wrap">
+                                        <button onclick="changeColor('#ffffff')"
+                                            class="w-7 h-7 rounded-full bg-white border-2 border-gray-300 hover:scale-110 transition"
+                                            title="White"></button>
+                                        <button onclick="changeColor('#000000')"
+                                            class="w-7 h-7 rounded-full bg-black border-2 border-white hover:scale-110 transition"
+                                            title="Black"></button>
+                                        <button onclick="changeColor('#fbbf24')"
+                                            class="w-7 h-7 rounded-full bg-yellow-400 border-2 border-white hover:scale-110 transition"
+                                            title="Gold"></button>
+                                        <button onclick="changeColor('#f472b6')"
+                                            class="w-7 h-7 rounded-full bg-pink-400 border-2 border-white hover:scale-110 transition"
+                                            title="Pink"></button>
+                                        <button onclick="changeColor('#a78bfa')"
+                                            class="w-7 h-7 rounded-full bg-purple-400 border-2 border-white hover:scale-110 transition"
+                                            title="Purple"></button>
+                                        <button onclick="changeColor('#60a5fa')"
+                                            class="w-7 h-7 rounded-full bg-blue-400 border-2 border-white hover:scale-110 transition"
+                                            title="Blue"></button>
+                                        <button onclick="changeColor('#4ade80')"
+                                            class="w-7 h-7 rounded-full bg-green-400 border-2 border-white hover:scale-110 transition"
+                                            title="Green"></button>
+                                        <button onclick="changeColor('#fb923c')"
+                                            class="w-7 h-7 rounded-full bg-orange-400 border-2 border-white hover:scale-110 transition"
+                                            title="Orange"></button>
+                                    </div>
+                                </div>
+
+                                <!-- Font Size Slider -->
+                                <div>
+                                    <p class="text-xs text-gray-400 mb-2 font-semibold uppercase tracking-wide">Title
+                                        Size: <span id="fontSizeValue">100</span>%</p>
+                                    <input type="range" id="fontSizeSlider" min="50" max="150" value="100"
+                                        class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                                        oninput="changeFontSize(this.value)">
+                                </div>
+
+                                <!-- Text Shadow Toggle -->
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="textShadowToggle" checked
+                                        onchange="toggleTextShadow(this.checked)"
+                                        class="w-4 h-4 accent-purple-500 rounded">
+                                    <label for="textShadowToggle" class="text-xs text-gray-300">Text Shadow</label>
                                 </div>
                             </div>
                         </div>
@@ -412,8 +463,21 @@
                                 style="display: none;" alt="Generated invitation" />
 
                             <!-- Text-only overlay (Photos are composited in background, not in overlay) -->
-                            <div class="absolute inset-0 flex flex-col justify-center items-center p-4 md:p-8 lg:p-12 text-center z-10 transition-all"
+                            <div class="absolute inset-0 flex flex-col justify-start items-center p-4 md:p-8 lg:p-12 pt-16 md:pt-24 text-center z-10 transition-all"
                                 id="textOverlay">
+
+                                <!-- User Photo Container -->
+                                <div id="userPhotoContainer" class="mb-4 hidden">
+                                    <div class="relative inline-block">
+                                        <img id="userPhotoOverlay"
+                                            class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white/80 shadow-2xl ring-4 ring-purple-500/50"
+                                            alt="Celebrant photo" />
+                                        <div
+                                            class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1 rounded-full text-xs font-semibold text-white shadow-lg">
+                                            ✨ Guest of Honor
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <!-- Family Name at Top -->
                                 <div id="familyNameContainer" class="mb-6">
@@ -767,6 +831,179 @@
             transform: rotate(360deg);
         }
     }
+
+
+    /* Custom Range Slider */
+    input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(to right, #6b21a8, #a855f7);
+        border-radius: 4px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+        margin-top: -6px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.15s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+    }
+
+    input[type="range"]::-moz-range-track {
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(to right, #6b21a8, #a855f7);
+        border-radius: 4px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Editable text styling */
+    [contenteditable="true"] {
+        cursor: text;
+        outline: none;
+        position: relative;
+        z-index: 50;
+        /* Ensure it's on top when editing */
+    }
+
+    [contenteditable="true"]:focus {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+    }
 </style>
+
+<script>
+    // Direct implementation of Text Editing functions to ensure availability
+    console.log('Text Editor Script Loaded');
+
+    let isEditModeGlobal = false;
+
+    function toggleEditMode() {
+        console.log('toggleEditMode (inline) called');
+        const styleControls = document.getElementById('styleControls');
+        const editBtn = document.getElementById('editTextBtn');
+        const cardTitle = document.getElementById('cardTitle');
+        const cardBody = document.getElementById('cardBody');
+
+        if (!cardTitle || !cardBody) {
+            console.error('Text elements not found');
+            return;
+        }
+
+        isEditModeGlobal = !isEditModeGlobal;
+
+        if (isEditModeGlobal) {
+            // Enter Edit Mode
+            cardTitle.contentEditable = "true";
+            cardBody.contentEditable = "true";
+
+            // Focus
+            cardTitle.focus();
+
+            // Show controls
+            styleControls.classList.remove('hidden');
+            styleControls.classList.add('flex');
+
+            // Button state
+            if (editBtn) {
+                editBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Done';
+                editBtn.classList.remove('bg-black/50', 'hover:bg-black/70');
+                editBtn.classList.add('bg-green-500/70', 'hover:bg-green-600');
+            }
+
+            // Visuals
+            cardTitle.classList.add('ring-2', 'ring-purple-500/50', 'bg-black/20');
+            cardBody.classList.add('ring-2', 'ring-purple-500/50', 'bg-black/20');
+
+        } else {
+            // Exit Edit Mode
+            cardTitle.contentEditable = "false";
+            cardBody.contentEditable = "false";
+
+            // Hide controls
+            styleControls.classList.add('hidden');
+            styleControls.classList.remove('flex');
+
+            // Button state
+            if (editBtn) {
+                editBtn.innerHTML = '<i data-lucide="edit-3" class="w-4 h-4"></i> Edit Text';
+                editBtn.classList.add('bg-black/50', 'hover:bg-black/70');
+                editBtn.classList.remove('bg-green-500/70', 'hover:bg-green-600');
+            }
+
+            // Visuals
+            cardTitle.classList.remove('ring-2', 'ring-purple-500/50', 'bg-black/20');
+            cardBody.classList.remove('ring-2', 'ring-purple-500/50', 'bg-black/20');
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function changeFont(fontClass) {
+        const cardTitle = document.getElementById('cardTitle');
+        const cardBody = document.getElementById('cardBody');
+        if (!cardTitle || !cardBody) return;
+
+        const fontClasses = ['font-sans', 'font-serif', 'font-mono', 'font-display'];
+        fontClasses.forEach(fc => {
+            cardTitle.classList.remove(fc);
+            cardBody.classList.remove(fc);
+        });
+
+        cardTitle.classList.add(fontClass);
+        cardBody.classList.add(fontClass);
+    }
+
+    function changeColor(hexColor) {
+        const elements = ['cardTitle', 'cardBody', 'dateText', 'timeText', 'venueText', 'familyNameText'];
+        elements.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.color = hexColor;
+        });
+    }
+
+    function changeFontSize(val) {
+        const cardTitle = document.getElementById('cardTitle');
+        const display = document.getElementById('fontSizeValue');
+        if (cardTitle) {
+            const scale = val / 100;
+            cardTitle.style.transform = `scale(${scale})`;
+            cardTitle.style.transformOrigin = 'center';
+        }
+        if (display) display.textContent = val;
+    }
+
+    function toggleTextShadow(enable) {
+        const shadow = enable ? '0 4px 20px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.6)' : 'none';
+        const elements = ['cardTitle', 'cardBody', 'dateText', 'timeText', 'venueText', 'familyNameText'];
+        elements.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.textShadow = shadow;
+        });
+    }
+</script>
 
 {% endblock %}

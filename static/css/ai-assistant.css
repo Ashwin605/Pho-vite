@@ -4,64 +4,98 @@
  */
 
 /* Floating Assistant Button */
+/* Floating Assistant Button */
 .ai-assistant-trigger {
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
-    border: none;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 32px rgba(168, 85, 247, 0.4);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(168, 85, 247, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 9999;
     color: white;
-    overflow: hidden;
     -webkit-tap-highlight-color: transparent;
 }
 
+/* Inner Gradient Circle */
+.ai-assistant-trigger::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #db2777);
+    z-index: -1;
+    box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.3);
+    transition: transform 0.4s ease;
+}
+
+/* Rotating Glow Ring */
+.ai-assistant-trigger::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(from 180deg, transparent 50%, #c084fc, #f472b6, transparent);
+    z-index: -2;
+    animation: rotate-ring 3s linear infinite;
+    opacity: 0.7;
+    filter: blur(8px);
+}
+
+@keyframes rotate-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .ai-assistant-trigger:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+        0 30px 60px rgba(168, 85, 247, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.ai-assistant-trigger:hover::before {
     transform: scale(1.1);
-    box-shadow: 0 12px 48px rgba(168, 85, 247, 0.6);
 }
 
 .ai-assistant-trigger.active {
-    transform: scale(0.9);
+    transform: scale(0.95);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .ai-assistant-trigger svg {
     position: relative;
     z-index: 2;
+    width: 28px;
+    height: 28px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: transform 0.4s ease;
+}
+
+.ai-assistant-trigger:hover svg {
+    transform: rotate(15deg) scale(1.1);
 }
 
 .ai-glow {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
-    opacity: 0.6;
-    filter: blur(20px);
-    animation: pulse-glow 3s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.6;
-    }
-
-    50% {
-        transform: scale(1.2);
-        opacity: 0.8;
-    }
+    display: none;
+    /* Replaced by pseudo-elements */
 }
 
 /* Notification Badge */
@@ -154,6 +188,12 @@
     gap: 12px;
 }
 
+.ai-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .ai-avatar {
     width: 40px;
     height: 40px;
@@ -236,6 +276,7 @@
     }
 }
 
+.ai-icon-btn,
 .ai-close-btn {
     width: 32px;
     height: 32px;
@@ -250,11 +291,23 @@
     transition: all 0.2s;
 }
 
+.ai-icon-btn:hover,
+.ai-close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
 .ai-close-btn:hover {
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.3);
     color: #ef4444;
     transform: rotate(90deg);
+}
+
+.ai-icon-btn.active {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.4);
+    color: #c084fc;
 }
 
 /* Messages Container */
@@ -464,6 +517,64 @@
     padding: 20px 24px;
     background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: flex-end;
+    /* Align bottom for multiline textarea */
+}
+
+.ai-mic-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-mic-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.ai-mic-btn.listening {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+}
+
+.mic-wave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(239, 68, 68, 0.2);
+    border-radius: 50%;
+    animation: mic-pulse 1.5s infinite;
+}
+
+@keyframes mic-pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
 }
 
 .ai-input {
@@ -479,6 +590,7 @@
     outline: none;
     transition: all 0.2s;
     max-height: 120px;
+    line-height: 1.5;
 }
 
 .ai-input:focus {

@@ -197,6 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 eventSpecificData.celebrantName = state.celebrantName;
                 eventSpecificData.celebrantPhoto = await fileToBase64(celebrantPhotoFile);
+                // Store photo URL for display in overlay
+                state.userPhotoUrl = eventSpecificData.celebrantPhoto;
+                console.log('Birthday photo stored:', state.userPhotoUrl ? state.userPhotoUrl.substring(0, 50) + '...' : null);
                 break;
 
             case 'Wedding':
@@ -226,6 +229,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 eventSpecificData.groomName = groomName;
                 eventSpecificData.bridePhoto = await fileToBase64(bridePhotoFile);
                 eventSpecificData.groomPhoto = await fileToBase64(groomPhotoFile);
+                // Store photos for display in overlay
+                state.userPhotoUrl = eventSpecificData.bridePhoto;
+                state.secondaryPhotoUrl = eventSpecificData.groomPhoto;
                 state.celebrantName = `${brideName} & ${groomName}`;
                 break;
 
@@ -241,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 eventSpecificData.coupleNames = coupleNames;
                 if (couplePhotoFile) {
                     eventSpecificData.couplePhoto = await fileToBase64(couplePhotoFile);
+                    // Store photo for display in overlay
+                    state.userPhotoUrl = eventSpecificData.couplePhoto;
                 }
                 state.celebrantName = coupleNames;
                 break;
@@ -397,9 +405,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show result section
         resultSection.classList.remove('hidden');
 
-        // Set background image
+        // Set background image with error handling
+        generatedImage.onerror = function () {
+            console.log('Image failed to load, using gradient fallback');
+            // Set a beautiful gradient fallback
+            this.style.display = 'none';
+            const imageContainer = this.parentElement;
+            if (imageContainer) {
+                imageContainer.style.background = 'linear-gradient(135deg, #1a0033 0%, #2d0050 25%, #4a0080 50%, #2d0050 75%, #1a0033 100%)';
+            }
+        };
+
+        generatedImage.onload = function () {
+            console.log('Image loaded successfully');
+            this.style.display = 'block';
+            skeletonLoader.style.display = 'none';
+        };
+
         generatedImage.src = imageUrl;
-        generatedImage.style.display = 'block';
         skeletonLoader.style.display = 'none';
 
         // Elements to animate
@@ -457,6 +480,41 @@ document.addEventListener('DOMContentLoaded', () => {
             resultSection.dataset.invitationId = state.invitation_id;
         }
 
+        // Display user photo overlay if available
+        const userPhotoContainer = document.getElementById('userPhotoContainer');
+        const userPhotoOverlay = document.getElementById('userPhotoOverlay');
+
+        console.log('Photo display check:', {
+            hasContainer: !!userPhotoContainer,
+            hasOverlay: !!userPhotoOverlay,
+            hasPhotoUrl: !!state.userPhotoUrl,
+            photoUrl: state.userPhotoUrl ? state.userPhotoUrl.substring(0, 50) + '...' : null
+        });
+
+        if (userPhotoContainer && userPhotoOverlay && state.userPhotoUrl) {
+            console.log('Displaying user photo in overlay');
+            userPhotoOverlay.src = state.userPhotoUrl;
+            userPhotoContainer.classList.remove('hidden');
+            userPhotoContainer.style.display = 'block'; // Force display
+
+            // Add animation
+            if (animate) {
+                userPhotoContainer.style.opacity = '0';
+                userPhotoContainer.style.transform = 'scale(0.5)';
+                userPhotoContainer.style.transition = 'all 0.6s ease-out';
+
+                setTimeout(() => {
+                    userPhotoContainer.style.opacity = '1';
+                    userPhotoContainer.style.transform = 'scale(1)';
+                }, 200);
+            } else {
+                userPhotoContainer.style.opacity = '1';
+                userPhotoContainer.style.transform = 'scale(1)';
+            }
+        } else {
+            console.log('Photo not displayed - missing requirements');
+        }
+
         // Reinitialize Lucide icons
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
@@ -477,6 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+
 
     // Audio Preview Logic
     window.previewAudio = function (musicKey, btn) {
@@ -1117,4 +1177,166 @@ document.getElementById('musicModal')?.addEventListener('click', function (e) {
 if (typeof lucide !== 'undefined') {
     lucide.createIcons();
 }
+
+// --- TEXT EDITING FUNCTIONS (GLOBAL) ---
+
+// State for edit mode
+let isEditMode = false;
+
+// Toggle Edit Mode
+window.toggleEditMode = function () {
+    console.log('toggleEditMode called');
+    const styleControls = document.getElementById('styleControls');
+    const editBtn = document.getElementById('editTextBtn');
+    const cardTitle = document.getElementById('cardTitle');
+    const cardBody = document.getElementById('cardBody');
+
+    if (!cardTitle || !cardBody) {
+        console.error('Text elements not found for editing');
+        return;
+    }
+
+    isEditMode = !isEditMode;
+    console.log('Edit mode:', isEditMode);
+
+    if (isEditMode) {
+        // Enter Edit Mode
+        cardTitle.contentEditable = true;
+        cardBody.contentEditable = true;
+
+        // Make all editable text elements focusable
+        cardTitle.focus();
+
+        // Show style controls
+        if (styleControls) {
+            styleControls.classList.remove('hidden');
+            styleControls.classList.add('flex');
+        }
+
+        // Update button appearance
+        if (editBtn) {
+            editBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Done';
+            editBtn.classList.remove('bg-black/50', 'hover:bg-black/70');
+            editBtn.classList.add('bg-green-500/70', 'hover:bg-green-600');
+        }
+
+        // Add editing visual feedback
+        cardTitle.classList.add('ring-2', 'ring-purple-500/50', 'bg-black/20');
+        cardBody.classList.add('ring-2', 'ring-purple-500/50', 'bg-black/20');
+
+    } else {
+        // Exit Edit Mode
+        cardTitle.contentEditable = false;
+        cardBody.contentEditable = false;
+
+        // Hide style controls
+        if (styleControls) {
+            styleControls.classList.add('hidden');
+            styleControls.classList.remove('flex');
+        }
+
+        // Update button appearance
+        if (editBtn) {
+            editBtn.innerHTML = '<i data-lucide="edit-3" class="w-4 h-4"></i> Edit Text';
+            editBtn.classList.add('bg-black/50', 'hover:bg-black/70');
+            editBtn.classList.remove('bg-green-500/70', 'hover:bg-green-600');
+        }
+
+        // Remove editing visual feedback
+        cardTitle.classList.remove('ring-2', 'ring-purple-500/50', 'bg-black/20');
+        cardBody.classList.remove('ring-2', 'ring-purple-500/50', 'bg-black/20');
+    }
+
+    // Reinitialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+};
+
+// Change Font Style
+window.changeFont = function (fontClass) {
+    const cardTitle = document.getElementById('cardTitle');
+    const cardBody = document.getElementById('cardBody');
+    if (!cardTitle || !cardBody) return;
+
+    const fontClasses = ['font-sans', 'font-serif', 'font-mono', 'font-display'];
+
+    // Remove existing font classes
+    fontClasses.forEach(fc => {
+        cardTitle.classList.remove(fc);
+        cardBody.classList.remove(fc);
+    });
+
+    // Add new font class
+    cardTitle.classList.add(fontClass);
+    cardBody.classList.add(fontClass);
+
+    console.log('Font changed to:', fontClass);
+};
+
+// Change Text Color (using hex values for direct styling)
+window.changeColor = function (hexColor) {
+    const cardTitle = document.getElementById('cardTitle');
+    const cardBody = document.getElementById('cardBody');
+
+    if (cardTitle) cardTitle.style.color = hexColor;
+    if (cardBody) cardBody.style.color = hexColor;
+
+    // Also update event details text
+    const dateText = document.getElementById('dateText');
+    const timeText = document.getElementById('timeText');
+    const venueText = document.getElementById('venueText');
+    const familyNameText = document.getElementById('familyNameText');
+
+    if (dateText) dateText.style.color = hexColor;
+    if (timeText) timeText.style.color = hexColor;
+    if (venueText) venueText.style.color = hexColor;
+    if (familyNameText) familyNameText.style.color = hexColor;
+
+    console.log('Color changed to:', hexColor);
+};
+
+// Change Font Size (percentage-based scaling)
+window.changeFontSize = function (percentage) {
+    const cardTitle = document.getElementById('cardTitle');
+    if (!cardTitle) return;
+
+    const scale = percentage / 100;
+
+    // Update the display value
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    if (fontSizeValue) {
+        fontSizeValue.textContent = percentage;
+    }
+
+    // Apply transform scale to title (keeps it responsive)
+    cardTitle.style.transform = `scale(${scale})`;
+    cardTitle.style.transformOrigin = 'center';
+
+    console.log('Font size changed to:', percentage + '%');
+};
+
+// Toggle Text Shadow
+window.toggleTextShadow = function (enabled) {
+    const cardTitle = document.getElementById('cardTitle');
+    const cardBody = document.getElementById('cardBody');
+
+    const shadowStyle = enabled ? '0 4px 20px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.6)' : 'none';
+
+    if (cardTitle) cardTitle.style.textShadow = shadowStyle;
+    if (cardBody) cardBody.style.textShadow = shadowStyle;
+
+    // Update other text elements
+    const dateText = document.getElementById('dateText');
+    const timeText = document.getElementById('timeText');
+    const venueText = document.getElementById('venueText');
+    const familyNameText = document.getElementById('familyNameText');
+
+    if (dateText) dateText.style.textShadow = shadowStyle;
+    if (timeText) timeText.style.textShadow = shadowStyle;
+    if (venueText) venueText.style.textShadow = shadowStyle;
+    if (familyNameText) familyNameText.style.textShadow = shadowStyle;
+
+    console.log('Text shadow:', enabled ? 'enabled' : 'disabled');
+};
 
