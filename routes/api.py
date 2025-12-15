@@ -147,8 +147,6 @@ def refine_prompt():
         
         Based on the specific theme '{vibe}' for a {event_type}:
         
-        (Examples omitted for brevity but implied)
-        
         Make the border design description VERY SPECIFIC with 40-50 words.
         Include exact colors, textures, patterns, and ornamental details.
         
@@ -161,8 +159,6 @@ def refine_prompt():
         """
 
         # Use actual available models from your API key
-        model_names = ['gemini-2.5-flash', 'gemini-2.5-pro-preview-03-25']
-        
         model = genai.GenerativeModel('gemini-2.5-flash')
         response = model.generate_content(system_prompt + "\n\n" + user_prompt)
         
@@ -216,7 +212,6 @@ def generate_image():
         replicate_token = os.getenv('REPLICATE_API_TOKEN')
         
         if replicate_token and user_photo_url:
-            # Use InstantID for face swap/integration (requires Replicate)
             logging.info("Using InstantID via Replicate...")
             try:
                 output = replicate.run(
@@ -239,7 +234,6 @@ def generate_image():
                     output_url = str(output)
             except Exception as replicate_err:
                 logging.error(f"InstantID failed: {replicate_err}")
-                # Fallback to Pollinations.AI
                 output_url = ""
         
         # Use Pollinations.AI (free, no API key needed) as primary/fallback
@@ -254,22 +248,14 @@ def generate_image():
                 if len(clean_prompt) > 400:
                     clean_prompt = clean_prompt[:400] + "..."
                 
-                # Add style suffix for better results
                 clean_prompt = f"{clean_prompt}, elegant invitation design, high quality, vibrant colors"
                 
                 encoded_prompt = urllib.parse.quote(clean_prompt, safe='')
-                
-                # Generate a seed based on prompt for consistency
                 seed = int(hashlib.md5(image_prompt.encode()).hexdigest()[:8], 16) % 1000000
-                
-                # Pollinations.AI endpoint - generates image directly from URL
                 output_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1536&nologo=true&seed={seed}"
-                
-                logging.info(f"Pollinations.AI URL generated: {output_url[:150]}...")
                 
             except Exception as poll_err:
                 logging.error(f"Pollinations.AI failed: {poll_err}")
-                # Last resort fallback to Replicate Flux if available
                 if replicate_token:
                     try:
                         logging.info("Falling back to Flux Schnell...")
@@ -293,10 +279,8 @@ def generate_image():
                 else:
                     return jsonify({"success": False, "error": "Image generation failed. Please try again."}), 500
         
-        # Generate unique share link
         share_link = str(uuid.uuid4())[:8]
         
-        # Save to database
         invitation_id = None
         share_url = None
         try:
@@ -341,41 +325,44 @@ def generate_image():
 
 @api_bp.route('/assistant-chat', methods=['POST'])
 def assistant_chat():
-    """Handle AI Assistant chat requests"""
+    """Handle AI Assistant chat requests with Enhanced Memory and Actions"""
     try:
         data = request.json
         message = data.get('message')
         context = data.get('context', {})
+        history = data.get('history', [])  # Support for conversation history
         
         if not message:
             return jsonify({"success": False, "error": "No message provided"}), 400
             
-        logging.info(f"AI Assistant Chat: {message[:50]}... (Context: {context.get('context', 'unknown')})")
+        logging.info(f"AI Assistant Chat: {message[:50]}... (History: {len(history)} msgs)")
         
         # Construct system prompt based on context
         system_prompt = """
-        You are the PhoVite AI Assistant, a helpful and friendly expert on creating digital event invitations.
-        Your goal is to assist users in creating stunning invitations, navigating the platform, and answering questions about features.
+        You are the PhoVite AI Assistant, a highly advanced, empathetic, and intelligent creative partner.
+        Your goal is to assist users in creating stunning invitations, navigating the platform, and answering questions.
+        
+        You have control over the website's interface and can perform actions.
         
         Platform Features:
         - Create custom invitations with AI-generated designs (borders/frames)
         - Upload personal photos to integrate into designs
         - Track RSVPs and guest messages
         - Share invitations via a unique link
-        - Event types supported: Weddings, Birthdays, Parties, Corporate Events, Baby Showers, etc.
-        - Vibes/Styles: Neon, Royal, Minimal, Floral, Retro, etc.
+        - Event types: Weddings, Birthdays, Parties, Corporate Events, Baby Showers, etc.
+        - Vibes/Styles: Neon, Royal, Minimal, Floral, Retro, Cyberpunk, Watercolor, etc.
         
-        Tone: Friendly, enthusiastic, professional, and concise. Use emojis occasionally.
-        
-        Context Awareness:
+        Tone: Friendly, enthusiastic, professional, and concise. Use emojis effectively.
         """
         
         if context.get('context') == 'creating_invitation':
-            system_prompt += "\nThe user is currently on the creation page. You can help them fill out the form."
+            system_prompt += "\nThe user is currently on the creation page. You can actively help them fill out the form fields."
         elif context.get('context') == 'viewing_dashboard':
-            system_prompt += "\nThe user is on their dashboard. You can help them navigate to create a new invitation."
+            system_prompt += "\nThe user is on their dashboard. Help them manage invites or start new ones."
         elif context.get('context') == 'landing_page':
-            system_prompt += "\nThe user is on the home page. You can guide them to the creation page."
+            system_prompt += "\nThe user is on the home page. Guide them to 'Create Invitation'."
+            
+        system_prompt += f"\nCurrent Page URL: {context.get('url', 'unknown')}"
 
         system_prompt += """
         
@@ -385,56 +372,54 @@ def assistant_chat():
         {
             "response": "Your friendly text response here...",
             "action": {
-                "type": "navigate" | "fill_form" | "trigger_generate" | "none",
+                "type": "navigate" | "fill_form" | "trigger_generate" | "change_theme" | "copy_text" | "none",
                 "payload": {} 
             }
         }
         
-        Action specific payloads:
+        Available Actions:
         1. type: "navigate"
-           payload: { 
-               "url": "/create" | "/dashboard" | "/",
-               "prefill": { ... same as fill_form payload ... } (Optional)
-           }
-           Use this when the user is NOT on the correct page but has provided details. 
-           Example: User on Home says "Create birthday invite for John".
-           Action: Navigate to /create with prefill data for John/Birthday.
-           
+           payload: { "url": "/create" }
+           Use when user wants to go to a different page.
+
         2. type: "fill_form"
            payload: {
-               "eventType": "Birthday" | "Wedding" | "Party" | "Corporate" | "Anniversary" | "Baby Shower",
-               "celebrantName": "Name",
-               "eventDate": "YYYY-MM-DD",
-               "eventTime": "HH:MM",
-               "eventVenue": "Location",
-               "eventMessage": "Message",
-               "vibe": "Theme Name",
-               "companyName": "Company (for Corporate)",
-               "partyName": "Event Name (for Party)",
-               "babyName": "Baby Name",
-               "brideName": "Bride Name",
-               "groomName": "Groom Name"
+               "eventType": "...", "celebrantName": "...", "eventDate": "...", 
+               "eventTime": "...", "eventVenue": "...", "eventMessage": "...", 
+               "vibe": "..." 
            }
-           Use this ONLY when the user is ALREADY on the creation page.
+           Use when user provides event details. intelligently extract info.
            
         3. type: "trigger_generate"
            payload: {}
-           Use this when the user explicitly asks to "create", "generate", or "make" the invitation after providing details.
+           Use ONLY when user explicitly confirms they are ready to generate/create the final invitation.
            
-        4. type: "none"
-           payload: {}
-           Use this for general questions.
-           payload: {}
-           Use this when the user explicitly asks to "create", "generate", or "make" the invitation after providing details.
+        4. type: "change_theme"
+           payload: { "theme": "dark" | "light" }
+           Use when user asks to switch to dark mode, light mode, or "lights off".
            
-        4. type: "none"
+        5. type: "copy_text"
+           payload: { "text": "The text to copy" }
+           Use when generating hashtags, poems, or messages that the user might want to copy.
+           
+        6. type: "none"
            payload: {}
-           Use this for general questions.
+           For general conversation.
         """
+        
+        # Build conversation string for context
+        conversation_text = system_prompt + "\n\nConversation History:\n"
+        # Include last 10 messages
+        for msg in history[-10:]:
+            role = "User" if msg.get('role') == 'user' else "Assistant"
+            content = msg.get('content', '')
+            conversation_text += f"{role}: {content}\n"
+            
+        conversation_text += f"\nUser: {message}\nAssistant (JSON):"
 
         # Generate response using Gemini
         model = genai.GenerativeModel('gemini-2.5-flash')
-        response = model.generate_content(system_prompt + "\n\nUser Question: " + message)
+        response = model.generate_content(conversation_text)
         
         # Parse output
         import json
@@ -454,7 +439,7 @@ def assistant_chat():
         
         return jsonify({
             "success": True,
-            "response": ai_response['response'],
+            "response": ai_response.get('response', 'I am processing your request...'),
             "action": ai_response.get('action')
         })
 
@@ -479,12 +464,10 @@ def rsvp_submit():
         if not all([invitation_id, name]):
             return jsonify({"success": False, "error": "Missing required fields"}), 400
             
-        # Check if invitation exists
         invitation = Invitation.query.get(invitation_id)
         if not invitation:
             return jsonify({"success": False, "error": "Invitation not found"}), 404
             
-        # Create RSVP
         rsvp = RSVP(
             invitation_id=invitation_id,
             guest_name=name,
@@ -496,21 +479,16 @@ def rsvp_submit():
         db.session.add(rsvp)
         db.session.commit()
         
-        # 📧 Send Emails asynchronously
         try:
-            # 1. Notify Guest (Confirmation with Vibe Pass details)
             if email:
                 share_link = f"{request.url_root}invite/{invitation.share_link}"
                 EmailService.send_rsvp_confirmation(email, name, invitation.title, share_link)
                 
-            # 2. Notify Host (New registration)
-            # Find host email
             host = invitation.author
             if host and host.email:
                 EmailService.send_host_notification(host.email, name, message, invitation.title, status)
                 
         except Exception as mail_error:
-            # Don't fail the request if email fails, just log it
             logging.error(f"Failed to trigger emails: {mail_error}")
         
         return jsonify({

@@ -381,7 +381,8 @@ class PhoViteAssistant {
                 },
                 body: JSON.stringify({
                     message: message,
-                    context: this.getPageContext()
+                    context: this.getPageContext(),
+                    history: this.messages.map(m => ({ role: m.role, content: m.content })) // Send history
                 })
             });
 
@@ -426,6 +427,15 @@ class PhoViteAssistant {
             case 'trigger_generate':
                 this.handleGenerate();
                 break;
+            case 'change_theme':
+                this.handleChangeTheme(action.payload);
+                break;
+            case 'copy_text':
+                this.handleCopyText(action.payload);
+                break;
+            case 'none':
+                // Do nothing
+                break;
             default:
                 console.warn("Unknown action type:", action.type);
         }
@@ -441,6 +451,30 @@ class PhoViteAssistant {
             }, 800);
         } else {
             console.warn("Generate button not found");
+        }
+    }
+
+    handleChangeTheme(payload) {
+        const theme = payload.theme;
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark-mode'); // Fallback
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark-mode');
+        }
+    }
+
+    handleCopyText(payload) {
+        if (payload.text) {
+            navigator.clipboard.writeText(payload.text).then(() => {
+                this.addMessage({
+                    role: 'assistant',
+                    content: '✅ Copied to clipboard!'
+                });
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
         }
     }
 

@@ -7,45 +7,46 @@
 <section class="pt-16 md:pt-24 pb-12 md:pb-20 px-4 md:px-6 relative overflow-hidden">
   <!-- Animated Background Elements -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-20 left-10 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl animate-pulse"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+    <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-orange-200 rounded-full blur-3xl animate-pulse"
       style="animation-delay: 1s;"></div>
   </div>
 
   <div class="container mx-auto max-w-6xl relative z-10">
     <div class="text-center mb-12 md:mb-16">
       <div
-        class="inline-flex items-center space-x-2 bg-brand-500/10 border border-brand-500/20 rounded-full px-4 py-2 mb-6 backdrop-blur-md">
-        <span class="w-2 h-2 bg-brand-400 rounded-full animate-pulse"></span>
-        <span class="text-xs md:text-sm text-brand-300 font-medium">AI-Powered Photo Invitations</span>
+        class="inline-flex items-center space-x-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2 mb-6 backdrop-blur-md">
+        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+        <span class="text-xs md:text-sm text-blue-700 font-medium">AI-Powered Photo Invitations</span>
       </div>
 
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 md:mb-6 leading-tight px-4">
-        <span class="bg-gradient-to-r from-brand-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4 md:mb-6 leading-tight px-4 text-navy-900">
+        <span class="bg-gradient-to-r from-navy-900 via-blue-700 to-blue-500 bg-clip-text text-transparent">
           Turn Moments into
         </span>
         <br />
-        <span class="text-white">Unforgettable Invites</span>
+        <span class="text-navy-900">Unforgettable Invites</span>
       </h1>
 
-      <p class="text-base md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed px-4">
+      <p class="text-base md:text-xl text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed px-4">
         Upload a photo and let PhoVite's AI transform it into a stunning, professional event invitation. The perfect
         blend of personal touch and professional design.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:space-x-4 mb-8 md:mb-12 px-4">
-        <div class="flex items-center space-x-2 text-gray-400">
-          <i data-lucide="camera" class="text-brand-400 w-4 h-4 md:w-5 md:h-5"></i>
+        <div class="flex items-center space-x-2 text-slate-500">
+          <i data-lucide="camera" class="text-blue-600 w-4 h-4 md:w-5 md:h-5"></i>
           <span class="text-xs md:text-sm">Photo-First Design</span>
         </div>
-        <div class="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
-        <div class="flex items-center space-x-2 text-gray-400">
-          <i data-lucide="zap" class="text-brand-400 w-4 h-4 md:w-5 md:h-5"></i>
+        <div class="hidden sm:block w-1 h-1 bg-slate-400 rounded-full"></div>
+        <div class="flex items-center space-x-2 text-slate-500">
+          <i data-lucide="zap" class="text-orange-500 w-4 h-4 md:w-5 md:h-5"></i>
           <span class="text-xs md:text-sm">Instant AI Generation</span>
         </div>
-        <div class="hidden sm:block w-1 h-1 bg-gray-600 rounded-full"></div>
-        <div class="flex items-center space-x-2 text-gray-400">
-          <i data-lucide="sparkles" class="text-brand-400 w-4 h-4 md:w-5 md:h-5"></i>
+        <div class="hidden sm:block w-1 h-1 bg-slate-400 rounded-full"></div>
+        <div class="flex items-center space-x-2 text-slate-500">
+          <i data-lucide="sparkles" class="text-blue-600 w-4 h-4 md:w-5 md:h-5"></i>
           <span class="text-xs md:text-sm">Multiple Styles</span>
         </div>
       </div>
@@ -53,14 +54,14 @@
       <div class="flex justify-center px-4">
         {% if current_user.is_authenticated %}
         <a href="/create"
-          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-500/30 text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
-          <i data-lucide="sparkles" class="w-5 h-5"></i>
+          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/30 text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
           Create Invitation
         </a>
         {% else %}
         <a href="/signup"
-          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-brand-500/30 text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
-          <i data-lucide="rocket" class="w-5 h-5"></i>
+          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/30 text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
+          <i data-lucide="rocket" class="w-5 h-5 text-white"></i>
           Get Started Free
         </a>
         {% endif %}
@@ -70,44 +71,44 @@
 </section>
 
 <!-- FEATURES SECTION -->
-<section id="features" class="py-12 md:py-20 px-4 md:px-6 bg-gradient-to-b from-transparent to-slate-950/50">
+<section id="features" class="py-12 md:py-20 px-4 md:px-6 bg-slate-50">
   <div class="container mx-auto max-w-6xl">
     <div class="text-center mb-12 md:mb-16">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-white">Why Choose PhoVite?
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-navy-900">Why Choose PhoVite?
       </h2>
-      <p class="text-gray-400 text-base md:text-lg px-4">The only invitation generator that puts your photos first.</p>
+      <p class="text-slate-600 text-base md:text-lg px-4">The only invitation generator that puts your photos first.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-      <div class="glass rounded-2xl p-6 md:p-8 border border-white/5 hover:border-brand-500/30 transition-all group">
+      <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-blue-200 transition-all group">
         <div
-          class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-brand-500 to-purple-500 rounded-xl flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-brand-500/20 group-hover:scale-110 transition-transform">
-          <i data-lucide="image" class="text-white w-6 h-6 md:w-7 md:h-7"></i>
+          class="w-12 h-12 md:w-14 md:h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4 md:mb-6 shadow-sm group-hover:scale-110 transition-transform">
+          <i data-lucide="image" class="text-blue-600 w-6 h-6 md:w-7 md:h-7"></i>
         </div>
-        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 text-white">Photo Integration</h3>
-        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Seamlessly blend your personal photos into
+        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 text-navy-900">Photo Integration</h3>
+        <p class="text-sm md:text-base text-slate-600 leading-relaxed">Seamlessly blend your personal photos into
           professional AI-generated
           backgrounds.</p>
       </div>
 
-      <div class="glass rounded-2xl p-6 md:p-8 border border-white/5 hover:border-brand-500/30 transition-all group">
+      <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-orange-200 transition-all group">
         <div
-          class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-          <i data-lucide="zap" class="text-white w-6 h-6 md:w-7 md:h-7"></i>
+          class="w-12 h-12 md:w-14 md:h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4 md:mb-6 shadow-sm group-hover:scale-110 transition-transform">
+          <i data-lucide="zap" class="text-orange-500 w-6 h-6 md:w-7 md:h-7"></i>
         </div>
-        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 text-white">Instant Generation</h3>
-        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Get a complete, ready-to-send invitation package
+        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 text-navy-900">Instant Generation</h3>
+        <p class="text-sm md:text-base text-slate-600 leading-relaxed">Get a complete, ready-to-send invitation package
           in under 60 seconds.
         </p>
       </div>
 
-      <div class="glass rounded-2xl p-6 md:p-8 border border-white/5 hover:border-brand-500/30 transition-all group">
+      <div class="glass-card rounded-2xl p-6 md:p-8 hover:border-blue-200 transition-all group">
         <div
-          class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform">
-          <i data-lucide="palette" class="text-white w-6 h-6 md:w-7 md:h-7"></i>
+          class="w-12 h-12 md:w-14 md:h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4 md:mb-6 shadow-sm group-hover:scale-110 transition-transform">
+          <i data-lucide="palette" class="text-blue-600 w-6 h-6 md:w-7 md:h-7"></i>
         </div>
-        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 text-white">Custom Vibes</h3>
-        <p class="text-sm md:text-base text-gray-400 leading-relaxed">Choose from curated styles like Neon, Royal, or
+        <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 text-navy-900">Custom Vibes</h3>
+        <p class="text-sm md:text-base text-slate-600 leading-relaxed">Choose from curated styles like Neon, Royal, or
           Minimal to match your
           event.</p>
       </div>
@@ -119,8 +120,8 @@
 <section class="py-12 md:py-20 px-4 md:px-6">
   <div class="container mx-auto max-w-6xl">
     <div class="text-center mb-12 md:mb-16">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-white">How It Works</h2>
-      <p class="text-gray-400 text-base md:text-lg px-4">Create stunning invitations in just 3 simple steps</p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-navy-900">How It Works</h2>
+      <p class="text-slate-600 text-base md:text-lg px-4">Create stunning invitations in just 3 simple steps</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -128,13 +129,12 @@
       <div class="relative text-center group">
         <div class="mb-6 relative inline-block">
           <div
-            class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-brand-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-xl shadow-brand-500/30 group-hover:scale-110 transition-transform">
-            <span class="text-2xl md:text-3xl font-bold text-white">1</span>
+            class="w-16 h-16 md:w-20 md:h-20 bg-navy-50 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform ring-4 ring-white">
+            <span class="text-2xl md:text-3xl font-bold text-navy-900">1</span>
           </div>
-          <div class="absolute -top-2 -right-2 w-6 h-6 bg-pink-500 rounded-full animate-ping opacity-75"></div>
         </div>
-        <h3 class="text-xl md:text-2xl font-bold mb-3 text-white">Choose Your Style</h3>
-        <p class="text-sm md:text-base text-gray-400 leading-relaxed px-2">Select from Neon, Royal, Minimal, or Floral
+        <h3 class="text-xl md:text-2xl font-bold mb-3 text-navy-900">Choose Your Style</h3>
+        <p class="text-sm md:text-base text-slate-600 leading-relaxed px-2">Select from Neon, Royal, Minimal, or Floral
           vibes to match your event's personality</p>
       </div>
 
@@ -142,14 +142,12 @@
       <div class="relative text-center group">
         <div class="mb-6 relative inline-block">
           <div
-            class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl shadow-purple-500/30 group-hover:scale-110 transition-transform">
-            <span class="text-2xl md:text-3xl font-bold text-white">2</span>
+            class="w-16 h-16 md:w-20 md:h-20 bg-orange-50 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform ring-4 ring-white">
+            <span class="text-2xl md:text-3xl font-bold text-orange-600">2</span>
           </div>
-          <div class="absolute -top-2 -right-2 w-6 h-6 bg-brand-500 rounded-full animate-ping opacity-75"
-            style="animation-delay: 0.5s;"></div>
         </div>
-        <h3 class="text-xl md:text-2xl font-bold mb-3 text-white">Upload Your Photo</h3>
-        <p class="text-sm md:text-base text-gray-400 leading-relaxed px-2">Add your personal touch with a photo that
+        <h3 class="text-xl md:text-2xl font-bold mb-3 text-navy-900">Upload Your Photo</h3>
+        <p class="text-sm md:text-base text-slate-600 leading-relaxed px-2">Add your personal touch with a photo that
           captures the moment</p>
       </div>
 
@@ -157,14 +155,12 @@
       <div class="relative text-center group">
         <div class="mb-6 relative inline-block">
           <div
-            class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center shadow-xl shadow-pink-500/30 group-hover:scale-110 transition-transform">
-            <span class="text-2xl md:text-3xl font-bold text-white">3</span>
+            class="w-16 h-16 md:w-20 md:h-20 bg-navy-50 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform ring-4 ring-white">
+            <span class="text-2xl md:text-3xl font-bold text-navy-900">3</span>
           </div>
-          <div class="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full animate-ping opacity-75"
-            style="animation-delay: 1s;"></div>
         </div>
-        <h3 class="text-xl md:text-2xl font-bold mb-3 text-white">Generate & Share</h3>
-        <p class="text-sm md:text-base text-gray-400 leading-relaxed px-2">Let AI create your masterpiece and download
+        <h3 class="text-xl md:text-2xl font-bold mb-3 text-navy-900">Generate & Share</h3>
+        <p class="text-sm md:text-base text-slate-600 leading-relaxed px-2">Let AI create your masterpiece and download
           it instantly</p>
       </div>
     </div>
@@ -172,20 +168,20 @@
 </section>
 
 <!-- STYLE SHOWCASE SECTION -->
-<section class="py-12 md:py-20 px-4 md:px-6 bg-gradient-to-b from-slate-950/50 to-transparent">
+<section class="py-12 md:py-20 px-4 md:px-6 bg-slate-50">
   <div class="container mx-auto max-w-6xl">
     <div class="text-center mb-12 md:mb-16">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-white">Explore Our Styles
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-navy-900">Explore Our Styles
       </h2>
-      <p class="text-gray-400 text-base md:text-lg px-4">Each vibe brings a unique aesthetic to your invitations</p>
+      <p class="text-slate-600 text-base md:text-lg px-4">Each vibe brings a unique aesthetic to your invitations</p>
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
       <!-- Neon Style -->
       <div class="group cursor-pointer">
         <div
-          class="relative bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-purple-400 transition-all duration-300">
-          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all"></div>
+          class="relative bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-blue-400 transition-all duration-300">
+          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
           <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">⚡</div>
           <span class="relative text-xs md:text-sm font-semibold text-white">Neon Energy</span>
         </div>
@@ -194,8 +190,8 @@
       <!-- Royal Style -->
       <div class="group cursor-pointer">
         <div
-          class="relative bg-gradient-to-br from-amber-600 to-yellow-700 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-amber-400 transition-all duration-300">
-          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all"></div>
+          class="relative bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-amber-400 transition-all duration-300">
+          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
           <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">👑</div>
           <span class="relative text-xs md:text-sm font-semibold text-white">Royal Luxury</span>
         </div>
@@ -204,8 +200,8 @@
       <!-- Minimal Style -->
       <div class="group cursor-pointer">
         <div
-          class="relative bg-gradient-to-br from-slate-600 to-slate-700 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-slate-400 transition-all duration-300">
-          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all"></div>
+          class="relative bg-gradient-to-br from-slate-500 to-slate-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-slate-300 transition-all duration-300">
+          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
           <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">✨</div>
           <span class="relative text-xs md:text-sm font-semibold text-white">Modern Minimal</span>
         </div>
@@ -214,8 +210,8 @@
       <!-- Floral Style -->
       <div class="group cursor-pointer">
         <div
-          class="relative bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-pink-400 transition-all duration-300">
-          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all"></div>
+          class="relative bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-pink-300 transition-all duration-300">
+          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
           <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">🌸</div>
           <span class="relative text-xs md:text-sm font-semibold text-white">Floral Garden</span>
         </div>
@@ -228,82 +224,76 @@
 <section class="py-12 md:py-20 px-4 md:px-6">
   <div class="container mx-auto max-w-6xl">
     <div class="text-center mb-12 md:mb-16">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-white">Perfect For Every
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-navy-900">Perfect For Every
         Occasion</h2>
-      <p class="text-gray-400 text-base md:text-lg px-4">From intimate gatherings to grand celebrations</p>
+      <p class="text-slate-600 text-base md:text-lg px-4">From intimate gatherings to grand celebrations</p>
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-      <div
-        class="glass rounded-xl p-4 md:p-6 text-center hover:border-brand-500/30 transition-all border border-white/5">
+      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
         <div class="text-3xl md:text-4xl mb-2 md:mb-3">🎂</div>
-        <h4 class="text-sm md:text-base font-semibold text-white mb-1">Birthdays</h4>
-        <p class="text-xs md:text-sm text-gray-500">Celebrate another year</p>
+        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Birthdays</h4>
+        <p class="text-xs md:text-sm text-slate-500">Celebrate another year</p>
       </div>
 
-      <div
-        class="glass rounded-xl p-4 md:p-6 text-center hover:border-brand-500/30 transition-all border border-white/5">
+      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
         <div class="text-3xl md:text-4xl mb-2 md:mb-3">💍</div>
-        <h4 class="text-sm md:text-base font-semibold text-white mb-1">Weddings</h4>
-        <p class="text-xs md:text-sm text-gray-500">Your special day</p>
+        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Weddings</h4>
+        <p class="text-xs md:text-sm text-slate-500">Your special day</p>
       </div>
 
-      <div
-        class="glass rounded-xl p-4 md:p-6 text-center hover:border-brand-500/30 transition-all border border-white/5">
+      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
         <div class="text-3xl md:text-4xl mb-2 md:mb-3">🎉</div>
-        <h4 class="text-sm md:text-base font-semibold text-white mb-1">Parties</h4>
-        <p class="text-xs md:text-sm text-gray-500">Let's celebrate</p>
+        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Parties</h4>
+        <p class="text-xs md:text-sm text-slate-500">Let's celebrate</p>
       </div>
 
-      <div
-        class="glass rounded-xl p-4 md:p-6 text-center hover:border-brand-500/30 transition-all border border-white/5">
+      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
         <div class="text-3xl md:text-4xl mb-2 md:mb-3">💼</div>
-        <h4 class="text-sm md:text-base font-semibold text-white mb-1">Corporate</h4>
-        <p class="text-xs md:text-sm text-gray-500">Professional events</p>
+        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Corporate</h4>
+        <p class="text-xs md:text-sm text-slate-500">Professional events</p>
       </div>
 
-      <div
-        class="glass rounded-xl p-4 md:p-6 text-center hover:border-brand-500/30 transition-all border border-white/5">
+      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
         <div class="text-3xl md:text-4xl mb-2 md:mb-3">👶</div>
-        <h4 class="text-sm md:text-base font-semibold text-white mb-1">Baby Showers</h4>
-        <p class="text-xs md:text-sm text-gray-500">Welcome the little one</p>
+        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Baby Showers</h4>
+        <p class="text-xs md:text-sm text-slate-500">Welcome the little one</p>
       </div>
 
-      <div
-        class="glass rounded-xl p-4 md:p-6 text-center hover:border-brand-500/30 transition-all border border-white/5">
+      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
         <div class="text-3xl md:text-4xl mb-2 md:mb-3">💝</div>
-        <h4 class="text-sm md:text-base font-semibold text-white mb-1">Anniversaries</h4>
-        <p class="text-xs md:text-sm text-gray-500">Milestone moments</p>
+        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Anniversaries</h4>
+        <p class="text-xs md:text-sm text-slate-500">Milestone moments</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA SECTION -->
-<section class="py-12 md:py-20 px-4 md:px-6 bg-gradient-to-b from-transparent to-slate-950/50">
+<section class="py-12 md:py-20 px-4 md:px-6 bg-slate-50">
   <div class="container mx-auto max-w-4xl">
-    <div
-      class="glass rounded-3xl p-8 md:p-12 border-2 border-brand-500/30 bg-gradient-to-r from-brand-500/10 to-purple-500/10 text-center">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 text-white">Ready to Create Magic?
+    <div class="glass-card rounded-3xl p-8 md:p-12 border-2 border-brand-200 bg-white/50 text-center">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 md:mb-6 text-navy-900">Ready to Create
+        Magic?
       </h2>
-      <p class="text-base md:text-xl text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
+      <p class="text-base md:text-xl text-slate-600 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
         Join thousands of users creating stunning, personalized invitations with the power of AI
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center px-4">
         {% if current_user.is_authenticated %}
         <a href="/create"
-          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-lg text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
-          <i data-lucide="sparkles" class="w-5 h-5"></i>
+          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
           Start Creating Now
         </a>
         {% else %}
         <a href="/signup"
-          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-lg text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
-          <i data-lucide="rocket" class="w-5 h-5"></i>
+          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg text-base md:text-lg flex items-center justify-center gap-3 hover:scale-105 transform">
+          <i data-lucide="rocket" class="w-5 h-5 text-white"></i>
           Get Started Free
         </a>
         <a href="/login"
-          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-all border border-white/20 text-base md:text-lg flex items-center justify-center gap-3">
+          class="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-white hover:bg-gray-50 text-navy-900 font-semibold rounded-xl transition-all border border-gray-200 text-base md:text-lg flex items-center justify-center gap-3">
           Already have an account? Login
         </a>
         {% endif %}
@@ -313,25 +303,25 @@
 </section>
 
 <!-- FAQ SECTION -->
-<section class="py-12 md:py-20 px-4 md:px-6 bg-gradient-to-b from-slate-950/50 to-transparent">
+<section class="py-12 md:py-20 px-4 md:px-6">
   <div class="container mx-auto max-w-3xl">
     <div class="text-center mb-12 md:mb-16">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-white">Frequently Asked
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 md:mb-4 text-navy-900">Frequently Asked
         Questions</h2>
-      <p class="text-gray-400 text-base md:text-lg px-4">Everything you need to know about using PhoVite</p>
+      <p class="text-slate-600 text-base md:text-lg px-4">Everything you need to know about using PhoVite</p>
     </div>
 
     <div class="space-y-4">
       <!-- FAQ Item 1 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>Is PhoVite free to use?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             Yes! PhoVite offers a free tier that allows you to create beautiful AI-generated invitations,
             manage RSVPs, and share your events. We also have premium features for advanced customization.
           </div>
@@ -339,15 +329,15 @@
       </div>
 
       <!-- FAQ Item 2 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>How do I share my invitation?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             Once your invitation is created, you'll get a unique link. You can share this link directly via
             WhatsApp, email, or social media. We also generate a QR code for easy scanning.
           </div>
@@ -355,15 +345,15 @@
       </div>
 
       <!-- FAQ Item 3 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>Can I customize the AI-generated designs?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             Absolutely! While our AI creates the initial design based on your prompt, you can regenerate
             images, edit text, and adjust details to match your vision perfectly.
           </div>
@@ -371,15 +361,15 @@
       </div>
 
       <!-- FAQ Item 4 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>Do guests need an account to RSVP?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             No, your guests do not need to create an account. They can simply click your invitation link and
             RSVP directly on the page.
           </div>
@@ -387,15 +377,15 @@
       </div>
 
       <!-- FAQ Item 5 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>How long are invitations stored?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             Your invitations are stored indefinitely on your dashboard as long as your account is active.
             You can access past events anytime to relive the memories.
           </div>
@@ -403,15 +393,15 @@
       </div>
 
       <!-- FAQ Item 6 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>Can I add my own music?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             Yes! You can upload your own audio files or choose from our curated library of background music
             to set the perfect mood for your invitation.
           </div>
@@ -419,15 +409,15 @@
       </div>
 
       <!-- FAQ Item 7 -->
-      <div class="glass-enhanced rounded-xl border border-white/10 overflow-hidden">
+      <div class="glass-card rounded-xl border border-gray-100 overflow-hidden">
         <button
-          class="w-full px-6 py-4 text-left flex items-center justify-between text-white font-medium hover:bg-white/5 transition-colors"
+          class="w-full px-6 py-4 text-left flex items-center justify-between text-navy-900 font-medium hover:bg-gray-50 transition-colors"
           onclick="toggleFaq(this)">
           <span>Is my data secure?</span>
           <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
         </button>
         <div class="faq-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
-          <div class="px-6 pb-4 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+          <div class="px-6 pb-4 text-slate-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
             We take security seriously. All your data is encrypted, and we do not share your personal
             information or event details with third parties without your consent.
           </div>
@@ -465,7 +455,7 @@
       });
 
       content.style.maxHeight = content.scrollHeight + "px";
-      content.classList.remove('opacity-0');
+      content.classList.remove('opacity-100');
       content.classList.add('opacity-100');
       icon.style.transform = 'rotate(180deg)';
     }

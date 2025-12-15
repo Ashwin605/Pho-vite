@@ -12,6 +12,7 @@ from models import User
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_app():
+    # Trigger reload for env update
     app = Flask(__name__, static_folder='static', static_url_path='/static')
     
     # Fix for Render/Heroku HTTPS

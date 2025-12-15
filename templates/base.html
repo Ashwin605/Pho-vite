@@ -9,12 +9,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai-assistant.css') }}?v=3">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=4">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai-assistant.css') }}?v=4">
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" defer></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -22,10 +23,26 @@
                         display: ['Playfair Display', 'serif'],
                     },
                     colors: {
+                        navy: {
+                            50: '#f0f4f8',
+                            100: '#d9e2ec',
+                            200: '#bcccdc',
+                            300: '#9fb3c8',
+                            400: '#829ab1',
+                            500: '#627d98',
+                            600: '#486581',
+                            700: '#334e68',
+                            800: '#243b53',
+                            900: '#0A2647', // Deep Navy for Headings/Icons
+                        },
                         brand: {
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        },
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
                         }
                     }
                 }
@@ -34,134 +51,165 @@
     </script>
     <style>
         .glass {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Heading Color Override */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #0A2647;
+            /* Navy Blue */
+        }
+
+        /* Icon Color Override */
+        [data-lucide] {
+            color: #0A2647;
+        }
+
+        /* Specific override for footer to keep text white there */
+        footer [data-lucide] {
+            color: white;
+        }
+
+        footer h1,
+        footer h2,
+        footer h3,
+        footer h4,
+        footer h5,
+        footer h6 {
+            color: white;
         }
     </style>
 </head>
 
-<body class="bg-slate-950 text-gray-100 font-sans antialiased flex flex-col min-h-screen relative overflow-x-hidden">
+<body class="bg-white text-slate-800 font-sans antialiased flex flex-col min-h-screen relative overflow-x-hidden">
 
     <!-- GLOBAL BACKGROUND -->
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-30">
         <div
-            class="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-purple-600/20 rounded-full blur-[100px] animate-pulse">
+            class="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-blue-200 rounded-full blur-[100px] animate-pulse">
         </div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-brand-500/10 rounded-full blur-[100px] animate-pulse"
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-orange-200 rounded-full blur-[100px] animate-pulse"
             style="animation-delay: 2s;"></div>
-        <div class="absolute top-[40%] left-[50%] -translate-x-1/2 w-[50rem] h-[50rem] bg-blue-600/10 rounded-full blur-[120px] animate-pulse"
+        <div class="absolute top-[40%] left-[50%] -translate-x-1/2 w-[50rem] h-[50rem] bg-blue-100 rounded-full blur-[120px] animate-pulse"
             style="animation-delay: 4s;"></div>
     </div>
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-enhanced border-b border-purple-500/20">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div class="container mx-auto px-4 md:px-6 py-4">
             <div class="flex items-center justify-between">
                 <a href="{{ url_for('main.index') }}" class="flex items-center space-x-3 group">
                     <div
-                        class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-600 via-pink-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                        class="w-10 h-10 md:w-12 md:h-12 bg-navy-900 rounded-2xl flex items-center justify-center shadow-xl shadow-navy-900/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                         <i data-lucide="sparkles" class="text-white w-5 h-5 md:w-6 md:h-6"></i>
                     </div>
-                    <span
-                        class="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">PhoVite</span>
+                    <span class="text-xl md:text-2xl font-bold text-navy-900">PhoVite</span>
                 </a>
 
                 <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     {% if current_user.is_authenticated %}
                     <a href="{{ url_for('dashboard.create') }}"
-                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                        class="text-slate-600 hover:text-navy-900 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="plus-circle" class="w-4 h-4"></i>
                         Create
                     </a>
                     <a href="{{ url_for('dashboard.dashboard') }}"
-                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                        class="text-slate-600 hover:text-navy-900 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                         Dashboard
                     </a>
                     <a href="{{ url_for('main.tutorial') }}"
-                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                        class="text-slate-600 hover:text-navy-900 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="book-open" class="w-4 h-4"></i>
                         Tutorial
                     </a>
                     {% if current_user.is_admin %}
                     <a href="{{ url_for('admin.admin_dashboard') }}"
-                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                        class="text-slate-600 hover:text-navy-900 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="shield" class="w-4 h-4"></i>
                         Admin
                     </a>
                     {% endif %}
                     <a href="{{ url_for('auth.logout') }}"
-                        class="text-gray-300 hover:text-red-400 transition-colors font-medium flex items-center gap-2">
+                        class="text-slate-600 hover:text-red-600 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                         Logout
                     </a>
                     <div class="relative group/profile">
                         <div
-                            class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 flex items-center justify-center text-sm font-bold cursor-pointer hover:scale-110 transition-transform shadow-lg ring-2 ring-purple-400/30">
+                            class="w-10 h-10 rounded-full bg-navy-900 flex items-center justify-center text-sm font-bold cursor-pointer hover:scale-110 transition-transform shadow-lg text-white">
                             {{ current_user.name[0].upper() }}
                         </div>
                         <div class="absolute right-0 top-12 hidden group-hover/profile:block">
-                            <div
-                                class="glass-enhanced rounded-xl p-3 min-w-[200px] shadow-2xl border border-purple-500/30">
-                                <p class="text-sm text-white font-semibold mb-1">{{ current_user.name }}</p>
-                                <p class="text-xs text-gray-400">{{ current_user.email }}</p>
+                            <div class="bg-white rounded-xl p-3 min-w-[200px] shadow-2xl border border-gray-100">
+                                <p class="text-sm text-navy-900 font-semibold mb-1">{{ current_user.name }}</p>
+                                <p class="text-xs text-gray-500">{{ current_user.email }}</p>
                             </div>
                         </div>
                     </div>
                     {% else %}
                     <a href="{{ url_for('auth.login') }}"
-                        class="text-gray-300 hover:text-purple-400 transition-colors font-medium flex items-center gap-2">
+                        class="text-slate-600 hover:text-navy-900 transition-colors font-medium flex items-center gap-2">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         Login
                     </a>
                     <a href="{{ url_for('auth.signup') }}"
-                        class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 flex items-center gap-2">
-                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                        class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 flex items-center gap-2">
+                        <i data-lucide="user-plus" class="w-4 h-4 text-white"></i>
                         Sign Up
                     </a>
                     {% endif %}
+
+                    <!-- Removed Theme Toggle as user specified a strict color scheme (White UI) -->
                 </div>
 
+
+
                 <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition">
+                <button id="mobileMenuBtn" class="md:hidden text-navy-900 p-2 hover:bg-gray-100 rounded-lg transition">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
 
-            <!-- Mobile Menu -->
-            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3">
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-3 bg-white border-t border-gray-100">
                 {% if current_user.is_authenticated %}
                 <a href="{{ url_for('dashboard.create') }}"
-                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                    class="block text-slate-600 hover:text-navy-900 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                     Create
                 </a>
                 <a href="{{ url_for('dashboard.dashboard') }}"
-                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                    class="block text-slate-600 hover:text-navy-900 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     Dashboard
                 </a>
                 {% if current_user.is_admin %}
                 <a href="{{ url_for('admin.admin_dashboard') }}"
-                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                    class="block text-slate-600 hover:text-navy-900 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="shield" class="w-4 h-4"></i>
                     Admin
                 </a>
                 {% endif %}
                 <a href="{{ url_for('auth.logout') }}"
-                    class="block text-gray-300 hover:text-red-400 transition-colors font-medium py-2 flex items-center gap-2">
+                    class="block text-slate-600 hover:text-red-600 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                     Logout
                 </a>
                 {% else %}
                 <a href="{{ url_for('auth.login') }}"
-                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                    class="block text-slate-600 hover:text-navy-900 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="log-in" class="w-4 h-4"></i>
                     Login
                 </a>
                 <a href="{{ url_for('auth.signup') }}"
-                    class="block text-gray-300 hover:text-purple-400 transition-colors font-medium py-2 flex items-center gap-2">
+                    class="block text-slate-600 hover:text-navy-900 transition-colors font-medium py-2 flex items-center gap-2">
                     <i data-lucide="user-plus" class="w-4 h-4"></i>
                     Sign Up
                 </a>
@@ -177,7 +225,7 @@
         <div class="container mx-auto px-6 mt-4">
             {% for category, message in messages %}
             <div
-                class="p-4 mb-4 rounded-lg {% if category == 'error' %}bg-red-500/20 border border-red-500/50 text-red-200{% else %}bg-green-500/20 border border-green-500/50 text-green-200{% endif %}">
+                class="p-4 mb-4 rounded-lg {% if category == 'error' %}bg-red-50 mb-4 rounded-lg border border-red-200 text-red-700{% else %}bg-green-50 border border-green-200 text-green-700{% endif %}">
                 {{ message }}
             </div>
             {% endfor %}
@@ -189,76 +237,75 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-20 border-t border-white/5 bg-slate-900/50 pt-16 pb-8 relative z-10">
+    <footer class="mt-20 bg-blue-700 pt-16 pb-8 relative z-10 text-white">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div class="col-span-1 md:col-span-1">
                     <div class="flex items-center space-x-2 mb-6">
-                        <div
-                            class="w-8 h-8 bg-gradient-to-br from-brand-500 to-purple-600 rounded-lg flex items-center justify-center">
-                            <i data-lucide="camera" class="text-white w-4 h-4"></i>
+                        <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                            <i data-lucide="camera" class="text-blue-700 w-4 h-4"></i>
                         </div>
                         <span class="text-lg font-bold text-white">PhoVite</span>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed">
+                    <p class="text-blue-100 text-sm leading-relaxed">
                         Transforming personal moments into professional invitations with the power of AI.
                     </p>
                     <div class="flex gap-4 mt-6">
                         <a href="https://twitter.com/phovite" target="_blank" class="group">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#1DA1F2] flex items-center justify-center transition-all duration-300">
+                                class="w-10 h-10 rounded-full bg-blue-800 hover:bg-[#1DA1F2] flex items-center justify-center transition-all duration-300 border border-blue-600">
                                 <i data-lucide="twitter"
-                                    class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
+                                    class="w-5 h-5 text-white group-hover:text-white transition-colors"></i>
                             </div>
                         </a>
                         <a href="https://instagram.com/phovite" target="_blank" class="group">
                             <div
-                                class="w-10 h-10 rounded-full bg-slate-800 hover:bg-gradient-to-br hover:from-purple-600 hover:via-pink-600 hover:to-orange-500 flex items-center justify-center transition-all duration-300">
+                                class="w-10 h-10 rounded-full bg-blue-800 hover:bg-pink-600 flex items-center justify-center transition-all duration-300 border border-blue-600">
                                 <i data-lucide="instagram"
-                                    class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors"></i>
+                                    class="w-5 h-5 text-white group-hover:text-white transition-colors"></i>
                             </div>
                         </a>
                         <a href="#"
-                            class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition border border-white/5 hover:border-purple-500/30">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                            class="w-10 h-10 rounded-full bg-blue-800 hover:bg-blue-600 flex items-center justify-center text-white transition border border-blue-600">
+                            <i data-lucide="facebook" class="w-5 h-5 text-white"></i>
                         </a>
                     </div>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Product</h4>
-                    <ul class="space-y-4 text-sm text-gray-400">
+                    <ul class="space-y-4 text-sm text-blue-100">
                         <li><a href="{{ url_for('main.index') }}#features"
-                                class="hover:text-brand-400 transition">Features</a></li>
+                                class="hover:text-white transition">Features</a></li>
                         <li><a href="{{ url_for('dashboard.dashboard') }}"
-                                class="hover:text-brand-400 transition">Dashboard</a></li>
-                        <li><a href="{{ url_for('main.index') }}#generator" class="hover:text-brand-400 transition">Try
+                                class="hover:text-white transition">Dashboard</a></li>
+                        <li><a href="{{ url_for('main.index') }}#generator" class="hover:text-white transition">Try
                                 Now</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Resources</h4>
-                    <ul class="space-y-4 text-sm text-gray-400">
-                        <li><a href="{{ url_for('main.about') }}" class="hover:text-brand-400 transition">About
+                    <ul class="space-y-4 text-sm text-blue-100">
+                        <li><a href="{{ url_for('main.about') }}" class="hover:text-white transition">About
                                 PhoVite</a></li>
-                        <li><a href="{{ url_for('main.tutorial') }}"
-                                class="hover:text-brand-400 transition">Tutorial</a></li>
-                        <li><a href="{{ url_for('main.help_center') }}" class="hover:text-brand-400 transition">Help
+                        <li><a href="{{ url_for('main.tutorial') }}" class="hover:text-white transition">Tutorial</a>
+                        </li>
+                        <li><a href="{{ url_for('main.help_center') }}" class="hover:text-white transition">Help
                                 Center</a></li>
-                        <li><a href="{{ url_for('main.contact') }}" class="hover:text-brand-400 transition">Contact
+                        <li><a href="{{ url_for('main.contact') }}" class="hover:text-white transition">Contact
                                 Us</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6">Legal</h4>
-                    <ul class="space-y-4 text-sm text-gray-400">
-                        <li><a href="{{ url_for('main.terms') }}" class="hover:text-brand-400 transition">Terms of
+                    <ul class="space-y-4 text-sm text-blue-100">
+                        <li><a href="{{ url_for('main.terms') }}" class="hover:text-white transition">Terms of
                                 Service</a></li>
-                        <li><a href="{{ url_for('main.privacy') }}" class="hover:text-brand-400 transition">Privacy
+                        <li><a href="{{ url_for('main.privacy') }}" class="hover:text-white transition">Privacy
                                 Policy</a></li>
-                        <li><a href="{{ url_for('main.contact') }}" class="hover:text-brand-400 transition">Support</a>
+                        <li><a href="{{ url_for('main.contact') }}" class="hover:text-white transition">Support</a>
                         </li>
                     </ul>
                 </div>
@@ -266,12 +313,11 @@
 
 
 
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-gray-500 text-sm">© 2024 PhoVite. All rights reserved.</p>
-                <div class="flex items-center gap-2 text-sm text-gray-500">
+            <div class="border-t border-blue-600 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-blue-200 text-sm">© 2024 PhoVite. All rights reserved.</p>
+                <div class="flex items-center gap-2 text-sm text-blue-200">
                     <span>Made with ❤️ using</span>
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-semibold">Generative
+                    <span class="text-white font-semibold">Generative
                         AI</span>
                 </div>
             </div>

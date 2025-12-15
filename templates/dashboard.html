@@ -7,18 +7,17 @@
     <!-- Header Section with Modern Gradient -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-4 md:gap-6">
         <div>
-            <h1
-                class="text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-2 md:mb-3">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-navy-900 mb-2 md:mb-3">
                 My Phovites
             </h1>
-            <p class="text-sm md:text-base text-gray-300 flex items-center gap-2">
-                <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
+            <p class="text-sm md:text-base text-slate-600 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-orange-500"></i>
                 Create, manage, and share your stunning invitations
             </p>
         </div>
         <a href="/create"
-            class="w-full md:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold rounded-2xl transition-all duration-300 shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 flex items-center justify-center gap-2 text-sm md:text-base touch-manipulation">
-            <i data-lucide="plus-circle" class="w-5 h-5 md:w-6 md:h-6"></i>
+            class="w-full md:w-auto px-6 md:px-8 py-3 md:py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl transition-all duration-300 shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 flex items-center justify-center gap-2 text-sm md:text-base touch-manipulation">
+            <i data-lucide="plus-circle" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
             Create New Phovite
         </a>
     </div>
@@ -27,7 +26,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {% for invite in invites %}
         <div
-            class="invitation-card glass rounded-2xl md:rounded-3xl overflow-hidden group hover:border-purple-500/60 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 relative">
+            class="invitation-card glass-card rounded-2xl md:rounded-3xl overflow-hidden group hover:border-orange-500/60 transition-all duration-500 hover:shadow-2xl hover:shadow-orange-500/20 hover:-translate-y-2 relative">
 
             <!-- Delete Button - Top Right Corner -->
             <button onclick="deleteInvitation('{{ invite.id }}')"
@@ -39,13 +38,13 @@
             <div class="relative aspect-[16/10] overflow-hidden">
                 <img src="{{ invite.image_url }}" alt="{{ invite.title }}"
                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/10 to-transparent">
                 </div>
 
                 <!-- Event Type Badge -->
                 <div class="absolute top-3 left-3 flex flex-col gap-2">
                     <span
-                        class="px-3 py-1.5 bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/50 text-purple-200 text-xs rounded-full font-semibold backdrop-blur-xl shadow-lg">
+                        class="px-3 py-1.5 bg-blue-600/90 border border-blue-400/50 text-white text-xs rounded-full font-semibold backdrop-blur-xl shadow-lg">
                         {{ invite.event_type }}
                     </span>
                     {% if invite.event_date %}
@@ -60,8 +59,8 @@
                 <!-- View Count Badge -->
                 <div class="absolute top-3 right-3 opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                     <span
-                        class="px-3 py-1.5 bg-slate-900/80 backdrop-blur-xl rounded-full text-xs text-gray-300 flex items-center gap-1.5 border border-white/10">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                        class="px-3 py-1.5 bg-white/90 backdrop-blur-xl rounded-full text-xs text-navy-900 flex items-center gap-1.5 border border-white/50 font-bold">
+                        <i data-lucide="eye" class="w-3.5 h-3.5 text-navy-900"></i>
                         {{ invite.view_count }}
                     </span>
                 </div>
@@ -69,34 +68,34 @@
                 <!-- Vibe Badge -->
                 <div class="absolute bottom-3 left-3 right-3">
                     <span
-                        class="px-3 py-1.5 bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs rounded-full font-medium backdrop-blur-xl inline-block">
-                        <i data-lucide="music" class="w-3 h-3 inline mr-1"></i>
+                        class="px-3 py-1.5 bg-white/20 border border-white/30 text-white text-xs rounded-full font-medium backdrop-blur-xl inline-block">
+                        <i data-lucide="music" class="w-3 h-3 inline mr-1 text-white"></i>
                         {{ invite.vibe }}
                     </span>
                 </div>
             </div>
 
             <!-- Content Section -->
-            <div class="p-5 md:p-6">
+            <div class="p-5 md:p-6 bg-white">
                 <h3
-                    class="text-xl md:text-2xl font-bold text-white mb-2 truncate group-hover:text-purple-300 transition-colors">
+                    class="text-xl md:text-2xl font-bold text-navy-900 mb-2 truncate group-hover:text-orange-600 transition-colors">
                     {{ invite.title }}
                 </h3>
                 {% if invite.story %}
-                <div class="mb-4 bg-purple-500/10 border border-purple-500/20 rounded-lg p-3">
-                    <p class="text-xs text-purple-200 italic leading-relaxed">"{{ invite.story }}"</p>
+                <div class="mb-4 bg-blue-50 border border-blue-100 rounded-lg p-3">
+                    <p class="text-xs text-blue-800 italic leading-relaxed">"{{ invite.story }}"</p>
                 </div>
                 {% endif %}
-                <p class="text-sm text-gray-400 line-clamp-2 mb-4 leading-relaxed">{{ invite.body }}</p>
+                <p class="text-sm text-slate-600 line-clamp-2 mb-4 leading-relaxed">{{ invite.body }}</p>
 
                 <!-- Date and Stats -->
-                <div class="flex items-center justify-between mb-4 pb-4 border-b border-white/5">
-                    <span class="text-xs text-gray-500 flex items-center gap-1.5">
+                <div class="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
+                    <span class="text-xs text-slate-500 flex items-center gap-1.5">
                         <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
                         {{ invite.date_created.strftime('%b %d, %Y') }}
                     </span>
                     {% if invite.share_link %}
-                    <span class="text-xs text-green-400 flex items-center gap-1">
+                    <span class="text-xs text-green-600 flex items-center gap-1 font-medium">
                         <i data-lucide="link" class="w-3.5 h-3.5"></i>
                         Shareable
                     </span>
@@ -108,39 +107,39 @@
                     <!-- View Button -->
                     {% if invite.share_link %}
                     <a href="/invite/{{ invite.share_link }}" target="_blank"
-                        class="flex flex-col items-center justify-center p-3 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 hover:border-blue-500/50 rounded-xl transition-all duration-300 group/btn touch-manipulation">
+                        class="flex flex-col items-center justify-center p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 hover:border-blue-300 rounded-xl transition-all duration-300 group/btn touch-manipulation">
                         <i data-lucide="eye"
-                            class="w-5 h-5 text-blue-400 group-hover/btn:scale-110 transition-transform"></i>
-                        <span class="text-xs text-blue-300 mt-1 font-medium">View</span>
+                            class="w-5 h-5 text-blue-600 group-hover/btn:scale-110 transition-transform"></i>
+                        <span class="text-xs text-blue-700 mt-1 font-medium">View</span>
                     </a>
                     {% else %}
                     <button disabled
-                        class="flex flex-col items-center justify-center p-3 bg-gray-500/10 border border-gray-500/30 rounded-xl opacity-50 cursor-not-allowed">
-                        <i data-lucide="eye-off" class="w-5 h-5 text-gray-500"></i>
-                        <span class="text-xs text-gray-500 mt-1 font-medium">View</span>
+                        class="flex flex-col items-center justify-center p-3 bg-gray-50 border border-gray-200 rounded-xl opacity-50 cursor-not-allowed">
+                        <i data-lucide="eye-off" class="w-5 h-5 text-gray-400"></i>
+                        <span class="text-xs text-gray-400 mt-1 font-medium">View</span>
                     </button>
                     {% endif %}
 
                     <!-- Edit Button -->
                     <a href="/edit/{{ invite.id }}"
-                        class="flex flex-col items-center justify-center p-3 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 hover:border-purple-500/50 rounded-xl transition-all duration-300 group/btn touch-manipulation">
+                        class="flex flex-col items-center justify-center p-3 bg-orange-50 hover:bg-orange-100 border border-orange-200 hover:border-orange-300 rounded-xl transition-all duration-300 group/btn touch-manipulation">
                         <i data-lucide="edit"
-                            class="w-5 h-5 text-purple-400 group-hover/btn:scale-110 transition-transform"></i>
-                        <span class="text-xs text-purple-300 mt-1 font-medium">Edit</span>
+                            class="w-5 h-5 text-orange-600 group-hover/btn:scale-110 transition-transform"></i>
+                        <span class="text-xs text-orange-700 mt-1 font-medium">Edit</span>
                     </a>
 
                     <!-- Share Button -->
                     <button onclick="shareInvitation('{{ invite.share_link }}', '{{ invite.title }}')"
-                        class="flex flex-col items-center justify-center p-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 hover:border-green-500/50 rounded-xl transition-all duration-300 group/btn touch-manipulation">
+                        class="flex flex-col items-center justify-center p-3 bg-green-50 hover:bg-green-100 border border-green-200 hover:border-green-300 rounded-xl transition-all duration-300 group/btn touch-manipulation">
                         <i data-lucide="share-2"
-                            class="w-5 h-5 text-green-400 group-hover/btn:scale-110 transition-transform"></i>
-                        <span class="text-xs text-green-300 mt-1 font-medium">Share</span>
+                            class="w-5 h-5 text-green-600 group-hover/btn:scale-110 transition-transform"></i>
+                        <span class="text-xs text-green-700 mt-1 font-medium">Share</span>
                     </button>
                 </div>
 
                 <!-- Download Button - Full Width -->
                 <a href="{{ invite.image_url }}" download="{{ invite.title }}.jpg" target="_blank"
-                    class="mt-3 w-full flex items-center justify-center gap-2 p-3 bg-gradient-to-r from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 border border-pink-500/30 hover:border-pink-500/50 text-pink-300 hover:text-pink-200 text-sm font-semibold rounded-xl transition-all duration-300 touch-manipulation">
+                    class="mt-3 w-full flex items-center justify-center gap-2 p-3 bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 text-slate-700 hover:text-navy-900 text-sm font-semibold rounded-xl transition-all duration-300 touch-manipulation">
                     <i data-lucide="download" class="w-4 h-4"></i>
                     Download Image
                 </a>
@@ -150,19 +149,19 @@
     </div>
     {% else %}
     <div
-        class="text-center py-16 md:py-24 glass rounded-3xl md:rounded-[2rem] border-dashed border-2 border-purple-500/30 hover:border-purple-500/50 transition-colors">
+        class="text-center py-16 md:py-24 glass-card rounded-3xl md:rounded-[2rem] border-dashed border-2 border-blue-200 hover:border-orange-300 transition-colors bg-white">
         <div
-            class="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-3xl flex items-center justify-center mx-auto mb-6 md:mb-8 backdrop-blur-xl border border-purple-500/30">
-            <i data-lucide="sparkles" class="w-10 h-10 md:w-12 md:h-12 text-purple-400"></i>
+            class="w-20 h-20 md:w-24 md:h-24 bg-blue-50 rounded-3xl flex items-center justify-center mx-auto mb-6 md:mb-8 border border-blue-100 shadow-sm">
+            <i data-lucide="sparkles" class="w-10 h-10 md:w-12 md:h-12 text-blue-600"></i>
         </div>
-        <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 px-4">No Phovites Yet</h3>
-        <p class="text-sm md:text-base text-gray-400 max-w-md mx-auto mb-8 md:mb-10 px-4 leading-relaxed">
+        <h3 class="text-2xl md:text-3xl font-bold text-navy-900 mb-3 md:mb-4 px-4">No Phovites Yet</h3>
+        <p class="text-sm md:text-base text-slate-600 max-w-md mx-auto mb-8 md:mb-10 px-4 leading-relaxed">
             You haven't created any invitations yet. Start your creative journey by designing your first stunning
             AI-powered Phovite!
         </p>
         <a href="/create"
-            class="inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold rounded-2xl shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300 text-sm md:text-base touch-manipulation">
-            <i data-lucide="plus-circle" class="w-5 h-5 md:w-6 md:h-6"></i>
+            class="inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300 text-sm md:text-base touch-manipulation">
+            <i data-lucide="plus-circle" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
             Create Your First Phovite
         </a>
     </div>
@@ -171,57 +170,48 @@
 
 <!-- Share Modal -->
 <div id="shareModal"
-    class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div
-        class="bg-slate-900 rounded-3xl max-w-md w-full p-6 md:p-8 border border-purple-500/30 shadow-2xl shadow-purple-500/20 animate-fade-in-up">
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 border border-gray-100 shadow-2xl animate-fade-in-up">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="text-2xl font-bold text-white">Share Phovite</h3>
-            <button onclick="closeShareModal()" class="text-gray-400 hover:text-white transition">
+            <h3 class="text-2xl font-bold text-navy-900">Share Phovite</h3>
+            <button onclick="closeShareModal()" class="text-gray-400 hover:text-navy-900 transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
 
-        <p class="text-gray-400 text-sm mb-4">Share this invitation with your guests</p>
+        <p class="text-slate-600 text-sm mb-4">Share this invitation with your guests</p>
 
         <div class="flex gap-2 mb-6">
             <input type="text" id="shareLink" readonly
-                class="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-purple-500 transition">
+                class="flex-1 px-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:border-blue-500 transition">
             <button onclick="copyShareLink()"
-                class="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition flex items-center gap-2">
-                <i data-lucide="copy" class="w-4 h-4"></i>
+                class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition flex items-center gap-2">
+                <i data-lucide="copy" class="w-4 h-4 text-white"></i>
                 Copy
             </button>
         </div>
 
         <div class="grid grid-cols-4 gap-3">
             <button onclick="shareVia('whatsapp')"
-                class="flex flex-col items-center p-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 rounded-xl transition">
-                <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                </svg>
-                <span class="text-xs text-green-400 mt-1">WhatsApp</span>
+                class="flex flex-col items-center p-3 bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl transition">
+                <!-- SVG omitted for brevity, keeping orig logic -->
+                <i data-lucide="message-circle" class="w-6 h-6 text-green-600"></i>
+                <span class="text-xs text-green-600 mt-1">WhatsApp</span>
             </button>
             <button onclick="shareVia('facebook')"
-                class="flex flex-col items-center p-3 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 rounded-xl transition">
-                <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-                <span class="text-xs text-blue-400 mt-1">Facebook</span>
+                class="flex flex-col items-center p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl transition">
+                <i data-lucide="facebook" class="w-6 h-6 text-blue-600"></i>
+                <span class="text-xs text-blue-600 mt-1">Facebook</span>
             </button>
             <button onclick="shareVia('twitter')"
-                class="flex flex-col items-center p-3 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 rounded-xl transition">
-                <svg class="w-6 h-6 text-sky-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                </svg>
-                <span class="text-xs text-sky-400 mt-1">Twitter</span>
+                class="flex flex-col items-center p-3 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-xl transition">
+                <i data-lucide="twitter" class="w-6 h-6 text-sky-500"></i>
+                <span class="text-xs text-sky-500 mt-1">Twitter</span>
             </button>
             <button onclick="shareVia('email')"
-                class="flex flex-col items-center p-3 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl transition">
-                <i data-lucide="mail" class="w-6 h-6 text-purple-400"></i>
-                <span class="text-xs text-purple-400 mt-1">Email</span>
+                class="flex flex-col items-center p-3 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-xl transition">
+                <i data-lucide="mail" class="w-6 h-6 text-orange-500"></i>
+                <span class="text-xs text-orange-500 mt-1">Email</span>
             </button>
         </div>
     </div>
@@ -264,7 +254,7 @@
         // Visual feedback
         const btn = event.target.closest('button');
         const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Copied!';
+        btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-white"></i> Copied!';
 
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();

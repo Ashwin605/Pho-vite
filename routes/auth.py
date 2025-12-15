@@ -91,6 +91,11 @@ def google_login():
         
     google = oauth.create_client('google')
     redirect_uri = url_for('auth.google_authorize', _external=True)
+    
+    # Force http if running locally to match the callback logic
+    if 'localhost' in redirect_uri or '127.0.0.1' in redirect_uri:
+        redirect_uri = redirect_uri.replace('https://', 'http://')
+        
     logging.info(f"Initiating Google Login. Redirect URI: {redirect_uri}")
     return google.authorize_redirect(redirect_uri)
 
@@ -119,7 +124,15 @@ def google_authorize():
             'grant_type': 'authorization_code'
         }
 
+        # Debug Logging for Credentials
+        curr_client_id = payload['client_id']
+        curr_client_secret = payload['client_secret']
+        masked_id = f"{curr_client_id[:10]}...{curr_client_id[-5:]}" if curr_client_id else "None"
+        masked_secret = f"{curr_client_secret[:5]}...{curr_client_secret[-3:]}" if curr_client_secret else "None"
+        
         logging.info("--- MANUAL TOKEN EXCHANGE ---")
+        logging.info(f"Using Client ID: {masked_id}")
+        logging.info(f"Using Client Secret: {masked_secret}")
         logging.info(f"Sending token request to: {token_url}")
         logging.info(f"Payload Client ID: {payload['client_id']}")
         logging.info(f"Payload Redirect URI: {payload['redirect_uri']}")
@@ -129,7 +142,8 @@ def google_authorize():
         if resp.status_code != 200:
             error_data = resp.json()
             error_msg = error_data.get('error_description') or error_data.get('error') or 'Unknown error'
-            flash(f'Google Login Failed (Token Exchange): {error_msg}', 'error')
+            error_msg = error_data.get('error_description') or error_data.get('error') or 'Unknown error'
+            flash(f'Google Login Failed: {error_msg}. \nID: {masked_id} \nSecret: {masked_secret} \nRedirect URI: {redirect_uri}', 'error')
             return redirect(url_for('auth.login'))
 
         token_data = resp.json()
