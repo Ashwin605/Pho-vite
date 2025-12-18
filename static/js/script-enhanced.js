@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const themes = EVENT_THEMES[eventType] || EVENT_THEMES['Birthday'];
         vibeSelector.innerHTML = themes.map(theme => `
             <div class="vibe-card" data-vibe="${theme.value}">
-                <div class="glass-card rounded-xl p-6 md:p-8 border-2 border-white/20 hover:border-purple-400/50 transition-all duration-300 h-32 md:h-40 flex flex-col justify-center items-center touch-manipulation cursor-pointer">
+                <div class="glass-card rounded-xl p-6 md:p-8 border-2 border-transparent hover:border-orange-500 transition-all duration-300 h-32 md:h-40 flex flex-col justify-center items-center touch-manipulation cursor-pointer shadow-sm bg-white">
                     <div class="text-3xl md:text-5xl mb-2 md:mb-3">${theme.emoji}</div>
-                    <span class="text-xs md:text-sm font-semibold text-white">${theme.name}</span>
+                    <span class="text-xs md:text-sm font-semibold text-navy-900">${theme.name}</span>
                 </div>
             </div>
         `).join('');
@@ -539,7 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Audio Preview Logic
-    window.previewAudio = function (musicKey, btn) {
+    // Audio Preview Function (Renamed to bypass cache)
+    window.playMusicPreview = function (musicKey, btn) {
         // Stop event propagation to prevent selection
         event.stopPropagation();
 
@@ -1338,5 +1339,64 @@ window.toggleTextShadow = function (enabled) {
     if (familyNameText) familyNameText.style.textShadow = shadowStyle;
 
     console.log('Text shadow:', enabled ? 'enabled' : 'disabled');
+};
+
+// Preview Audio Function (Direct Streaming)
+window.previewAudio = function (musicKey, btn) {
+    event.stopPropagation(); // Prevent card selection
+
+    const audioPlayer = document.getElementById('musicPreviewPlayer');
+    // Map keys to direct streaming URLs (using SoundHelix or similar stable test files)
+    const musicMap = {
+        'happy_birthday': 'https://www.soundhelix.com/media/mp3/SoundHelix-Song-1.mp3',
+        'wedding_bells': 'https://www.soundhelix.com/media/mp3/SoundHelix-Song-2.mp3',
+        'party_time': 'https://www.soundhelix.com/media/mp3/SoundHelix-Song-3.mp3',
+        'celebration': 'https://www.soundhelix.com/media/mp3/SoundHelix-Song-4.mp3',
+        'elegant_classic': 'https://www.soundhelix.com/media/mp3/SoundHelix-Song-5.mp3',
+        'upbeat_pop': 'https://www.soundhelix.com/media/mp3/SoundHelix-Song-6.mp3'
+    };
+
+    if (!musicMap[musicKey]) {
+        console.warn("No music URL for:", musicKey);
+        return;
+    }
+
+    const currentSrc = audioPlayer.src;
+    const newSrc = musicMap[musicKey];
+
+    // Reset all other buttons to Play icon
+    const allPreviewBtns = document.querySelectorAll('button[onclick^="playMusicPreview"]');
+    allPreviewBtns.forEach(b => {
+        if (b !== btn) {
+            b.innerHTML = '<i data-lucide="play" class="w-4 h-4 fill-current"></i>';
+        }
+    });
+
+    if (currentSrc === newSrc && !audioPlayer.paused) {
+        // Pause current
+        audioPlayer.pause();
+        btn.innerHTML = '<i data-lucide="play" class="w-4 h-4 fill-current"></i>';
+    } else {
+        // Play new
+        audioPlayer.src = newSrc;
+        const playPromise = audioPlayer.play();
+        
+        if (playPromise !== undefined) {
+            btn.innerHTML = '<div class="spinner border-2 border-current border-r-transparent w-4 h-4 rounded-full animate-spin"></div>';
+            
+            playPromise.then(_ => {
+                // Automatic playback started!
+                btn.innerHTML = '<i data-lucide="pause" class="w-4 h-4 fill-current"></i>';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            })
+            .catch(error => {
+                console.error("Audio play error:", error);
+                btn.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4 text-red-500"></i>';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            });
+        }
+    }
+    
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 };
 

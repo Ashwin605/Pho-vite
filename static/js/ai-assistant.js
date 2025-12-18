@@ -507,8 +507,8 @@ class PhoViteAssistant {
                 el.dispatchEvent(new Event('input'));
 
                 // Highlight the field briefly
-                el.classList.add('ring-2', 'ring-purple-500');
-                setTimeout(() => el.classList.remove('ring-2', 'ring-purple-500'), 2000);
+                el.classList.add('ring-2', 'ring-orange-500');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-orange-500'), 2000);
             }
         };
 

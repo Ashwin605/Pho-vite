@@ -13,3 +13,7 @@ env/
 # OS specific
 .DS_Store
 Thumbs.db
+
+static/videos/
+
+static/audio/
