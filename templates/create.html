@@ -19,51 +19,93 @@
                     Type</label>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4" id="eventTypeSelector">
 
-                    <button type="button" class="event-type-btn selected" data-event="Birthday">
+                    <button type="button" class="event-type-btn selected group" data-event="Birthday">
                         <div
-                            class="glass-card bg-white rounded-xl p-4 md:p-5 border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm">
-                            <div class="text-3xl md:text-4xl mb-2">🎂</div>
-                            <span class="text-xs md:text-sm font-semibold text-navy-900">Birthday</span>
+                            class="glass-card bg-white rounded-xl border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm h-full flex flex-col p-0 transform hover:-translate-y-1 hover:shadow-md">
+                            <div class="h-28 w-full overflow-hidden bg-orange-50 relative rounded-t-xl">
+                                <img src="{{ url_for('static', filename='images/event_types/birthday.jpg') }}"
+                                    alt="Birthday"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="py-3 rounded-b-xl group-hover:bg-orange-50 transition-colors duration-300">
+                                <span
+                                    class="text-xs md:text-sm font-semibold text-navy-900 group-hover:text-orange-700 transition-colors">Birthday</span>
+                            </div>
                         </div>
                     </button>
 
-                    <button type="button" class="event-type-btn" data-event="Wedding">
+                    <button type="button" class="event-type-btn group" data-event="Wedding">
                         <div
-                            class="glass-card bg-white rounded-xl p-4 md:p-5 border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm">
-                            <div class="text-3xl md:text-4xl mb-2">💍</div>
-                            <span class="text-xs md:text-sm font-semibold text-navy-900">Wedding</span>
+                            class="glass-card bg-white rounded-xl border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm h-full flex flex-col p-0 transform hover:-translate-y-1 hover:shadow-md">
+                            <div class="h-28 w-full overflow-hidden bg-purple-50 relative rounded-t-xl">
+                                <img src="{{ url_for('static', filename='images/event_types/wedding.jpg') }}"
+                                    alt="Wedding"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="py-3 rounded-b-xl group-hover:bg-purple-50 transition-colors duration-300">
+                                <span
+                                    class="text-xs md:text-sm font-semibold text-navy-900 group-hover:text-purple-700 transition-colors">Wedding</span>
+                            </div>
                         </div>
                     </button>
 
-                    <button type="button" class="event-type-btn" data-event="Party">
+                    <button type="button" class="event-type-btn group" data-event="Party">
                         <div
-                            class="glass-card bg-white rounded-xl p-4 md:p-5 border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm">
-                            <div class="text-3xl md:text-4xl mb-2">🎉</div>
-                            <span class="text-xs md:text-sm font-semibold text-navy-900">Party</span>
+                            class="glass-card bg-white rounded-xl border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm h-full flex flex-col p-0 transform hover:-translate-y-1 hover:shadow-md">
+                            <div class="h-28 w-full overflow-hidden bg-blue-50 relative rounded-t-xl">
+                                <img src="{{ url_for('static', filename='images/event_types/party.jpg') }}" alt="Party"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="py-3 rounded-b-xl group-hover:bg-blue-50 transition-colors duration-300">
+                                <span
+                                    class="text-xs md:text-sm font-semibold text-navy-900 group-hover:text-blue-700 transition-colors">Party</span>
+                            </div>
                         </div>
                     </button>
 
-                    <button type="button" class="event-type-btn" data-event="Corporate">
+                    <button type="button" class="event-type-btn group" data-event="Corporate">
                         <div
-                            class="glass-card bg-white rounded-xl p-4 md:p-5 border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm">
-                            <div class="text-3xl md:text-4xl mb-2">💼</div>
-                            <span class="text-xs md:text-sm font-semibold text-navy-900">Corporate</span>
+                            class="glass-card bg-white rounded-xl border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm h-full flex flex-col p-0 transform hover:-translate-y-1 hover:shadow-md">
+                            <div class="h-28 w-full overflow-hidden bg-slate-50 relative rounded-t-xl">
+                                <img src="{{ url_for('static', filename='images/event_types/corporate.jpg') }}"
+                                    alt="Corporate"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="py-3 rounded-b-xl group-hover:bg-slate-50 transition-colors duration-300">
+                                <span
+                                    class="text-xs md:text-sm font-semibold text-navy-900 group-hover:text-slate-700 transition-colors">Corporate</span>
+                            </div>
                         </div>
                     </button>
 
-                    <button type="button" class="event-type-btn" data-event="Anniversary">
+                    <button type="button" class="event-type-btn group" data-event="Anniversary">
                         <div
-                            class="glass-card bg-white rounded-xl p-4 md:p-5 border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm">
-                            <div class="text-3xl md:text-4xl mb-2">💝</div>
-                            <span class="text-xs md:text-sm font-semibold text-navy-900">Anniversary</span>
+                            class="glass-card bg-white rounded-xl border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm h-full flex flex-col p-0 transform hover:-translate-y-1 hover:shadow-md">
+                            <div class="h-28 w-full overflow-hidden bg-pink-50 relative rounded-t-xl">
+                                <img src="{{ url_for('static', filename='images/event_types/anniversary.jpg') }}"
+                                    alt="Anniversary"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="py-3 rounded-b-xl group-hover:bg-pink-50 transition-colors duration-300">
+                                <span
+                                    class="text-xs md:text-sm font-semibold text-navy-900 group-hover:text-pink-700 transition-colors">Anniversary</span>
+                            </div>
                         </div>
                     </button>
 
-                    <button type="button" class="event-type-btn" data-event="Baby Shower">
+                    <button type="button" class="event-type-btn group" data-event="Baby Shower">
                         <div
-                            class="glass-card bg-white rounded-xl p-4 md:p-5 border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm">
-                            <div class="text-3xl md:text-4xl mb-2">👶</div>
-                            <span class="text-xs md:text-sm font-semibold text-navy-900">Baby Shower</span>
+                            class="glass-card bg-white rounded-xl border-2 border-transparent hover:border-orange-500 transition-all duration-300 text-center touch-manipulation shadow-sm h-full flex flex-col p-0 transform hover:-translate-y-1 hover:shadow-md">
+                            <div class="h-28 w-full overflow-hidden bg-yellow-50 relative rounded-t-xl">
+                                <img src="{{ url_for('static', filename='images/event_types/baby_shower.jpg') }}"
+                                    alt="Baby Shower"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+                            <div class="py-3 rounded-b-xl group-hover:bg-yellow-50 transition-colors duration-300">
+                                <span
+                                    class="text-xs md:text-sm font-semibold text-navy-900 group-hover:text-yellow-700 transition-colors">Baby
+                                    Shower</span>
+                            </div>
                         </div>
                     </button>
 
@@ -93,7 +135,7 @@
                             <span class="text-xs text-red-500 ml-2 normal-case font-medium">* Required</span>
                         </label>
                         <input type="text" id="celebrantName" placeholder="Enter Birthday person's name" required
-                            class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition outline-none bg-slate-50 border border-gray-200">
+                            class="w-full glass-input rounded-xl px-4 md:px-5 py-3 md:py-4 text-sm md:text-base text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 hover:shadow-lg outline-none bg-slate-50 border border-gray-200 transform hover:-translate-y-0.5">
                     </div>
                     <div>
                         <label
@@ -103,7 +145,7 @@
                         </label>
                         <p class="text-xs text-slate-500 mb-2">This photo will appear on your invitation</p>
                         <input type="file" id="celebrantPhoto" accept="image/*"
-                            class="w-full glass-input rounded-xl px-4 py-3 text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 bg-slate-50 border border-gray-200">
+                            class="w-full glass-input rounded-xl px-4 py-3 text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600 file:transition-colors file:cursor-pointer cursor-pointer bg-slate-50 border border-gray-200 transition-all duration-300 hover:shadow-md hover:border-orange-300">
                     </div>
                 </div>
 
@@ -247,8 +289,8 @@
                         <label class="block text-xs font-semibold text-slate-600 mb-2">Event Date
                             <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="eventDate" placeholder="Enter date of event" required
-                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition outline-none bg-slate-50 border border-gray-200">
+                        <input type="date" id="eventDate" required onclick="this.showPicker()"
+                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 hover:shadow-lg outline-none bg-slate-50 border border-gray-200 transform hover:-translate-y-0.5">
                     </div>
 
                     <!-- Time -->
@@ -256,8 +298,8 @@
                         <label class="block text-xs font-semibold text-slate-600 mb-2">Event Time
                             <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="eventTime" placeholder="Enter the time of event" required
-                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition outline-none bg-slate-50 border border-gray-200">
+                        <input type="time" id="eventTime" required onclick="this.showPicker()"
+                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 hover:shadow-lg outline-none bg-slate-50 border border-gray-200 transform hover:-translate-y-0.5">
                     </div>
 
                     <!-- Venue -->
@@ -266,7 +308,7 @@
                             <span class="text-red-500">*</span>
                         </label>
                         <input type="text" id="eventVenue" placeholder="Enter location of venue" required
-                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition outline-none bg-slate-50 border border-gray-200">
+                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 hover:shadow-lg outline-none bg-slate-50 border border-gray-200 transform hover:-translate-y-0.5">
                     </div>
 
                     <!-- Message -->
@@ -275,7 +317,7 @@
                             <span class="text-slate-500">(Optional)</span>
                         </label>
                         <textarea id="eventMessage" rows="3" placeholder="type here...."
-                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition resize-none outline-none bg-slate-50 border border-gray-200"></textarea>
+                            class="w-full glass-input rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 hover:shadow-lg resize-none outline-none bg-slate-50 border border-gray-200 transform hover:-translate-y-0.5"></textarea>
                     </div>
                 </div>
             </div>

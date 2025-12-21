@@ -12,7 +12,7 @@ from functools import wraps
 from threading import Thread
 import tempfile
 import requests
-
+      
 # MoviePy imports with error handling since it can be heavy
 try:
     from moviepy.editor import ImageClip, AudioFileClip, CompositeVideoClip

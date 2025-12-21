@@ -3,36 +3,180 @@
 {% block title %}Terms of Service{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-6 py-12 max-w-4xl">
-    <h1 class="text-4xl font-bold text-white mb-8">Terms of Service</h1>
+<div class="relative container mx-auto px-4 md:px-6 py-12 md:py-20 max-w-5xl">
 
-    <div class="glass rounded-2xl p-8 md:p-12 text-gray-300 space-y-6 leading-relaxed">
-        <p>Last updated: November 2025</p>
+    <!-- Header Section -->
+    <div class="text-center mb-12 md:mb-16">
+        <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-6">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>Legal Information</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-display font-bold text-navy-900 mb-6 leading-tight">
+            Terms of <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-pink-600">Service</span>
+        </h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+            Please read these terms carefully before using our platform. They outline your rights and obligations when
+            using PhoVite.
+        </p>
+    </div>
 
-        <h2 class="text-2xl font-bold text-white mt-8">1. Introduction</h2>
-        <p>Welcome to PhoVite ("we," "our," or "us"). By accessing or using our website and services, you agree to be
-            bound by these Terms of Service.</p>
+    <!-- Main Content Card -->
+    <div class="glass-card bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-2xl relative overflow-hidden">
 
-        <h2 class="text-2xl font-bold text-white mt-8">2. Use of Services</h2>
-        <p>You agree to use PhoVite only for lawful purposes. You are responsible for all content you upload, including
-            personal photos. You retain all rights to your photos, but grant us a license to process them for the
-            purpose of generating your invitations.</p>
+        <!-- Decorative Background Blur -->
+        <div
+            class="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2 pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2 pointer-events-none">
+        </div>
 
-        <h2 class="text-2xl font-bold text-white mt-8">3. AI Generation</h2>
-        <p>Our service uses Artificial Intelligence to generate content. While we strive for quality, we cannot
-            guarantee that AI-generated results will always be perfect or free from artifacts. You acknowledge that AI
-            generation is experimental.</p>
+        <div class="relative z-10">
+            <div class="flex items-center justify-between mb-10 pb-6 border-b border-gray-100">
+                <div>
+                    <h2 class="text-xl font-bold text-navy-900">Effective Date</h2>
+                    <p class="text-slate-500 text-sm">Valid as of November 2025</p>
+                </div>
+                <div class="hidden md:block">
+                    <div class="px-4 py-2 bg-slate-50 rounded-lg text-slate-600 font-medium text-sm">
+                        Version 1.0
+                    </div>
+                </div>
+            </div>
 
-        <h2 class="text-2xl font-bold text-white mt-8">4. User Accounts</h2>
-        <p>To access certain features like the Dashboard, you must create an account. You are responsible for
-            maintaining the confidentiality of your account credentials.</p>
+            <div class="space-y-12">
+                <!-- Section 1 -->
+                <div class="group">
+                    <div class="flex gap-4 items-start">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-lg group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                            1</div>
+                        <div>
+                            <h3
+                                class="text-2xl font-bold text-navy-900 mb-4 group-hover:text-blue-600 transition-colors">
+                                Introduction</h3>
+                            <p class="text-slate-600 leading-relaxed text-lg">
+                                Welcome to PhoVite ("we," "our," or "us"). By accessing or using our website and
+                                services, you agree to be bound by these Terms of Service. If you do not agree to these
+                                terms, please do not use our services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-        <h2 class="text-2xl font-bold text-white mt-8">5. Limitation of Liability</h2>
-        <p>PhoVite shall not be liable for any indirect, incidental, special, consequential, or punitive damages
-            resulting from your use of the service.</p>
+                <!-- Section 2 -->
+                <div class="group">
+                    <div class="flex gap-4 items-start">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 font-bold text-lg group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
+                            2</div>
+                        <div>
+                            <h3
+                                class="text-2xl font-bold text-navy-900 mb-4 group-hover:text-orange-600 transition-colors">
+                                Use of Services</h3>
+                            <p class="text-slate-600 leading-relaxed text-lg mb-4">
+                                You agree to use PhoVite only for lawful purposes. regarding your content:
+                            </p>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3 text-slate-600">
+                                    <i data-lucide="check" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                                    <span>You are responsible for all content you upload, including personal
+                                        photos.</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-slate-600">
+                                    <i data-lucide="check" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                                    <span>You retain all rights to your photos.</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-slate-600">
+                                    <i data-lucide="check" class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"></i>
+                                    <span>You grant us a license to process them solely for the purpose of generating
+                                        your invitations.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-        <h2 class="text-2xl font-bold text-white mt-8">6. Contact</h2>
-        <p>If you have any questions about these Terms, please contact us at support@phovite.ai.</p>
+                <!-- Section 3 -->
+                <div class="group">
+                    <div class="flex gap-4 items-start">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 font-bold text-lg group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                            3</div>
+                        <div>
+                            <h3
+                                class="text-2xl font-bold text-navy-900 mb-4 group-hover:text-purple-600 transition-colors">
+                                AI Generation Disclaimer</h3>
+                            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                                <p class="text-slate-600 leading-relaxed text-lg">
+                                    Our service uses Artificial Intelligence to generate content. While we strive for
+                                    premium quality, we cannot guarantee that AI-generated results will always be
+                                    perfect or free from artifacts. You acknowledge that AI generation is experimental
+                                    and results may vary.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="group">
+                    <div class="flex gap-4 items-start">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 font-bold text-lg group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300">
+                            4</div>
+                        <div>
+                            <h3
+                                class="text-2xl font-bold text-navy-900 mb-4 group-hover:text-pink-600 transition-colors">
+                                User Accounts</h3>
+                            <p class="text-slate-600 leading-relaxed text-lg">
+                                To access advanced features like the Dashboard, creating an account is required. You are
+                                responsible for maintaining the confidentiality of your account credentials and for all
+                                activities that occur under your account.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="group">
+                    <div class="flex gap-4 items-start">
+                        <div
+                            class="flex-shrink-0 w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-lg group-hover:bg-slate-600 group-hover:text-white transition-colors duration-300">
+                            5</div>
+                        <div>
+                            <h3
+                                class="text-2xl font-bold text-navy-900 mb-4 group-hover:text-slate-700 transition-colors">
+                                Limitation of Liability</h3>
+                            <p class="text-slate-600 leading-relaxed text-lg">
+                                PhoVite shall not be liable for any indirect, incidental, special, consequential, or
+                                punitive damages resulting from your use of the service. We provide the service on an
+                                "as is" and "as available" basis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6 -->
+                <div class="group border-t border-gray-100 pt-8">
+                    <div
+                        class="flex flex-col md:flex-row gap-6 md:items-center justify-between bg-blue-50/50 rounded-2xl p-6 md:p-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-navy-900 mb-2">Still have questions?</h3>
+                            <p class="text-slate-600">We're here to help provided you read these terms first.</p>
+                        </div>
+                        <a href="mailto:support@phovite.ai"
+                            class="inline-flex items-center justify-center px-6 py-3 bg-white text-navy-900 font-semibold rounded-xl shadow-sm border border-gray-200 hover:bg-navy-50 hover:border-navy-200 transition-all group">
+                            <i data-lucide="mail" class="w-5 h-5 mr-2 text-orange-500"></i>
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

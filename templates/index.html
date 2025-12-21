@@ -230,40 +230,70 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
-        <div class="text-3xl md:text-4xl mb-2 md:mb-3">🎂</div>
-        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Birthdays</h4>
-        <p class="text-xs md:text-sm text-slate-500">Celebrate another year</p>
+      <div class="glass-card rounded-xl overflow-hidden text-center hover:border-blue-200 transition-all group">
+        <div class="h-32 md:h-40 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/event_types/birthday.jpg') }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Birthdays">
+        </div>
+        <div class="p-4 md:p-6">
+          <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Birthdays</h4>
+          <p class="text-xs md:text-sm text-slate-500">Celebrate another year</p>
+        </div>
       </div>
 
-      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
-        <div class="text-3xl md:text-4xl mb-2 md:mb-3">💍</div>
-        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Weddings</h4>
-        <p class="text-xs md:text-sm text-slate-500">Your special day</p>
+      <div class="glass-card rounded-xl overflow-hidden text-center hover:border-blue-200 transition-all group">
+        <div class="h-32 md:h-40 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/event_types/wedding.jpg') }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Weddings">
+        </div>
+        <div class="p-4 md:p-6">
+          <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Weddings</h4>
+          <p class="text-xs md:text-sm text-slate-500">Your special day</p>
+        </div>
       </div>
 
-      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
-        <div class="text-3xl md:text-4xl mb-2 md:mb-3">🎉</div>
-        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Parties</h4>
-        <p class="text-xs md:text-sm text-slate-500">Let's celebrate</p>
+      <div class="glass-card rounded-xl overflow-hidden text-center hover:border-blue-200 transition-all group">
+        <div class="h-32 md:h-40 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/event_types/party.jpg') }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Parties">
+        </div>
+        <div class="p-4 md:p-6">
+          <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Parties</h4>
+          <p class="text-xs md:text-sm text-slate-500">Let's celebrate</p>
+        </div>
       </div>
 
-      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
-        <div class="text-3xl md:text-4xl mb-2 md:mb-3">💼</div>
-        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Corporate</h4>
-        <p class="text-xs md:text-sm text-slate-500">Professional events</p>
+      <div class="glass-card rounded-xl overflow-hidden text-center hover:border-blue-200 transition-all group">
+        <div class="h-32 md:h-40 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/event_types/corporate.jpg') }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Corporate">
+        </div>
+        <div class="p-4 md:p-6">
+          <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Corporate</h4>
+          <p class="text-xs md:text-sm text-slate-500">Professional events</p>
+        </div>
       </div>
 
-      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
-        <div class="text-3xl md:text-4xl mb-2 md:mb-3">👶</div>
-        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Baby Showers</h4>
-        <p class="text-xs md:text-sm text-slate-500">Welcome the little one</p>
+      <div class="glass-card rounded-xl overflow-hidden text-center hover:border-blue-200 transition-all group">
+        <div class="h-32 md:h-40 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/event_types/baby_shower.jpg') }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Baby Showers">
+        </div>
+        <div class="p-4 md:p-6">
+          <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Baby Showers</h4>
+          <p class="text-xs md:text-sm text-slate-500">Welcome the little one</p>
+        </div>
       </div>
 
-      <div class="glass-card rounded-xl p-4 md:p-6 text-center hover:border-blue-200 transition-all">
-        <div class="text-3xl md:text-4xl mb-2 md:mb-3">💝</div>
-        <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Anniversaries</h4>
-        <p class="text-xs md:text-sm text-slate-500">Milestone moments</p>
+      <div class="glass-card rounded-xl overflow-hidden text-center hover:border-blue-200 transition-all group">
+        <div class="h-32 md:h-40 overflow-hidden">
+          <img src="{{ url_for('static', filename='images/event_types/anniversary.jpg') }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Anniversaries">
+        </div>
+        <div class="p-4 md:p-6">
+          <h4 class="text-sm md:text-base font-semibold text-navy-900 mb-1">Anniversaries</h4>
+          <p class="text-xs md:text-sm text-slate-500">Milestone moments</p>
+        </div>
       </div>
     </div>
   </div>
