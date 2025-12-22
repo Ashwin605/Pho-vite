@@ -178,44 +178,63 @@
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
       <!-- Neon Style -->
-      <div class="group cursor-pointer">
+      <a href="/create" class="group block">
         <div
-          class="relative bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-blue-400 transition-all duration-300">
-          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
-          <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">⚡</div>
-          <span class="relative text-xs md:text-sm font-semibold text-white">Neon Energy</span>
+          class="glass-card rounded-2xl p-0 border-2 border-transparent hover:border-orange-500 transition-all duration-300 aspect-square flex flex-col justify-end items-center overflow-hidden relative shadow-sm bg-slate-100">
+          <div class="absolute inset-0 w-full h-full">
+            <img src="{{ url_for('static', filename='images/vibes/neon.jpg') }}" alt="Neon Energy"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          </div>
+          <span class="text-sm md:text-base font-semibold relative z-10 mb-4 text-center text-white drop-shadow-md">Neon
+            Energy</span>
         </div>
-      </div>
-
-      <!-- Royal Style -->
-      <div class="group cursor-pointer">
-        <div
-          class="relative bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-amber-400 transition-all duration-300">
-          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
-          <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">👑</div>
-          <span class="relative text-xs md:text-sm font-semibold text-white">Royal Luxury</span>
-        </div>
-      </div>
+      </a>
 
       <!-- Minimal Style -->
-      <div class="group cursor-pointer">
+      <a href="/create" class="group block">
         <div
-          class="relative bg-gradient-to-br from-slate-500 to-slate-600 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-slate-300 transition-all duration-300">
-          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
-          <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">✨</div>
-          <span class="relative text-xs md:text-sm font-semibold text-white">Modern Minimal</span>
+          class="glass-card rounded-2xl p-0 border-2 border-transparent hover:border-orange-500 transition-all duration-300 aspect-square flex flex-col justify-end items-center overflow-hidden relative shadow-sm bg-slate-100">
+          <div class="absolute inset-0 w-full h-full">
+            <img src="{{ url_for('static', filename='images/vibes/modern.jpg') }}" alt="Modern Minimal"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          </div>
+          <span
+            class="text-sm md:text-base font-semibold relative z-10 mb-4 text-center text-white drop-shadow-md">Modern
+            Minimal</span>
         </div>
-      </div>
+      </a>
+
+      <!-- Royal Style -->
+      <a href="/create" class="group block">
+        <div
+          class="glass-card rounded-2xl p-0 border-2 border-transparent hover:border-orange-500 transition-all duration-300 aspect-square flex flex-col justify-end items-center overflow-hidden relative shadow-sm bg-slate-100">
+          <div class="absolute inset-0 w-full h-full">
+            <img src="{{ url_for('static', filename='images/vibes/royal.jpg') }}" alt="Royal Luxury"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          </div>
+          <span
+            class="text-sm md:text-base font-semibold relative z-10 mb-4 text-center text-white drop-shadow-md">Royal
+            Luxury</span>
+        </div>
+      </a>
 
       <!-- Floral Style -->
-      <div class="group cursor-pointer">
+      <a href="/create" class="group block">
         <div
-          class="relative bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl p-6 md:p-8 aspect-square flex flex-col justify-center items-center overflow-hidden border-2 border-transparent hover:border-pink-300 transition-all duration-300">
-          <div class="absolute inset-0 bg-white/10 group-hover:bg-white/0 transition-all"></div>
-          <div class="relative text-4xl md:text-5xl mb-2 md:mb-3">🌸</div>
-          <span class="relative text-xs md:text-sm font-semibold text-white">Floral Garden</span>
+          class="glass-card rounded-2xl p-0 border-2 border-transparent hover:border-orange-500 transition-all duration-300 aspect-square flex flex-col justify-end items-center overflow-hidden relative shadow-sm bg-slate-100">
+          <div class="absolute inset-0 w-full h-full">
+            <img src="{{ url_for('static', filename='images/vibes/floral.jpg') }}" alt="Floral Garden"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          </div>
+          <span
+            class="text-sm md:text-base font-semibold relative z-10 mb-4 text-center text-white drop-shadow-md">Floral
+            Garden</span>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>

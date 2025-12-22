@@ -69,12 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to render themes based on event type
     function renderThemes(eventType) {
         const themes = EVENT_THEMES[eventType] || EVENT_THEMES['Birthday'];
-        vibeSelector.innerHTML = themes.map(theme => `
+        console.log('Rendering themes for:', eventType, themes);
+        vibeSelector.innerHTML = themes.map(theme => {
+            console.log('Theme:', theme);
+            return `
             <div class="vibe-card w-full" data-vibe="${theme.value}">
                 <div class="glass-card rounded-xl p-0 border-2 border-transparent hover:border-orange-500 transition-all duration-300 h-32 md:h-40 flex flex-col justify-end items-center touch-manipulation cursor-pointer shadow-sm bg-slate-100 overflow-hidden group relative">
                     ${theme.image ? 
                         `<div class="absolute inset-0 w-full h-full">
-                            <img src="${theme.image}" alt="${theme.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <img src="${theme.image}" alt="${theme.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="console.error('Image load error for ${theme.name}'); this.style.display='none'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                          </div>` 
                         : `<div class="text-3xl md:text-5xl mb-2 md:mb-3">${theme.emoji}</div>`
@@ -82,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="text-xs md:text-sm font-semibold relative z-10 mb-3 px-2 text-center text-white drop-shadow-md">${theme.name}</span>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
 
         // Re-attach click listeners
         attachVibeListeners();
