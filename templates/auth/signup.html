@@ -54,12 +54,31 @@
                     placeholder="you@example.com">
             </div>
 
-            <div class="mb-8">
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-                <input type="password" name="password" required
+                <input type="password" name="password" id="password" required
                     class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition"
                     placeholder="Create a password">
             </div>
+
+            <div class="flex items-center mb-6">
+                <input type="checkbox" id="show-password-check" onclick="togglePassword()"
+                    class="w-4 h-4 text-brand-600 bg-slate-900 border-gray-600 rounded focus:ring-brand-500 focus:ring-2">
+                <label for="show-password-check" class="ml-2 text-sm font-medium text-gray-300">Show Password</label>
+            </div>
+
+            <script>
+                function togglePassword() {
+                    const passwordInput = document.getElementById('password');
+                    const checkbox = document.getElementById('show-password-check');
+
+                    if (checkbox.checked) {
+                        passwordInput.type = 'text';
+                    } else {
+                        passwordInput.type = 'password';
+                    }
+                }
+            </script>
 
             <button type="submit"
                 class="w-full bg-gradient-to-r from-purple-600 to-brand-600 hover:from-purple-500 hover:to-brand-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-500/25">
