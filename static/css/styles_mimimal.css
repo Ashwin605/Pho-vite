@@ -1,0 +1,79 @@
+
+/* Minimalist Share Buttons - Clean & Modern */
+.share-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+    justify-items: center;
+}
+
+.btn-minimal-social {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: none;
+    color: #1e293b; /* Slate 800 */
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    group-hover: text-gray-900;
+}
+
+.btn-minimal-social .icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Gentle shadow */
+    transition: all 0.3s ease;
+}
+
+.btn-minimal-social:hover .icon-wrapper {
+    transform: translateY(-5px) scale(1.05);
+    background: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Platform Colors on Hover */
+.btn-minimal-social:hover .icon-wrapper.whatsapp { color: #22c55e; }
+.btn-minimal-social:hover .icon-wrapper.facebook { color: #3b82f6; }
+.btn-minimal-social:hover .icon-wrapper.twitter { color: #0ea5e9; }
+
+.btn-minimal-social span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569; /* Slate 600 */
+    transition: color 0.3s;
+}
+
+.btn-minimal-social:hover span {
+    color: #0f172a; /* Slate 900 */
+}
+
+/* Copy Link Button - Minimal Pill */
+.btn-copy-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 12px 32px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 99px;
+    color: #475569;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.btn-copy-link:hover {
+    background: white;
+    color: #0f172a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}

@@ -21,61 +21,70 @@
                 {{ invitation.family_name }}
             </p>
             {% endif %}
-            
+
             <!-- Event-Specific Display -->
             {% if invitation.event_type == 'Wedding' and invitation.bride_name and invitation.groom_name %}
             <!-- Wedding: Bride & Groom with Heart -->
             <div class="flex items-center justify-center gap-6 mb-6 animate-fade-in">
                 {% if invitation.bride_photo %}
                 <div class="flex flex-col items-center">
-                    <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-pink-400 overflow-hidden shadow-2xl ring-4 ring-pink-500/30">
-                        <img src="{{ invitation.bride_photo }}" alt="{{ invitation.bride_name }}" class="w-full h-full object-cover">
+                    <div
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-pink-400 overflow-hidden shadow-2xl ring-4 ring-pink-500/30">
+                        <img src="{{ invitation.bride_photo }}" alt="{{ invitation.bride_name }}"
+                            class="w-full h-full object-cover">
                     </div>
                     <p class="text-xl md:text-2xl font-display text-pink-300 mt-3">{{ invitation.bride_name }}</p>
                 </div>
                 {% endif %}
-                
+
                 <div class="text-5xl md:text-6xl animate-pulse">❤️</div>
-                
+
                 {% if invitation.groom_photo %}
                 <div class="flex flex-col items-center">
-                    <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-blue-400 overflow-hidden shadow-2xl ring-4 ring-blue-500/30">
-                        <img src="{{ invitation.groom_photo }}" alt="{{ invitation.groom_name }}" class="w-full h-full object-cover">
+                    <div
+                        class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-blue-400 overflow-hidden shadow-2xl ring-4 ring-blue-500/30">
+                        <img src="{{ invitation.groom_photo }}" alt="{{ invitation.groom_name }}"
+                            class="w-full h-full object-cover">
                     </div>
                     <p class="text-xl md:text-2xl font-display text-blue-300 mt-3">{{ invitation.groom_name }}</p>
                 </div>
                 {% endif %}
             </div>
-            
+
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 drop-shadow-2xl">
                 {{ invitation.bride_name }} & {{ invitation.groom_name }}'s Wedding
             </h1>
-            
+
             {% elif invitation.event_type == 'Birthday' and invitation.celebrant_photo %}
             <!-- Birthday: Single Photo -->
             <div class="mb-6 animate-fade-in">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-purple-400 overflow-hidden shadow-2xl mx-auto ring-4 ring-purple-500/30">
-                    <img src="{{ invitation.celebrant_photo }}" alt="{{ invitation.celebrant_name }}" class="w-full h-full object-cover">
+                <div
+                    class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-purple-400 overflow-hidden shadow-2xl mx-auto ring-4 ring-purple-500/30">
+                    <img src="{{ invitation.celebrant_photo }}" alt="{{ invitation.celebrant_name }}"
+                        class="w-full h-full object-cover">
                 </div>
             </div>
-            
-            <h1 class="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+
+            <h1
+                class="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
                 {{ invitation.celebrant_name }}'s Birthday
             </h1>
-            
+
             {% elif invitation.event_type == 'Anniversary' and invitation.couple_names %}
             <!-- Anniversary -->
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+            <h1
+                class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
                 {{ invitation.couple_names }}
             </h1>
             <p class="text-2xl md:text-3xl text-yellow-300 mb-6">Anniversary Celebration</p>
-            
+
             {% elif invitation.event_type == 'Baby Shower' and invitation.baby_name %}
             <!-- Baby Shower -->
             <div class="mb-4">
                 <span class="text-6xl">👶</span>
             </div>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+            <h1
+                class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
                 {% if invitation.baby_gender == 'boy' %}
                 Welcome Baby {{ invitation.baby_name }}! 💙
                 {% elif invitation.baby_gender == 'girl' %}
@@ -84,21 +93,23 @@
                 Welcome {{ invitation.baby_name }}!
                 {% endif %}
             </h1>
-            
+
             {% elif invitation.event_type == 'Corporate' and invitation.company_name %}
             <!-- Corporate -->
             <p class="text-xl md:text-2xl text-blue-300 mb-3">{{ invitation.company_name }}</p>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+            <h1
+                class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
                 {{ invitation.celebrant_name }}
             </h1>
-            
+
             {% else %}
             <!-- Default/Party -->
-            <h1 class="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
+            <h1
+                class="text-4xl md:text-6xl lg:text-8xl font-display font-bold text-white mb-6 drop-shadow-2xl animate-fade-in">
                 {{ invitation.celebrant_name or invitation.title }}
             </h1>
             {% endif %}
-            
+
             <!-- Event Details -->
             <div class="space-y-3 mb-6">
                 {% if invitation.event_date %}
@@ -107,7 +118,7 @@
                     {{ invitation.event_date }}
                 </p>
                 {% endif %}
-                
+
                 {% if invitation.event_time %}
                 <p class="text-xl md:text-2xl text-blue-300 flex items-center justify-center gap-3">
                     <i data-lucide="clock" class="w-6 h-6"></i>
@@ -115,7 +126,7 @@
                 </p>
                 {% endif %}
             </div>
-            
+
             <p class="text-lg md:text-2xl lg:text-3xl text-gray-100 max-w-3xl mx-auto leading-relaxed drop-shadow-xl">
                 {{ invitation.event_message or invitation.body }}
             </p>
@@ -173,16 +184,16 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">Guest Memories & Wishes</h2>
                 <p class="text-gray-300">Share your photos, messages, or just send your wishes!</p>
             </div>
-            
+
             <!-- Scrolling Photo Wall & Messages -->
             <div class="relative overflow-hidden mb-8" style="min-height: 300px;">
                 <div id="photoWallScroll" class="flex gap-6 animate-scroll-horizontal absolute">
                     <!-- Photos and wishes will be loaded here -->
                 </div>
             </div>
-            
+
             <div class="text-center">
-                <button onclick="openPhotoUploadModal()" 
+                <button onclick="openPhotoUploadModal()"
                     class="inline-flex items-center gap-2 glass-button bg-purple-500/20 hover:bg-purple-500/30 border-2 border-purple-500/50 hover:border-purple-400 text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg">
                     <i data-lucide="heart" class="w-5 h-5"></i>
                     Share Memory or Wishes
@@ -199,7 +210,8 @@
                 <div class="text-5xl mb-4">📍</div>
                 <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Event Location</h2>
                 <div class="mb-6">
-                    <p class="text-xl text-white font-semibold mb-2">{{ invitation.location_name or invitation.event_venue }}</p>
+                    <p class="text-xl text-white font-semibold mb-2">{{ invitation.location_name or
+                        invitation.event_venue }}</p>
                     {% if invitation.location_address %}
                     <p class="text-gray-300">{{ invitation.location_address }}</p>
                     {% endif %}
@@ -223,46 +235,48 @@
     </section>
     {% endif %}
 
-    <!-- Social Share Section -->
-    <section class="py-16 px-4 bg-slate-900/50">
-        <div class="container mx-auto max-w-3xl">
+    <!-- ============================================
+         ORIGINAL PREMIUM GLASS SHARE SECTION
+         ============================================ -->
+    <section class="py-16 px-4">
+        <div class="container mx-auto max-w-xl">
             <div class="glass rounded-2xl p-8 md:p-12 text-center border border-white/10">
-                <div class="text-5xl mb-4">📱</div>
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Share This Invitation</h2>
+                <div class="text-5xl mb-4 animate-bounce">📱</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Share This Invitation</h2>
                 <p class="text-gray-300 mb-8">Spread the word with your friends and family</p>
 
-                <div class="flex flex-wrap justify-center gap-4">
+                <!-- Original Row Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- WhatsApp -->
-                    <button onclick="shareVia('whatsapp')"
-                        class="glass-button bg-green-500/20 hover:bg-green-500/30 border-2 border-green-500/50 hover:border-green-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    <button onclick="shareVia('whatsapp')" class="glass-btn-social btn-whatsapp">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                         </svg>
                         WhatsApp
                     </button>
 
                     <!-- Facebook -->
-                    <button onclick="shareVia('facebook')" 
-                        class="glass-button bg-blue-500/20 hover:bg-blue-500/30 border-2 border-blue-500/50 hover:border-blue-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    <button onclick="shareVia('facebook')" class="glass-btn-social btn-facebook">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                         </svg>
                         Facebook
                     </button>
 
                     <!-- Twitter -->
-                    <button onclick="shareVia('twitter')"
-                        class="glass-button bg-sky-500/20 hover:bg-sky-500/30 border-2 border-sky-500/50 hover:border-sky-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    <button onclick="shareVia('twitter')" class="glass-btn-social btn-twitter">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path
+                                d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                         </svg>
                         Twitter
                     </button>
 
                     <!-- Copy Link -->
-                    <button onclick="copyLink()"
-                        class="glass-button bg-purple-500/20 hover:bg-purple-500/30 border-2 border-purple-500/50 hover:border-purple-400 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center gap-2">
-                        <i data-lucide="copy" class="w-5 h-5"></i>
+                    <button onclick="copyLink()" id="copyLinkBtn" class="glass-btn-social btn-copy">
+                        <i data-lucide="link" class="w-6 h-6"></i>
                         <span id="copyText">Copy Link</span>
                     </button>
                 </div>
@@ -274,7 +288,8 @@
     <footer class="py-12 px-4 bg-slate-950 border-t border-white/10">
         <div class="container mx-auto max-w-3xl text-center">
             <p class="text-gray-400 mb-4">Made with ❤️ using</p>
-            <a href="/" class="inline-flex items-center gap-2 text-brand-400 hover:text-brand-300 font-bold text-xl transition-colors">
+            <a href="/"
+                class="inline-flex items-center gap-2 text-brand-400 hover:text-brand-300 font-bold text-xl transition-colors">
                 <i data-lucide="sparkles" class="w-6 h-6"></i>
                 PhoVite
             </a>
@@ -289,13 +304,16 @@
 </div>
 
 <!-- Gallery Modal -->
-<div id="galleryModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-4" onclick="closeGallery()">
-    <button class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300" onclick="closeGallery()">&times;</button>
+<div id="galleryModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-4"
+    onclick="closeGallery()">
+    <button class="absolute top-4 right-4 text-white text-4xl hover:text-gray-300"
+        onclick="closeGallery()">&times;</button>
     <img id="galleryImage" src="" alt="Gallery" class="max-w-full max-h-full object-contain">
 </div>
 
 <!-- Guest Memory/Wishes Modal -->
-<div id="photoUploadModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+<div id="photoUploadModal"
+    class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 rounded-3xl max-w-lg w-full p-8 border border-purple-500/30 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-2xl font-bold text-white">Share Your Memory or Wishes</h3>
@@ -303,12 +321,12 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
-        
+
         <p class="text-sm text-gray-400 mb-6">Share a photo with a message or just send your heartfelt wishes!</p>
-        
+
         <form id="photoUploadForm" class="space-y-4">
             <input type="hidden" name="invitation_id" value="{{ invitation.id }}">
-            
+
             <div>
                 <label class="block text-sm font-semibold text-gray-300 mb-2">
                     Your Name <span class="text-red-400">*</span>
@@ -316,7 +334,7 @@
                 <input type="text" name="guest_name" required placeholder="Enter your name"
                     class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition">
             </div>
-            
+
             <div>
                 <label class="block text-sm font-semibold text-gray-300 mb-2">
                     Your Photo <span class="text-gray-500 text-xs">(Optional)</span>
@@ -325,7 +343,7 @@
                     class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-purple-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-500 file:text-white hover:file:bg-purple-600">
                 <p class="text-xs text-gray-500 mt-1">Share a photo or leave empty to send just your wishes</p>
             </div>
-            
+
             <div>
                 <label class="block text-sm font-semibold text-gray-300 mb-2">
                     Your Message or Wishes <span class="text-red-400">*</span>
@@ -334,7 +352,7 @@
                     class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition resize-none"
                     placeholder="Share your wishes, blessings, or a special message..."></textarea>
             </div>
-            
+
             <button type="submit"
                 class="w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 hover:from-purple-500 hover:via-pink-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all duration-300 shadow-2xl flex items-center justify-center gap-2">
                 <i data-lucide="heart" class="w-5 h-5"></i>
@@ -349,133 +367,136 @@
 </script>
 
 <script>
-// Copy link functionality
-function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-        const copyText = document.getElementById('copyText');
-        copyText.textContent = 'Copied!';
-        setTimeout(() => {
-            copyText.textContent = 'Copy Link';
-        }, 2000);
-    });
-}
+    // Copy link functionality with visual feedback
+    function copyLink() {
+        const btn = document.getElementById('copyLinkBtn');
+        const text = document.getElementById('copyText');
 
-// Social share functionality
-function shareVia(platform) {
-    const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent('{{ invitation.title }}');
-    const text = encodeURIComponent("You're invited to {{ invitation.title }}!");
-    
-    let shareUrl = '';
-    
-    switch(platform) {
-        case 'whatsapp':
-            shareUrl = `https://wa.me/?text=${text}%20${url}`;
-            break;
-        case 'facebook':
-            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-            break;
-        case 'twitter':
-            shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
-            break;
-        case 'email':
-            shareUrl = `mailto:?subject=${title}&body=${text}%20${url}`;
-            break;
-    }
-    
-    if (platform === 'email') {
-        window.location.href = shareUrl;
-    } else {
-        window.open(shareUrl, '_blank', 'width=600,height=400');
-    }
-}
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            const originalText = text.textContent;
+            text.textContent = 'Copied!';
 
-// Gallery functionality
-const galleryDataElement = document.getElementById('gallery-data');
-const galleryPhotos = galleryDataElement ? JSON.parse(galleryDataElement.textContent) : [];
-
-document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', () => {
-        const index = parseInt(item.dataset.index);
-        openGallery(index);
-    });
-});
-
-function openGallery(index) {
-    const modal = document.getElementById('galleryModal');
-    const img = document.getElementById('galleryImage');
-    img.src = galleryPhotos[index];
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-}
-
-function closeGallery() {
-    const modal = document.getElementById('galleryModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-
-// Photo upload modal
-function openPhotoUploadModal() {
-    document.getElementById('photoUploadModal').classList.remove('hidden');
-    document.getElementById('photoUploadModal').classList.add('flex');
-    lucide.createIcons();
-}
-
-function closePhotoUploadModal() {
-    document.getElementById('photoUploadModal').classList.add('hidden');
-    document.getElementById('photoUploadModal').classList.remove('flex');
-}
-
-// Photo upload form
-document.getElementById('photoUploadForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const btn = this.querySelector('button[type="submit"]');
-    const originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sharing...';
-    lucide.createIcons();
-    
-    try {
-        const response = await fetch('/api/guest-photo-upload', {
-            method: 'POST',
-            body: formData
+            setTimeout(() => {
+                text.textContent = originalText;
+            }, 2000);
         });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            alert(data.has_photo ? 'Photo and message shared successfully! 🎉' : 'Wishes shared successfully! 💝');
-            closePhotoUploadModal();
-            loadGuestPhotos();
-            this.reset();
-        } else {
-            alert('Error: ' + (data.error || 'Failed to share'));
+    }
+
+    // Social share functionality
+    function shareVia(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent('{{ invitation.title }}');
+        const text = encodeURIComponent("You're invited to {{ invitation.title }}!");
+
+        let shareUrl = '';
+
+        switch (platform) {
+            case 'whatsapp':
+                shareUrl = `https://wa.me/?text=${text}%20${url}`;
+                break;
+            case 'facebook':
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                break;
+            case 'twitter':
+                shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+                break;
+            case 'email':
+                shareUrl = `mailto:?subject=${title}&body=${text}%20${url}`;
+                break;
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to share. Please try again.');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
+
+        if (platform === 'email') {
+            window.location.href = shareUrl;
+        } else {
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+    }
+
+    // Gallery functionality
+    const galleryDataElement = document.getElementById('gallery-data');
+    const galleryPhotos = galleryDataElement ? JSON.parse(galleryDataElement.textContent) : [];
+
+    document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const index = parseInt(item.dataset.index);
+            openGallery(index);
+        });
+    });
+
+    function openGallery(index) {
+        const modal = document.getElementById('galleryModal');
+        const img = document.getElementById('galleryImage');
+        img.src = galleryPhotos[index];
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeGallery() {
+        const modal = document.getElementById('galleryModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Photo upload modal
+    function openPhotoUploadModal() {
+        document.getElementById('photoUploadModal').classList.remove('hidden');
+        document.getElementById('photoUploadModal').classList.add('flex');
         lucide.createIcons();
     }
-});
 
-// Load guest photos and wishes
-async function loadGuestPhotos() {
-    try {
-        const response = await fetch('/api/guest-photos/{{ invitation.id }}');
-        const data = await response.json();
-        
-        if (data.success && data.photos.length > 0) {
-            const container = document.getElementById('photoWallScroll');
-            container.innerHTML = data.photos.map(photo => {
-                if (photo.photo_url) {
-                    // Photo with message
-                    return `
+    function closePhotoUploadModal() {
+        document.getElementById('photoUploadModal').classList.add('hidden');
+        document.getElementById('photoUploadModal').classList.remove('flex');
+    }
+
+    // Photo upload form
+    document.getElementById('photoUploadForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const btn = this.querySelector('button[type="submit"]');
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sharing...';
+        lucide.createIcons();
+
+        try {
+            const response = await fetch('/api/guest-photo-upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert(data.has_photo ? 'Photo and message shared successfully! 🎉' : 'Wishes shared successfully! 💝');
+                closePhotoUploadModal();
+                loadGuestPhotos();
+                this.reset();
+            } else {
+                alert('Error: ' + (data.error || 'Failed to share'));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to share. Please try again.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+            lucide.createIcons();
+        }
+    });
+
+    // Load guest photos and wishes
+    async function loadGuestPhotos() {
+        try {
+            const response = await fetch('/api/guest-photos/{{ invitation.id }}');
+            const data = await response.json();
+
+            if (data.success && data.photos.length > 0) {
+                const container = document.getElementById('photoWallScroll');
+                container.innerHTML = data.photos.map(photo => {
+                    if (photo.photo_url) {
+                        return `
                         <div class="flex-shrink-0 w-64">
                             <div class="glass-card rounded-2xl overflow-hidden h-full hover:scale-105 transition-transform duration-300">
                                 <img src="${photo.photo_url}" alt="${photo.guest_name}" class="w-full h-48 object-cover">
@@ -486,9 +507,8 @@ async function loadGuestPhotos() {
                             </div>
                         </div>
                     `;
-                } else {
-                    // Text-only wishes (no photo)
-                    return `
+                    } else {
+                        return `
                         <div class="flex-shrink-0 w-64">
                             <div class="glass-card rounded-2xl p-6 h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-purple-400/30 hover:scale-105 transition-transform duration-300 flex flex-col justify-center">
                                 <div class="text-center">
@@ -499,79 +519,73 @@ async function loadGuestPhotos() {
                             </div>
                         </div>
                     `;
-                }
-            }).join('');
-            
-            // Duplicate for continuous scroll
-            container.innerHTML += container.innerHTML;
-        } else {
-            const container = document.getElementById('photoWallScroll');
-            container.innerHTML = '<p class="text-gray-400 text-center w-full py-8">No memories shared yet. Be the first to share!</p>';
+                    }
+                }).join('');
+
+                container.innerHTML += container.innerHTML;
+            } else {
+                const container = document.getElementById('photoWallScroll');
+                container.innerHTML = '<p class="text-gray-400 text-center w-full py-8">No memories shared yet. Be the first to share!</p>';
+            }
+        } catch (error) {
+            console.error('Error loading guest photos:', error);
         }
-    } catch (error) {
-        console.error('Error loading guest photos:', error);
     }
-}
-// Initialize
-lucide.createIcons();
-loadGuestPhotos();
+
+    // Initialize
+    lucide.createIcons();
+    loadGuestPhotos();
 </script>
 
 <style>
-@keyframes fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .animate-fade-in {
+        animation: fade-in 1s ease-out;
     }
-}
 
-.animate-fade-in {
-    animation: fade-in 1s ease-out;
-}
+    @keyframes scroll-horizontal {
+        0% {
+            transform: translateX(0);
+        }
 
-.animate-fade-in-up {
-    animation: fade-in 0.6s ease-out;
-}
-
-@keyframes scroll-horizontal {
-    0% {
-        transform: translateX(0);
+        100% {
+            transform: translateX(-50%);
+        }
     }
-    100% {
-        transform: translateX(-50%);
+
+    .animate-scroll-horizontal {
+        animation: scroll-horizontal 40s linear infinite;
     }
-}
 
-.animate-scroll-horizontal {
-    animation: scroll-horizontal 40s linear infinite;
-}
+    .animate-scroll-horizontal:hover {
+        animation-play-state: paused;
+    }
 
-.animate-scroll-horizontal:hover {
-    animation-play-state: paused;
-}
+    .glass {
+        background: rgba(30, 41, 59, 0.5);
+        backdrop-filter: blur(10px);
+    }
 
-.glass {
-    background: rgba(30, 41, 59, 0.5);
-    backdrop-filter: blur(10px);
-}
+    .glass-card {
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-.glass-card {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-button {
-    backdrop-filter: blur(10px);
-}
-
-.glass-input {
-    backdrop-filter: blur(10px);
-}
+    .glass-button {
+        backdrop-filter: blur(10px);
+    }
 </style>
 
 {% endblock %}

@@ -12,7 +12,7 @@ from functools import wraps
 from threading import Thread
 import tempfile
 import requests
-      
+                      
 # MoviePy imports with error handling since it can be heavy
 try:
     from moviepy.editor import ImageClip, AudioFileClip, CompositeVideoClip
@@ -68,11 +68,12 @@ class Config:
     COMPRESS_MIN_SIZE = 500
 
 # --- 2. EXTENSIONS ---
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 oauth = OAuth()
 compress = Compress()
-mail = Mail()
+from extensions import mail
 
 # --- 3. MODELS ---
 class User(UserMixin, db.Model):
@@ -476,6 +477,45 @@ def get_invitation_by_link(share_link):
         return jsonify({"success": False, "error": "Invitation not found"}), 404
     return jsonify({"success": True, "invitation_id": invitation.id})
 
+@api_bp.route('/upload-voice', methods=['POST'])
+@login_required
+def upload_voice():
+    if 'voice' not in request.files:
+        return jsonify({"success": False, "error": "No voice file provided"}), 400
+    
+    file = request.files['voice']
+    if file.filename == '':
+        return jsonify({"success": False, "error": "No selected file"}), 400
+        
+    if file:
+        filename = f"voice_{uuid.uuid4().hex[:8]}.mp3"
+        upload_folder = os.path.join(current_app.root_path, 'static', 'uploads', 'voice')
+        os.makedirs(upload_folder, exist_ok=True)
+        
+        file_path = os.path.join(upload_folder, filename)
+        file.save(file_path)
+        
+        voice_url = url_for('static', filename=f'uploads/voice/{filename}')
+        return jsonify({"success": True, "voice_url": voice_url})
+        
+    return jsonify({"success": False, "error": "Upload failed"}), 500
+
+@api_bp.route('/enhance-invitation', methods=['POST'])
+@login_required
+def enhance_invitation():
+    data = request.json
+    invitation_id = data.get('invitation_id')
+    voice_url = data.get('voice_message_url')
+    
+    invitation = Invitation.query.get_or_404(invitation_id)
+    if invitation.user_id != current_user.id:
+        return jsonify({"success": False, "error": "Unauthorized"}), 403
+        
+    invitation.voice_message_url = voice_url
+    db.session.commit()
+    
+    return jsonify({"success": True})
+
 @api_bp.route('/generate-video', methods=['POST'])
 @login_required
 def generate_video():
@@ -667,6 +707,22 @@ def create_app():
 
 
     
+    @app.template_filter('google_calendar_dates')
+    def google_calendar_dates_filter(invitation):
+        try:
+            if not invitation.event_date or not invitation.event_time:
+                return ""
+            # Cleanup input string to ensure it matches format
+            date_clean = invitation.event_date.strip()
+            time_clean = invitation.event_time.strip()
+            dt_str = f"{date_clean} {time_clean}"
+            start_dt = datetime.strptime(dt_str, "%Y-%m-%d %H:%M") 
+            end_dt = start_dt + timedelta(hours=4)
+            return f"{start_dt.strftime('%Y%m%dT%H%M00')}/{end_dt.strftime('%Y%m%dT%H%M00')}"
+        except Exception as e:
+            logging.error(f"Date parsing error for calendar: {e}")
+            return ""
+
     @login_manager.user_loader
     def load_user(user_id): return User.query.get(int(user_id))
 

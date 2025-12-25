@@ -593,6 +593,12 @@
                             <i data-lucide="download" class="w-4 h-4"></i>
                             Download Video
                         </a>
+
+                        <!-- Video Preview Container (Hidden) -->
+                        <div id="videoPreviewContainer"
+                            class="hidden mt-4 rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-black">
+                            <video id="hypeVideoPlayer" controls class="w-full aspect-[9/16] object-cover"></video>
+                        </div>
                     </div>
 
                     <!-- Audio Studio -->
@@ -855,7 +861,7 @@
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/script-fix.js') }}?v=debug"></script>
+<script src="{{ url_for('static', filename='js/script-fix.js') }}?v=debug2"></script>
 
 <style>
     .spinner {

@@ -1007,8 +1007,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Auto-save to invitation if ID exists
-                if (state.invitationId || window.currentInvitationId) {
-                    await saveVoiceToInvitation(state.invitationId || window.currentInvitationId, state.voiceMessageUrl);
+                if (state.invitation_id || window.currentInvitationId) {
+                    await saveVoiceToInvitation(state.invitation_id || window.currentInvitationId, state.voiceMessageUrl);
                 }
 
                 alert('Audio added successfully!');
@@ -1071,8 +1071,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 state.voiceMessageUrl = null;
 
                 // Update backend to remove voice
-                if (state.invitationId || window.currentInvitationId) {
-                    await saveVoiceToInvitation(state.invitationId || window.currentInvitationId, null);
+                if (state.invitation_id || window.currentInvitationId) {
+                    await saveVoiceToInvitation(state.invitation_id || window.currentInvitationId, null);
                 }
             }
         });
@@ -1132,7 +1132,7 @@ async function generateVideoWithMusic(musicChoice) {
             body: JSON.stringify({
                 invitation_id: invitation_id,
                 music: musicChoice,
-                duration: 12 // 12 seconds (10-15s range)
+                duration: 15 // Updated to 15 seconds
             })
         });
 
@@ -1162,7 +1162,20 @@ async function generateVideoWithMusic(musicChoice) {
             console.log('Download button shown');
         }
 
-        alert('🎉 Video generated successfully! Click the "Download Video" button to save it.');
+        // Show and Play Preview
+        const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+        const hypeVideoPlayer = document.getElementById('hypeVideoPlayer');
+        
+        if (videoPreviewContainer && hypeVideoPlayer) {
+            hypeVideoPlayer.src = result.video_url;
+            videoPreviewContainer.classList.remove('hidden');
+            hypeVideoPlayer.play().catch(e => console.log('Auto-play failed:', e));
+            
+            // Scroll to video
+            videoPreviewContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        alert('🎉 Video generated successfully!');
 
     } catch (error) {
         console.error('❌ Video generation error:', error);
