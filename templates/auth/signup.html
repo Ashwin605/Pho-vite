@@ -14,7 +14,7 @@
             <p class="text-gray-400">Join thousands of event planners today.</p>
         </div>
 
-        <a href="{{ url_for('auth.google_login') }}"
+        <button id="google-signup-btn"
             class="w-full bg-white text-slate-900 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-100 transition mb-6 shadow-lg">
             <svg class="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -31,7 +31,7 @@
                     fill="#EA4335" />
             </svg>
             Sign up with Google
-        </a>
+        </button>
 
         <div class="relative flex py-5 items-center">
             <div class="flex-grow border-t border-gray-700"></div>
@@ -39,24 +39,24 @@
             <div class="flex-grow border-t border-gray-700"></div>
         </div>
 
-        <form method="POST" action="{{ url_for('auth.signup') }}">
+        <form id="email-signup-form">
             <div class="mb-5">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-                <input type="text" name="name" required
+                <input type="text" id="name" required
                     class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition"
                     placeholder="John Doe">
             </div>
 
             <div class="mb-5">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
-                <input type="email" name="email" required
+                <input type="email" id="email" required
                     class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition"
                     placeholder="you@example.com">
             </div>
 
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-                <input type="password" name="password" id="password" required
+                <input type="password" id="password" required
                     class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none transition"
                     placeholder="Create a password">
             </div>
@@ -67,18 +67,7 @@
                 <label for="show-password-check" class="ml-2 text-sm font-medium text-gray-300">Show Password</label>
             </div>
 
-            <script>
-                function togglePassword() {
-                    const passwordInput = document.getElementById('password');
-                    const checkbox = document.getElementById('show-password-check');
-
-                    if (checkbox.checked) {
-                        passwordInput.type = 'text';
-                    } else {
-                        passwordInput.type = 'password';
-                    }
-                }
-            </script>
+            <div id="error-message" class="text-red-500 text-sm mb-4 hidden"></div>
 
             <button type="submit"
                 class="w-full bg-gradient-to-r from-purple-600 to-brand-600 hover:from-purple-500 hover:to-brand-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-500/25">
@@ -93,4 +82,83 @@
         </p>
     </div>
 </div>
+
+<!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const checkbox = document.getElementById('show-password-check');
+        passwordInput.type = checkbox.checked ? 'text' : 'password';
+    }
+
+    const showError = (msg) => {
+        const el = document.getElementById('error-message');
+        el.textContent = msg;
+        el.classList.remove('hidden');
+    };
+
+    const handleAuth = async (user) => {
+        try {
+            const idToken = await user.getIdToken();
+            const response = await fetch("{{ url_for('auth.firebase_login') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idToken })
+            });
+            const data = await response.json();
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                showError(data.error || 'Authentication failed on server.');
+            }
+        } catch (error) {
+            console.error('Error sending token:', error);
+            showError('Server communication error.');
+        }
+    };
+
+    // Check for redirect result on page load
+    auth.getRedirectResult()
+        .then((result) => {
+            if (result && result.user) {
+                handleAuth(result.user);
+            }
+        })
+        .catch((error) => showError(error.message));
+
+    // Google Signup
+    document.getElementById('google-signup-btn').addEventListener('click', () => {
+        auth.signInWithPopup(googleProvider)
+            .then((result) => handleAuth(result.user))
+            .catch((error) => {
+                // Fallback to redirect if popup is blocked
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+                    auth.signInWithRedirect(googleProvider);
+                } else {
+                    showError(error.message);
+                }
+            });
+    });
+
+    // Email Signup
+    document.getElementById('email-signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                // Update profile with name
+                return user.updateProfile({ displayName: name }).then(() => user);
+            })
+            .then((user) => handleAuth(user))
+            .catch((error) => showError(error.message));
+    });
+</script>
 {% endblock %}

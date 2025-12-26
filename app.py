@@ -27,7 +27,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_compress import Compress
 from flask_mail import Mail, Message
-from authlib.integrations.flask_client import OAuth
+import firebase_admin
+from firebase_admin import credentials, auth as firebase_auth
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
@@ -40,8 +41,7 @@ load_dotenv(override=True)
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key-change-this')
-    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '').strip()
-    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
+
     JAMENDO_CLIENT_ID = os.getenv('JAMENDO_CLIENT_ID', 'cc68060f')
     
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///vibecheck.db')
@@ -71,7 +71,7 @@ class Config:
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-oauth = OAuth()
+
 compress = Compress()
 from extensions import mail
 
@@ -292,38 +292,58 @@ def signup():
             return redirect(url_for('dashboard.dashboard'))
     return render_template('auth/signup.html')
 
-@auth_bp.route('/login/google')
-def google_login():
-    google = oauth.create_client('google')
-    redirect_uri = url_for('auth.google_authorize', _external=True)
-    if 'localhost' in redirect_uri or '127.0.0.1' in redirect_uri: redirect_uri = redirect_uri.replace('https://', 'http://')
-    return google.authorize_redirect(redirect_uri)
-
-@auth_bp.route('/login/google/callback')
-def google_authorize():
+@auth_bp.route('/firebase-login', methods=['POST'])
+def firebase_login():
+    data = request.json
+    id_token = data.get('idToken')
+    
+    # Use Web API Key for verification (No Service Account needed)
+    # This avoids "Default Credentials" errors on the backend
+    api_key = "AIzaSyDS2nQh6Nscyyu48YaMmay3b9A4hDY71ME" 
+    verify_url = f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={api_key}"
+    
     try:
-        code = request.args.get('code')
-        redirect_uri = url_for('auth.google_authorize', _external=True)
-        if 'localhost' in redirect_uri or '127.0.0.1' in redirect_uri: redirect_uri = redirect_uri.replace('https://', 'http://')
-        resp = requests.post("https://oauth2.googleapis.com/token", data={
-            'code': code, 'client_id': current_app.config['GOOGLE_CLIENT_ID'],
-            'client_secret': current_app.config['GOOGLE_CLIENT_SECRET'],
-            'redirect_uri': redirect_uri, 'grant_type': 'authorization_code'
-        })
-        token_data = resp.json()
-        user_info = requests.get('https://www.googleapis.com/oauth2/v3/userinfo', headers={'Authorization': f"Bearer {token_data['access_token']}"}).json()
-        user = User.query.filter_by(email=user_info['email']).first()
+        # Verify token via Google REST API
+        resp = requests.post(verify_url, json={'idToken': id_token})
+        
+        if resp.status_code != 200:
+            logging.error(f"Token Verification Failed: {resp.text}")
+            return jsonify({'success': False, 'error': 'Invalid Token'}), 401
+            
+        result = resp.json()
+        if 'users' not in result:
+             return jsonify({'success': False, 'error': 'No user found'}), 401
+             
+        user_data = result['users'][0]
+        uid = user_data['localId']
+        email = user_data.get('email')
+        name = user_data.get('displayName', 'User')
+        picture = user_data.get('photoUrl')
+        
+        user = User.query.filter_by(email=email).first()
         if not user:
-            user = User(email=user_info['email'], name=user_info['name'], google_id=user_info['sub'], profile_pic=user_info.get('picture'), password=generate_password_hash(secrets.token_urlsafe(16)))
+            # Create new user
+            user = User(
+                email=email,
+                name=name,
+                google_id=uid,
+                profile_pic=picture,
+                password=None
+            )
             db.session.add(user)
         else:
-            user.google_id, user.profile_pic = user_info['sub'], user_info.get('picture')
+            # Update existing user
+            user.google_id = uid
+            if picture: user.profile_pic = picture
+            if name: user.name = name
+            
         db.session.commit()
         login_user(user)
-        return redirect(url_for('admin.admin_dashboard') if user.is_admin else url_for('dashboard.dashboard'))
+        return jsonify({'success': True, 'redirect': url_for('dashboard.dashboard')})
+        
     except Exception as e:
-        flash(f'Google Login Failed: {str(e)}', 'error')
-        return redirect(url_for('auth.login'))
+        logging.error(f"Firebase Login Error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 401
 
 @auth_bp.route('/logout')
 @login_required
@@ -685,17 +705,24 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
-    oauth.init_app(app)
+
     compress.init_app(app)
     mail.init_app(app)
     
-    oauth.register(
-        name='google',
-        client_id=app.config['GOOGLE_CLIENT_ID'],
-        client_secret=app.config['GOOGLE_CLIENT_SECRET'],
-        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-        client_kwargs={'scope': 'openid email profile'}
-    )
+    # Initialize Firebase Admin
+    try:
+        # Check for service account file
+        cred_path = os.path.join(app.root_path, 'firebase_credentials.json')
+        if os.path.exists(cred_path):
+            cred = credentials.Certificate(cred_path)
+            firebase_admin.initialize_app(cred)
+        else:
+            # Fallback: Initialize with Project ID only (Sufficient for auth verification)
+            # This allows the app to work without the private key file for simple login flows
+            firebase_admin.initialize_app(options={'projectId': 'phovite-7ae18'})
+            logging.info("Firebase initialized in Project ID mode (No service account found)")
+    except ValueError:
+        pass # Already initialized
     
     if app.config['GEMINI_API_KEY']: genai.configure(api_key=app.config['GEMINI_API_KEY'])
     
