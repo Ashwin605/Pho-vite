@@ -167,6 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderThemes('Birthday');
     updateDynamicFields('Birthday');
 
+    // Set default date to today
+    const dateInput = document.getElementById('eventDate');
+    if (dateInput) {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
     // Helper function to convert file to base64
     async function fileToBase64(file) {
         return new Promise((resolve, reject) => {
@@ -549,10 +559,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Audio Preview Logic
     // Audio Preview Function (Renamed to bypass cache)
     window.playMusicPreview = function (musicKey, btn) {
-        // Stop event propagation to prevent selection
         event.stopPropagation();
+        console.log('🎵 Playing preview for:', musicKey);
 
-        const musicMap = {
+        const localMap = {
             'happy_birthday': 'happy_birthday.mp3',
             'wedding_bells': 'wedding_bells.mp3',
             'party_time': 'party_time.mp3',
@@ -561,42 +571,92 @@ document.addEventListener('DOMContentLoaded', () => {
             'upbeat_pop': 'upbeat_pop.mp3'
         };
 
+        const externalMap = {
+            'happy_birthday': 'http://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
+            'wedding_bells': 'http://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
+            'party_time': 'http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3',
+            'celebration': 'http://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/win.ogg',
+            'elegant_classic': 'http://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.mp3',
+            'upbeat_pop': 'http://commondatastorage.googleapis.com/codeskulptor-demos/pyman_assets/intromusic.ogg'
+        };
+
         const audio = document.getElementById('musicPreviewPlayer');
         const icon = btn.querySelector('i') || btn.querySelector('svg');
 
-        // If already playing this track, pause it
+        // Pause if playing
         if (!audio.paused && audio.dataset.currentTrack === musicKey) {
             audio.pause();
             icon.setAttribute('data-lucide', 'play');
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
             return;
         }
 
-        // Reset all buttons
+        // Reset all icons
         document.querySelectorAll('.music-option-container button i').forEach(i => {
             if (i.parentElement.classList.contains('absolute')) {
                 i.setAttribute('data-lucide', 'play');
             }
         });
 
-        // Play new track
-        const filename = musicMap[musicKey];
-        if (filename) {
-            audio.src = `/static/audio/${filename}`;
+        // Try Local First
+        const localFile = localMap[musicKey];
+        const externalUrl = externalMap[musicKey];
+        
+        // Add timestamp to force reload
+        const localUrl = `/static/audio/${localFile}?t=${new Date().getTime()}`;
+
+        const playAudio = (url, isRetry = false) => {
+            console.log(`Trying to play ${isRetry ? 'EXTERNAL' : 'LOCAL'}:`, url);
+            audio.src = url;
             audio.dataset.currentTrack = musicKey;
-            audio.play().catch(e => {
-                console.log("Audio play failed (likely no file):", e);
-                alert("Preview not available for this track yet.");
-            });
+            
+            // Show loading spinner safely
+            const originalIconHtml = icon.innerHTML;
+            // distinct visual for loading
+            icon.innerHTML = ''; 
+            icon.classList.add('animate-spin');
+            icon.setAttribute('data-lucide', 'loader-2');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            icon.setAttribute('data-lucide', 'pause');
-            lucide.createIcons();
+            const playPromise = audio.play();
 
-            audio.onended = () => {
-                icon.setAttribute('data-lucide', 'play');
-                lucide.createIcons();
-            };
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Success
+                    console.log('Playback started successfully');
+                    icon.classList.remove('animate-spin');
+                    icon.setAttribute('data-lucide', 'pause');
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                })
+                .catch(error => {
+                    console.warn(`Playback failed (${isRetry ? 'External' : 'Local'}):`, error);
+                    icon.classList.remove('animate-spin');
+                    
+                    if (!isRetry) {
+                        console.log('Attempting fallback to external URL...');
+                        playAudio(externalUrl, true);
+                    } else {
+                        // All attempts failed
+                        alert(`Unable to play preview.\nError: ${error.message}`);
+                        icon.setAttribute('data-lucide', 'play');
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                    }
+                });
+            }
+        };
+
+        // Start with local
+        if (localFile) {
+            playAudio(localUrl, false);
+        } else {
+            console.error('No mapping found for key:', musicKey);
         }
+
+        audio.onended = () => {
+            icon.classList.remove('animate-spin');
+            icon.setAttribute('data-lucide', 'play');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        };
     };
 
     // Gallery Upload Logic
